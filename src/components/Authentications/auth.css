@@ -1,4 +1,9 @@
 
-.card{
-  width: 28%;
+
+.center-card {
+  display: flex;
+  flex-direction: column; /* Arrange child elements in a column */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  height: 100vh; /* Make the Card fill the entire viewport height */
 }

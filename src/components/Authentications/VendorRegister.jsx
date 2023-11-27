@@ -2,7 +2,7 @@ import { Button } from "@material-tailwind/react";
 import axios from 'axios';
 import { useState } from "react";
 // import { useNavigate } from 'react-router-dom'
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import { Navigate } from 'react-router-dom';
 import VerifyEmail from "./VerifyEmail";
 import {
@@ -19,8 +19,8 @@ import './auth.css'
 
 const VendorRegister = () => {
 
-  const [cookie,setCookie] = useCookies()
-  console.log(cookie,"jjjjjjjjjjj");
+  // const [cookie,setCookie] = useCookies()
+  // console.log(cookie,"jjjjjjjjjjj");
 
   const [tokens,setToken] = useState([])
   let VendorRegisterView = async(e ) => {
@@ -51,9 +51,9 @@ const VendorRegister = () => {
   return (
     <div>
 
-    <form onSubmit={VendorRegisterView}>
+    <form className="center-card " onSubmit={VendorRegisterView}>
 
-      <Card className="card">
+      <Card className="w-96">
         <CardHeader
           variant="gradient"
           color="gray"
