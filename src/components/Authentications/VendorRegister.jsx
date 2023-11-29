@@ -1,10 +1,5 @@
 import { Button } from "@material-tailwind/react";
 import axios from 'axios';
-import { useState } from "react";
-// import { useNavigate } from 'react-router-dom'
-// import { useCookies } from "react-cookie";
-import { Navigate } from 'react-router-dom';
-import VerifyEmail from "./VerifyEmail";
 import {
   Card,
   CardHeader,
@@ -17,12 +12,10 @@ import {
 import './auth.css'
 
 
+
 const VendorRegister = () => {
 
-  // const [cookie,setCookie] = useCookies()
-  // console.log(cookie,"jjjjjjjjjjj");
 
-  const [tokens,setToken] = useState([])
   let VendorRegisterView = async(e ) => {
     e.preventDefault()
     try{    
@@ -35,16 +28,9 @@ const VendorRegister = () => {
         
         let data = response.data.data
         console.log(data);
-        if (response.status == 201){
-          setToken(data.token)
-          print("111111111111111111111111111111111",data.token)
-          Navigate("/")
-          
-        }else{
-          console.log("gggggggggggggg");
-        }
+
     }catch(error) {
-      console.log(error);
+      console.error('Error registering vendor:', error);
     }
 
   }
@@ -90,7 +76,6 @@ const VendorRegister = () => {
         </CardFooter>
       </Card>
     </form>
-  {tokens&&<VerifyEmail token={tokens} />}
       
     </div>
   )

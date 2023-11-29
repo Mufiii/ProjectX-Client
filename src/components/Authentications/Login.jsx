@@ -1,4 +1,4 @@
-import React from 'react';
+
 import axios from 'axios'
 import {
   Card,
@@ -12,17 +12,13 @@ import {
 } from "@material-tailwind/react";
 import './auth.css'
 import { useNavigate } from 'react-router-dom'
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { jwtDecode } from 'jwt-decode';
+
 
 
 const Login = () => {
 
   const navigate = useNavigate()
-  const { authToken, user, setAuthToken, setUser } = useContext(AuthContext)
-  console.log("111111111111111",authToken);
-  console.log("222222222222222",user);
+
 
   const LoginPage = async (e) => {
     e.preventDefault()
@@ -32,19 +28,16 @@ const Login = () => {
         'email': e.target.email.value,
       })
       const data = response.data
-      console.log(data);
-      if (response.status == 200) {
-        setAuthToken(data); // Set authentication tokens in state
-        setUser(jwtDecode(data.access));
-        localStorage.setItem('authToken', data.access);
-        navigate("/")
+      console.log(data," sjkbjsbhwhgbd");
+
+      if (response.status === 200) {
+        const email = e.target.email.value;
+        navigate(`/otpverify/${email}`);
       }
     } catch (error) {
-      console.log((error));
+      console.error('Login failed:', error);
     }
   }
-
-
 
 
   return (

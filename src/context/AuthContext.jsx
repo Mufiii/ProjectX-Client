@@ -1,16 +1,16 @@
 import { createContext, useState } from "react";
-export const AuthContext = createContext()
 import { jwtDecode } from 'jwt-decode'
+
+export const AuthContext = createContext()
 
 
 const AuthProvider = ({ children }) => {
 
-  const [authToken, setAuthToken] = useState(() => localStorage.getItem('authToken')?
-    JSON.parse(localStorage.getItem('authToken')):null)
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
+    JSON.parse(localStorage.getItem('authtokens')):null)
 
-  const [user, setUser] = useState(() => localStorage.getItem('authToken')?
-    jwtDecode(localStorage.getItem('authToken')):null)
-
+  const [user, setUser] = useState(() => localStorage.getItem('authtokens')?
+    jwtDecode(JSON.parse(localStorage.getItem('authtokens'))):null)
 
   const state = {
     authToken: authToken,
