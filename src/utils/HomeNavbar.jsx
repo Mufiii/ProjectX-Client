@@ -6,7 +6,12 @@ import {
   IconButton,
   Collapse,
 } from "@material-tailwind/react";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { MdAccountCircle } from "react-icons/md";
+import MessageIcon from '@mui/icons-material/Message';
  
+
+
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
  
@@ -34,12 +39,19 @@ export function HomeNavbar() {
             <span className="text-logo-green">e</span>
           </Typography>
           <div className="flex items-center gap-4">
-          <Button variant="text" size="sm" className="hidden lg:inline-block text-primary-purple">
-            Login
-          </Button>
-          <Button fullWidth size="sm" className="hidden lg:inline-block bg-primary-purple">
+          <div className="hidden lg:inline-block text-primary-purple">
+            {/* <MessageIcon size={28}/> */}
+            <MessageIcon />
+          </div>
+          <div className="hidden lg:inline-block text-primary-purple">
+            <IoMdNotificationsOutline size={28}/>
+          </div>
+          <div className="hidden lg:inline-block text-primary-purple">
+            <MdAccountCircle size={28}/>
+          </div>
+          {/* <Button fullWidth size="sm" className="hidden lg:inline-block bg-primary-purple">
                Create an Account
-          </Button>
+          </Button> */}
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

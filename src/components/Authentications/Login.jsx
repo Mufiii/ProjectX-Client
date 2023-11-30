@@ -19,7 +19,7 @@ const Login = () => {
 
   const navigate = useNavigate()
 
-
+  const otpverify = "otpverify"
   const LoginPage = async (e) => {
     e.preventDefault()
     try {
@@ -32,7 +32,7 @@ const Login = () => {
 
       if (response.status === 200) {
         const email = e.target.email.value;
-        navigate(`/otpverify/${email}`);
+        navigate(`/${otpverify}/${email}`);
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -73,7 +73,7 @@ const Login = () => {
                 color="blue-gray"
                 className="ml-1 font-bold"
               >
-                Sign up
+                <a href="/desk">Sign up</a>
               </Typography>
             </Typography>
           </CardFooter>

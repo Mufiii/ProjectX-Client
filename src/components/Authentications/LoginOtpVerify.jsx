@@ -10,16 +10,16 @@ const LoginOtpVerify = () => {
 
   const {user,setUser} = useContext(AuthContext)
   console.log(user,"hhhhhhhhhhhhhhhhh");
-  const {email} = useParams()
+  const {email,otpverify} = useParams()
   const navigate = useNavigate()
 
   const OtpVerify = async (e) => {
       e.preventDefault()
     try{
 
-      let response = await axios.post('http://127.0.0.1:8000/otpverify/',{
+      let response = await axios.post(`http://127.0.0.1:8000/${otpverify}/`,{
         "email" :email,
-        "otp":e.target.otp.value
+        "entered_otp":e.target.otp.value
       })
       const data = response.data
       console.log(data,"nuhnuihduiwhdhd");

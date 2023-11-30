@@ -1,5 +1,5 @@
-import { Button } from "@material-tailwind/react";
-import axios from 'axios';
+import axios from "axios"
+import './auth.css'
 import {
   Card,
   CardHeader,
@@ -8,40 +8,47 @@ import {
   Typography,
   Input,
   Checkbox,
+  Button
 } from "@material-tailwind/react";
-import './auth.css'
+import { useNavigate } from "react-router-dom";
 
 
+const DeveloperRegister = () => {
 
-const VendorRegister = () => {
+  const otpverify = "verifyotp"
+  const navigate = useNavigate()
 
+  const DevRegister = async (e) => {
+      e.preventDefault()
+    try{
 
-  let VendorRegisterView = async(e ) => {
-    e.preventDefault()
-    try{    
-        let response = await axios.post('http://127.0.0.1:8000/hire_talent/', {
-            'email': e.target.email.value,
-            'first_name': e.target.first_name.value,
-            'last_name': e.target.last_name.value,
-            'country': e.target.country.value
-        })
-        
-        let data = response.data.data
-        console.log(data);
-
-    }catch(error) {
-      console.error('Error registering vendor:', error);
+      let response = await axios.post('http://127.0.0.1:8000/register/',{
+        'email':e.target.email.value,
+        'first_name':e.target.first_name.value,
+        'last_name':e.target.last_name.value,
+        'country':e.target.country.value
+      })
+      const data = response.data
+      console.log("dcscedcwdwd",data);
+      if (response.status === 201){
+          const email = e.target.email.value;
+          console.log(email,"dfgh");
+          navigate(`/${otpverify}/${email}`);
+      }
+    }catch(error){
+      console.log((error));
     }
+  } 
 
-  }
+
+
   return (
     <div>
-
-<form className="center-card w-full max-w-screen-md mx-auto" onSubmit={VendorRegisterView}>
+      
+      <form className="center-card w-full max-w-screen-md mx-auto" onSubmit={DevRegister}>
   <Card className="w-full">
-    
       <Typography className="mb-5" variant="h2" color="black">
-        Sign up to hire talent
+        Sign up to find work you love
       </Typography>
     <CardBody className="grid grid-cols-2 gap-4">
       <div className="col-span-2 lg:col-span-1">
@@ -66,7 +73,7 @@ const VendorRegister = () => {
       </Button>
       <Typography variant="small" className="mt-6 flex justify-center">
         Don&apos;t have an account?
-        <Typography as="a" href="/desk" variant="small" color="blue-gray" className="ml-1 font-bold">
+        <Typography as="a" href="#signup" variant="small" color="blue-gray" className="ml-1 font-bold">
           Sign up
         </Typography>
       </Typography>
@@ -74,9 +81,9 @@ const VendorRegister = () => {
   </Card>
 </form>
 
-      
+
     </div>
   )
 }
 
-export default VendorRegister
+export default DeveloperRegister
