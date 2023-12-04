@@ -24,19 +24,20 @@ export function HomeNavbar() {
  
   return (
      <>
-      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-6 lg:py-3">
+      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-6 lg:py-5">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Typography
             as="a"
             href="#"
             className="text-3xl mr-4 cursor-pointer py-1.5 font-medium"
           >
-            <span className="text-primary-purple">:D</span>
+            <span className="text-primary-purple">G</span>
             <span className="text-logo-yellow">o</span>
             <span className="text-logo-orange">o</span>
-            <span className="text-primary-purple">d</span>
-            <span className="text-logo-rose">l</span>
-            <span className="text-logo-green">e</span>
+            <span className="text-primary-purple">W</span>
+            <span className="text-logo-rose">O</span>
+            <span className="text-logo-green">R</span>
+            <span className="text-logo-green">K</span>
           </Typography>
           <div className="flex items-center gap-4">
           <div className="hidden lg:inline-block text-primary-purple">

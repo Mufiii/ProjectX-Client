@@ -1,0 +1,33 @@
+
+.update-profile-main-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3%;
+}
+.update-profile-box-div{
+  width: 500px !important;
+  padding: 3%;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #0077b6;
+  border: 1px solid rgb(4, 4, 112);
+  transition: box-shadow 0.3s ease;
+}
+.update-profile-box-div:hover{
+  color: #040404;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4); 
+  transition: box-shadow 0.3s ease;
+}
+.update-profile-submit-button{
+  
+  background: white !important;
+  color: #0077b6 !important;
+  border: 1px solid #0077b6 !important;
+}
+.update-profile-submit-button:hover{
+  background: #0077b6 !important;
+  color: whitesmoke !important;
+  transition: 0.5s ease !important;
+}

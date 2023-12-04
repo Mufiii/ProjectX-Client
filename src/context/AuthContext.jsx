@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem('authtokens')):null)
 
   const [user, setUser] = useState(() => localStorage.getItem('authtokens')?
-    jwtDecode(JSON.parse(localStorage.getItem('authtokens'))):null)
+    jwtDecode(localStorage.getItem('authtokens')):null)
 
 
     let logoutUser = () => {
