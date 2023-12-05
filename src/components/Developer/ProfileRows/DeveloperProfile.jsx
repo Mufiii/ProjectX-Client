@@ -1,14 +1,16 @@
 import axios from "axios"
 import { useForm } from 'react-hook-form'
-import { DevTool } from '@hookform/devtools'
-import { useContext, useState, useMemo } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../../../context/AuthContext"
-
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 import {
   Input,
   Button,
-  Card
 } from "@material-tailwind/react"
+import ExperienceFormModal from "./ExperienceFormModal"
+
+
 
 const STEPS = {
   TITLE: 0,
@@ -24,7 +26,13 @@ export const DeveloperProfile = () => {
 
   const [step, setStep] = useState(STEPS.TITLE);
   const [isLoading, setIsLoading] = useState(false);
+  // const [ismodal, setIsModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const { authToken } = useContext(AuthContext)
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  const [select,setSelect] = useState(false)
+  const handleModalClose = () => setSelect(false)
 
   const {
     register, // it can track the changes for the input field value
@@ -80,13 +88,8 @@ export const DeveloperProfile = () => {
       })
     }
 
-    // const ActionLabel = useMemo(() => {
-    //   if (step === STEPS.TITLE) {
-    //     return undefined;
-    //   }
-    //   return "Back";
-    // }, [step]);
   }
+
 
   let bodyContent = (
     <div>
@@ -101,7 +104,7 @@ export const DeveloperProfile = () => {
           <Input
             placeholder="Software Engineer | Javascript | iOS"
             size="lg"
-            onChange={(val)=> setCustomValue("title",val)} />
+            onChange={(val) => setCustomValue("title", val)} />
         </div>
       </div>
     </div>
@@ -118,10 +121,22 @@ export const DeveloperProfile = () => {
         </h2>
         <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
           <div className="p-4">
-            <Button color="green" ripple="light" size="sm">
-              <span className="text-white">+</span>
+            <Button color="green" size="sm">
+              <span className="text-white" > + </span>
             </Button>
             <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
+            {select&&<Modal
+              open={select}
+              onClose={handleModalClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+              style={{display:'flex',justifyContent:'center',alignItems:'center',background:'rgba(255, 255, 255,0.2)',backdropFilter: 'blur(2px)'}}  
+              >
+          <Box style={{width:'100%',height:'50%',background:'whitesmoke',border:'none',borderRadius:'10px',padding:'10px'}}>
+          <ExperienceFormModal/>
+          </Box>
+
+      </Modal>}
           </div>
         </div>
       </div>
