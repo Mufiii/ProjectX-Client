@@ -21,7 +21,7 @@ export const getYearOptions = () => {
   return years.map((year) => ({ label: year.toString(), value: year }));
 };
 
-const EducationForm = () => {
+const EducationFormModal = () => {
 
   const {authToken} = useContext(AuthContext)
   const inputRef = useRef()
@@ -85,21 +85,25 @@ try {
           <div className="col-span-2">
             <Input val label="Ex: Computer Science" size="lg" name="field_of_study" />
           </div>
-          {/* <label htmlFor="" className="flex justify-start">Date Started</label> */}
-          <div className="col-span-2 lg:col-span-1">
-            <Select
-              id="from"
-              options={getYearOptions()}
-              name="from_year"
-            />
-          </div>
-          <div className="col-span-2 lg:col-span-1">
-            {/* <label htmlFor="" className="flex justify-start">To (or expected graduation year)</label> */}
-            <Select
-              options={getYearOptions()}
-              name="to_year"
-            />
+          <label htmlFor="" className="flex justify-start">Date Started</label>
+          <div className="flex justify-between items-center ">
+            <div className="col-span-2 lg:col-span-1">
+              <Select
+                id="from"
+                options={getYearOptions()}
+                name="from_year"
+                placeholder="From"
+                />
             </div>
+            <div className="col-span-2 lg:col-span-1">
+              <Select
+                options={getYearOptions()}
+                name="to_year"
+                placeholder="To (or expected graduation year)"
+                />
+              </div>
+          </div>
+              {/* <label htmlFor="" className="flex justify-start">Description</label> */}
           <div className="col-span-2">
             <Textarea  className="h-20 mb-5" label="Describe your studies,Awards etc.." size="lg" name="description" />
           </div>
@@ -120,4 +124,4 @@ try {
 
 
 
-export default EducationForm
+export default EducationFormModal

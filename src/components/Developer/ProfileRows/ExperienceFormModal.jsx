@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getYearOptions } from "./EducationForm";
+import { getYearOptions } from "./EducationFormModal";
 import {
   Card,
   CardBody,
@@ -20,20 +20,10 @@ const ExperienceFormModal = () => {
   const { authToken } = useContext(AuthContext)
   const inputRef = useRef()
   const [show, setShow] = useState(false)
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const openModal = () => setIsOpen(true);
-  // const closeModal = () => setIsOpen(false);
  
 
   const ExperienceView = async (e) => {
     e.preventDefault();
-    if (document.getElementById('check').checked) {
-      setShow(true);
-
-    } else {
-      setShow(false);
-    }
 
     try {
       let response = await axios.post(
@@ -156,7 +146,6 @@ const ExperienceFormModal = () => {
             </Button>
           </CardFooter>
         </Card>
-
 
       </form>
 

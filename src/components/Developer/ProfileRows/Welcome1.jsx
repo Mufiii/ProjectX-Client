@@ -3,8 +3,14 @@ import { GoProjectSymlink } from "react-icons/go";
 import { MdAttachMoney } from "react-icons/md";
 import '../ProfileRows/Welcome.css'
 import { Button } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 const Welcome1 = () => {
+
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate('/profilesetup')
+  }
 
   return (
     <div>
@@ -23,7 +29,7 @@ const Welcome1 = () => {
     <hr />
   </div>
   <div className="mt-10 flex justify-between">
-    <Button className="rounded-full w-60 h-12 " color="green">Get Started</Button>
+    <Button onClick={handleClick} className="rounded-full w-60 h-12 " color="green">Get Started</Button>
     <p className="">It only take 5-10 minutes and you can edit it later. We&apos;ll <br /> save as you go</p>
   </div>
   </div>

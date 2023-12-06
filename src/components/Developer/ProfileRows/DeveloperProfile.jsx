@@ -9,6 +9,7 @@ import {
   Button,
 } from "@material-tailwind/react"
 import ExperienceFormModal from "./ExperienceFormModal"
+import EducationFormModal from "./EducationFormModal";
 
 
 
@@ -25,14 +26,19 @@ const STEPS = {
 export const DeveloperProfile = () => {
 
   const [step, setStep] = useState(STEPS.TITLE);
-  const [isLoading, setIsLoading] = useState(false);
-  // const [ismodal, setIsModal] = useState(false);
-  const [open, setOpen] = useState(false);
   const { authToken } = useContext(AuthContext)
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  const [select,setSelect] = useState(false)
-  const handleModalClose = () => setSelect(false)
+
+  const [select, setSelect] = useState(false);
+
+  const handleModalOpen = () => {
+    setSelect(true);
+  };
+
+  const handleModalClose = () => {
+    setSelect(false);
+  };
+
+
 
   const {
     register, // it can track the changes for the input field value
@@ -45,7 +51,7 @@ export const DeveloperProfile = () => {
     defaultValues: {
       title: "",
       experience: "",
-      education: 2,
+      education: "",
       skills: null,
       bio: "",
     }
@@ -73,24 +79,23 @@ export const DeveloperProfile = () => {
     setStep((value) => value + 1);
   };
 
-  const SubmitHandler = (data) => {
+
+  const SubmitHandler = async (data) => {
+    console.log(data);
     if (step !== STEPS.BIO) {
       return onNext();
     }
 
-    const DeveloperProfile = async (e) => {
-      e.preventDefault()
-
       let response = await axios.post('http://127.0.0.1:8000/profile/', data, {
-        headers: {
-          'Authorization': `Bearer ${authToken.access}`,
-        },
+      headers: {
+        'Authorization': `Bearer ${authToken.access}`,
+      },
+      
       })
-    }
-
-  }
-
-
+      const result = response.data
+      console.log(result);
+}
+  
   let bodyContent = (
     <div>
       <div>
@@ -121,22 +126,28 @@ export const DeveloperProfile = () => {
         </h2>
         <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
           <div className="p-4">
-            <Button color="green" size="sm">
-              <span className="text-white" > + </span>
+          <Button color="green" size="sm" onClick={handleModalOpen}>
+              <span className="text-white">+</span>
             </Button>
             <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
-            {select&&<Modal
-              open={select}
-              onClose={handleModalClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-              style={{display:'flex',justifyContent:'center',alignItems:'center',background:'rgba(255, 255, 255,0.2)',backdropFilter: 'blur(2px)'}}  
-              >
-          <Box style={{width:'100%',height:'50%',background:'whitesmoke',border:'none',borderRadius:'10px',padding:'10px'}}>
-          <ExperienceFormModal/>
-          </Box>
-
-      </Modal>}
+            {select && (
+              <Modal
+                open={select}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  background: 'rgba(255, 255, 255,0.2)',
+                  backdropFilter: 'blur(2px)',
+                }}>
+                <Box>
+                  <ExperienceFormModal handleModalOpen={handleModalOpen}/>
+                </Box>
+              </Modal>
+            )}
           </div>
         </div>
       </div>
@@ -144,16 +155,36 @@ export const DeveloperProfile = () => {
   } else if (step == STEPS.EDUCATION) {
     bodyContent = (
       <div>
-        <h2>3/10</h2>
-        <h2>Clients like to know what you know - add your education here</h2>
-        <h2>You don&apos;t have to have a degree. Adding any relevent education hellps make your profile more visible.
+        <h2>2/10</h2>
+        <h2>If you have relevant experience, add it here.</h2>
+        <h2>
+          Freelancers who add their experience are twice as likely to win work. But if you're just starting out, you can
+          still create a great profile. Just head on to the next page.
         </h2>
         <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
           <div className="p-4">
-            <Button color="green" ripple="light" size="sm">
+            <Button color="green" size="sm" onClick={handleModalOpen}>
               <span className="text-white">+</span>
             </Button>
             <h2 className="text-xl font-semibold mb-4">Add Education</h2>
+            {select && (
+              <Modal
+                open={select}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  background: 'rgba(255, 255, 255,0.2)',
+                  backdropFilter: 'blur(2px)',
+                }}>
+                <Box>
+                  <EducationFormModal handleModalOpen={handleModalOpen}/>
+                </Box>
+              </Modal>
+            )}
           </div>
         </div>
       </div>

@@ -10,8 +10,6 @@ import { HomeNavbar } from "./utils/HomeNavbar.jsx";
 import { RegisterDesk } from "./utils/RegisterDesk.jsx";
 import Welcome1 from "./components/Developer/ProfileRows/Welcome1.jsx"
 import { DeveloperProfile } from "./components/Developer/ProfileRows/DeveloperProfile.jsx"
-import ExperienceFormModal from "./components/Developer/ProfileRows/ExperienceFormModal.jsx"
-import EducationForm from "./components/Developer/ProfileRows/EducationForm.jsx"
 
 
 function App() {
@@ -24,13 +22,12 @@ function App() {
           <Route element={<VendorRegister />} path="/hiretalent" />
           <Route element={<DevRegister />} path="/register" />
           <Route element={<VerifyEmail />} path="/email_verify/:token" />
-          <Route element={<Login />} path="/login/" /><Route element={<OtpVerify />} path="/:otpverify/:email" />
+          <Route element={<Login />} path="/login/" />
+          <Route element={<OtpVerify />} path="/:otpverify/:email" />
           <Route element={<Home />} path="/" />
           <Route element={<RegisterDesk />} path="/desk" />
           <Route element={<Welcome1 />} path="/welcome" />
           <Route element={<DeveloperProfile />} path="/profilesetup" />
-          <Route element={<ExperienceFormModal />} path="/test" />
-          <Route element={<EducationForm />} path="/test1" />
 
         </Routes>
       </AuthProvider>
