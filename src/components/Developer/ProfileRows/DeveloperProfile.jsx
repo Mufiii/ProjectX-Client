@@ -2,6 +2,7 @@ import axios from "axios"
 import { useForm } from 'react-hook-form'
 import { useContext, useState } from "react"
 import { AuthContext } from "../../../context/AuthContext"
+// import CssBaseline from "@mui/material/CssBaseline";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {
@@ -10,6 +11,11 @@ import {
 } from "@material-tailwind/react"
 import ExperienceFormModal from "./ExperienceFormModal"
 import EducationFormModal from "./EducationFormModal";
+import Autocomplete from '@mui/material/Autocomplete';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { useRef } from "react";
+
 
 
 
@@ -19,6 +25,7 @@ const STEPS = {
   EDUCATION: 2,
   SKILLS: 3,
   BIO: 4,
+  PERSONOL:5
 };
 
 
@@ -28,7 +35,9 @@ export const DeveloperProfile = () => {
   const [step, setStep] = useState(STEPS.TITLE);
   const { authToken } = useContext(AuthContext)
 
+  const [selectedSkills, setSelectedSkills] = useState([]);
   const [select, setSelect] = useState(false);
+  const [allSkills, setAllSkills] = useState([]);
 
   const handleModalOpen = () => {
     setSelect(true);
@@ -40,22 +49,22 @@ export const DeveloperProfile = () => {
 
 
 
-  const {
-    register, // it can track the changes for the input field value
-    handleSubmit,
-    setValue,
-    watch, // is used to watch the value of one or more input fields in the form
-    formState: { errors },
-    reset,
-  } = useForm({
-    defaultValues: {
-      title: "",
-      experience: "",
-      education: "",
-      skills: null,
-      bio: "",
-    }
-  })
+  // const {
+  //   register, // it can track the changes for the input field value
+  //   handleSubmit,
+  //   setValue,
+  //   watch, // is used to watch the value of one or more input fields in the form
+  //   formState: { errors },
+  //   reset,
+  // } = useForm({
+  //   defaultValues: {
+  //     title: "",
+  //     experience: "",
+  //     education: "",
+  //     skills: null,
+  //     bio: "",
+  //   }
+  // })
 
   const setCustomValue = (id, value) => {
     setValue(id, value, {
@@ -65,11 +74,11 @@ export const DeveloperProfile = () => {
     });
   };
 
-  const title = watch("title");
-  const experience = watch("experience");
-  const education = watch("education");
-  const skills = watch("skills");
-  const bio = watch("bio");
+  // const title = watch("title");
+  // const experience = watch("experience");
+  // const education = watch("education");
+  // const skills = watch("skills");
+  // const bio = watch("bio");
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -94,6 +103,24 @@ export const DeveloperProfile = () => {
       })
       const result = response.data
       console.log(result);
+}
+
+  const skillschecking = async (e) => {
+    console.log(e);
+      let response = await axios.get(`http://127.0.0.1:8000/developer/profile/?q=${e}`, {
+      headers: {
+        'Authorization': `Bearer ${authToken.access}`,
+      },
+      
+      })
+      const result = response.data
+      if (response.status==200){
+        console.log(result);
+        let data = result.map((item)=>item.name)
+        console.log("data",data);
+        setSelectedSkills(data)
+      }
+      console.log(result,'lllllllllll');
 }
   
   let bodyContent = (
@@ -199,9 +226,10 @@ export const DeveloperProfile = () => {
         <div>
           <h3>Your Skills</h3>
           <Input
-            placeholder="Enter skills here"
-            size="lg"
-            name="skills" />
+            
+            placeholder="Add skills here"
+            onChange={e=>skillschecking(e.target.value)}
+          />
           <p>max 15 skills</p>
         </div>
       </div>
@@ -217,14 +245,27 @@ export const DeveloperProfile = () => {
         <div>
           <h3>Your Skills</h3>
           <Input
-            placeholder="Enter your top skills, experience, and interests. This is one of the first thingsclients
-             will see on your profile"
+            placeholder="Enter your top skills, experience, and interests. This is one of the first things clients will see on your profile"
             size="lg"
             name="skills" />
           <p>Atleast 100 Characters</p>
         </div>
       </div>
     )
+  }
+
+  else if (step == STEPS.PERSONOL) {
+      bodyContent = (
+        <div>
+
+          <h2>Here You have to Update your Personol details</h2>
+          <h2>profile picture</h2>
+          <h2>date of birth</h2>
+          <h2>city</h2>
+          <h2>state</h2>
+          <h2>media links</h2>
+        </div>
+      )
   }
 
 

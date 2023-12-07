@@ -9,6 +9,7 @@ import {
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import MessageIcon from '@mui/icons-material/Message';
+import { Switch } from "@material-tailwind/react";
  
 
 
@@ -39,9 +40,11 @@ export function HomeNavbar() {
             <span className="text-logo-green">R</span>
             <span className="text-logo-green">K</span>
           </Typography>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6 px-6">
+          {/* <div className="hidden lg:inline-block text-primary-purple">
+          
+          </div> */}
           <div className="hidden lg:inline-block text-primary-purple">
-            {/* <MessageIcon size={28}/> */}
             <MessageIcon />
           </div>
           <div className="hidden lg:inline-block text-primary-purple">

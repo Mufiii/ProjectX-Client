@@ -11,7 +11,7 @@ import store from './Redux/store.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider >
         <Provider store={store}>
            <App />
         </Provider>

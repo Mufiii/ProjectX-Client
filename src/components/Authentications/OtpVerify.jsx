@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { jwtDecode } from "jwt-decode"
 import { AuthContext } from "../../context/AuthContext"
-import {Modal,Box} from '@mui/material';
-import './OtpVerify.css'
+import {Modal, Box } from '@mui/material';
+import './OtpVerify.css'  
 
 const OtpVerify = () => {
 
