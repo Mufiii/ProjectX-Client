@@ -72,9 +72,9 @@ const DeveloperRegister = () => {
         Sign In
       </Button>
       <Typography variant="small" className="mt-6 flex justify-center">
-        Don&apos;t have an account?
-        <Typography as="a" href="#signup" variant="small" color="blue-gray" className="ml-1 font-bold">
-          Sign up
+        Already have an account?
+        <Typography as="a" href="/login" variant="small" color="blue-gray" className="ml-1 font-bold">
+          Sign in
         </Typography>
       </Typography>
     </CardFooter>

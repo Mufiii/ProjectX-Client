@@ -2,18 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  margin: 0 ;
-  padding: 0; 
-  text-align: center;
-}
- 
-body {
-   padding: 0;
-   margin: 0;
-   width: auto;
-}
-*{
-   
-font-family: "Montserrat", sans-serif !important;
-}

@@ -64,9 +64,9 @@ const VendorRegister = () => {
         Sign In
       </Button>
       <Typography variant="small" className="mt-6 flex justify-center">
-        Don&apos;t have an account?
+        Already have an account?
         <Typography as="a" href="/login" variant="small" color="blue-gray" className="ml-1 font-bold">
-          Sign up
+          Sign in
         </Typography>
       </Typography>
     </CardFooter>

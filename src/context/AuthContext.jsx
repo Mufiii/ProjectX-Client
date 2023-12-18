@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate()
+  const [getView,setGetView] = useState([])
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
     JSON.parse(localStorage.getItem('authtokens')):null)
@@ -29,7 +30,9 @@ const AuthProvider = ({ children }) => {
     setAuthToken: setAuthToken,
     user: user,
     setUser: setUser,
-    logoutUser:logoutUser
+    logoutUser:logoutUser,
+    getView:getView,
+    setGetView:setGetView
   }
 
 

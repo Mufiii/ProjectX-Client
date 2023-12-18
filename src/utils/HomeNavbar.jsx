@@ -4,17 +4,21 @@ import {
   Typography,
   Button,
   IconButton,
-  Collapse,
+  Collapse, AppBar, Toolbar, InputBase, Paper
 } from "@material-tailwind/react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import MessageIcon from '@mui/icons-material/Message';
-import { Switch } from "@material-tailwind/react";
+// import { Switch } from "@material-tailwind/react";
+import VendorUpdateProfile from "../components/VendorProfile/VendorUpdateProfile";
+import { useNavigate } from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
  
 
 
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
+  const navigate = useNavigate()
  
   React.useEffect(() => {
     window.addEventListener(
@@ -22,14 +26,22 @@ export function HomeNavbar() {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+
+  const VendorProfile = (e) => {
+    // Handle the click event, e.g., show a modal, navigate to a different page, etc.
+    console.log('Icon clicked!', e);
+    navigate("/profile")
+    
+
+  };
  
   return (
      <>
-      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-6 lg:py-5">
+      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-7 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Typography
             as="a"
-            href="#"
+            href="/"
             className="text-3xl mr-4 cursor-pointer py-1.5 font-medium"
           >
             <span className="text-primary-purple">G</span>
@@ -41,21 +53,36 @@ export function HomeNavbar() {
             <span className="text-logo-green">K</span>
           </Typography>
           <div className="flex items-center gap-6 px-6">
-          {/* <div className="hidden lg:inline-block text-primary-purple">
-          
-          </div> */}
+          {/* <AppBar position="static">
+              <Toolbar>
+                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                  Your Logo
+                </Typography>
+                <Paper
+                  component="form"
+                  sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+                >
+                  <IconButton sx={{ p: '10px' }} aria-label="search">
+                    <SearchIcon />
+                  </IconButton>
+                  <InputBase
+                    sx={{ ml: 1, flex: 1 }}
+                    placeholder="Search"
+                    inputProps={{ 'aria-label': 'search' }}
+                  />
+                </Paper>
+              </Toolbar>
+            </AppBar> */}
+
           <div className="hidden lg:inline-block text-primary-purple">
             <MessageIcon />
           </div>
           <div className="hidden lg:inline-block text-primary-purple">
             <IoMdNotificationsOutline size={28}/>
           </div>
-          <div className="hidden lg:inline-block text-primary-purple">
-            <MdAccountCircle size={28}/>
+          <div className="hidden lg:inline-block text-primary-purple" onClick={(e)=> VendorProfile(e)}>
+            <MdAccountCircle size={28} />
           </div>
-          {/* <Button fullWidth size="sm" className="hidden lg:inline-block bg-primary-purple">
-               Create an Account
-          </Button> */}
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

@@ -1,281 +1,433 @@
+import { Input } from "@mui/material";
 import axios from "axios"
-import { useForm } from 'react-hook-form'
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../../context/AuthContext"
-// import CssBaseline from "@mui/material/CssBaseline";
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import {
-  Input,
-  Button,
-} from "@material-tailwind/react"
 import ExperienceFormModal from "./ExperienceFormModal"
 import EducationFormModal from "./EducationFormModal";
-import Autocomplete from '@mui/material/Autocomplete';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import { useRef } from "react";
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import { 
+  Typography,
+  TextField,
+  Button,
+} from '@mui/material';
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  useFormContext,
+} from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 
 
 
-const STEPS = {
-  TITLE: 0,
-  EXPERIENCE: 1,
-  EDUCATION: 2,
-  SKILLS: 3,
-  BIO: 4,
-  PERSONOL:5
-};
 
-
-
-export const DeveloperProfile = () => {
-
-  const [step, setStep] = useState(STEPS.TITLE);
-  const { authToken } = useContext(AuthContext)
-
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [select, setSelect] = useState(false);
-  const [allSkills, setAllSkills] = useState([]);
-
-  const handleModalOpen = () => {
-    setSelect(true);
-  };
-
-  const handleModalClose = () => {
-    setSelect(false);
-  };
-
-
-
-  // const {
-  //   register, // it can track the changes for the input field value
-  //   handleSubmit,
-  //   setValue,
-  //   watch, // is used to watch the value of one or more input fields in the form
-  //   formState: { errors },
-  //   reset,
-  // } = useForm({
-  //   defaultValues: {
-  //     title: "",
-  //     experience: "",
-  //     education: "",
-  //     skills: null,
-  //     bio: "",
-  //   }
-  // })
-
-  const setCustomValue = (id, value) => {
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
-
-  // const title = watch("title");
-  // const experience = watch("experience");
-  // const education = watch("education");
-  // const skills = watch("skills");
-  // const bio = watch("bio");
-
-  const onBack = () => {
-    setStep((value) => value - 1);
-  };
-
-  const onNext = () => {
-    setStep((value) => value + 1);
-  };
-
-
-  const SubmitHandler = async (data) => {
-    console.log(data);
-    if (step !== STEPS.BIO) {
-      return onNext();
-    }
-
-      let response = await axios.post('http://127.0.0.1:8000/profile/', data, {
-      headers: {
-        'Authorization': `Bearer ${authToken.access}`,
-      },
-      
-      })
-      const result = response.data
-      console.log(result);
+function getSteps() {
+  return [
+    "Basic information",
+    "Contact Information",
+    "Personal Information",
+    "Payment",
+    "Payment",
+    "",
+  ];
 }
 
-  const skillschecking = async (e) => {
-    console.log(e);
-      let response = await axios.get(`http://127.0.0.1:8000/developer/profile/?q=${e}`, {
-      headers: {
-        'Authorization': `Bearer ${authToken.access}`,
-      },
-      
-      })
-      const result = response.data
-      if (response.status==200){
-        console.log(result);
-        let data = result.map((item)=>item.name)
-        console.log("data",data);
-        setSelectedSkills(data)
-      }
-      console.log(result,'lllllllllll');
-}
-  
-  let bodyContent = (
-    <div>
-      <div>
+
+const TitleForm = () =>{
+    const { control } = useFormContext();
+    return (
+      <>
         <h2>1/10</h2>
         <h2>Got it. Now, add a title to tell the world what <br /> you do.</h2>
         <h5>It&apos;s very first thing that client see, so make it count. stand out by describing your expertise in your <br />
           own words</h5>
 
         <h3>Your professionol role</h3>
-        <div className="col-span-2 lg:col-span-1">
-          <Input
-            placeholder="Software Engineer | Javascript | iOS"
-            size="lg"
-            onChange={(val) => setCustomValue("title", val)} />
+        <Controller
+          control={control}
+          name="title"
+          render={({ field }) => (
+            <Input
+              id="title"
+              placeholder="Software Engineer | Javascript | iOS"
+              size="lg"
+              fullWidth
+              margin="normal"
+              {...field}
+            />
+          )}
+        />
+      </>
+    )}
+
+
+
+  
+const ExperienceForm = () => {
+  const { control } = useFormContext();
+
+  return (
+    <>
+      <h2>2/10</h2>
+      <h2>If you have relevant experience, add it here.</h2>
+      <h2>
+        Freelancers who add their experience are twice as likely to win work. But if you're just starting out, you can
+        still create a great profile. Just head to the next page.
+      </h2>
+      <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
+        <div className="p-4">
+
+          <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
+            <Box>
+              <ExperienceFormModal />
+            </Box>
         </div>
       </div>
-    </div>
+
+    </>
   );
+};
 
+  const EducationForm = () => {
+      const {control} = useFormContext()
 
-  if (step == STEPS.EXPERIENCE) {
-    bodyContent = (
-      <div>
-        <h2>2/10</h2>
-        <h2>If you have relevent experience add it here.</h2>
-        <h2>Freelancers who add their experience are twice as likely to win work. But if You&apos;re just starting out,
-          you can still create a great profile.just head on the next page.
-        </h2>
-        <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
-          <div className="p-4">
-          <Button color="green" size="sm" onClick={handleModalOpen}>
-              <span className="text-white">+</span>
-            </Button>
-            <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
-            {select && (
-              <Modal
-                open={select}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  background: 'rgba(255, 255, 255,0.2)',
-                  backdropFilter: 'blur(2px)',
-                }}>
-                <Box>
-                  <ExperienceFormModal handleModalOpen={handleModalOpen}/>
-                </Box>
-              </Modal>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  } else if (step == STEPS.EDUCATION) {
-    bodyContent = (
-      <div>
-        <h2>2/10</h2>
+      return (
+        <>
+            <h2>2/10</h2>
         <h2>If you have relevant experience, add it here.</h2>
         <h2>
           Freelancers who add their experience are twice as likely to win work. But if you're just starting out, you can
           still create a great profile. Just head on to the next page.
         </h2>
         <div className="max-w-sm mx-auto bg-grey border border-dashed shadow-md rounded-md overflow-hidden">
-          <div className="p-4">
-            <Button color="green" size="sm" onClick={handleModalOpen}>
-              <span className="text-white">+</span>
-            </Button>
-            <h2 className="text-xl font-semibold mb-4">Add Education</h2>
-            {select && (
-              <Modal
-                open={select}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  background: 'rgba(255, 255, 255,0.2)',
-                  backdropFilter: 'blur(2px)',
-                }}>
-                <Box>
-                  <EducationFormModal handleModalOpen={handleModalOpen}/>
-                </Box>
-              </Modal>
-            )}
-          </div>
+        <div className="p-4">
+    
+          <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
+            <Box>
+              <EducationFormModal />
+            </Box>
+        
         </div>
       </div>
-    );
-  } else if (step == STEPS.SKILLS) {
-    bodyContent = (
-      <div>
+        </>
+      )
+  }
+  const SkillsForm = () => {
+    const { control } = useFormContext();
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const {authToken} = useContext(AuthContext)
+    const [allSkills, setAllSkills] = useState([]);
+
+    
+    const skillschecking = async (e) => {
+        console.log(e);
+        let response = await axios.get(`http://127.0.0.1:8000/developer/profile/?q=${e}`, {
+          headers: {
+            'Authorization': `Bearer ${authToken.access}`,
+        },
+      }) 
+      console.log(response,"1111111111111");
+        const result = response.data.skills
+        console.log(result);
+        if (response.status==200){
+          let data = result.map((item)=>item.name)
+          console.log("data",data);
+          setSelectedSkills(data)
+          console.log("selectedSkills",selectedSkills);
+        }
+        console.log(result,'lllllllllll');
+      }
+    useEffect(()=>{
+      skillschecking()
+    },[])
+  
+    return (
+      <>
         <h2>4/10</h2>
         <h2>Nearly there! What work are you here to do?</h2>
-        <h2>Your skills show clients what you can offer, and help us choose which jobs to recommend to you. Starttyping to pick more. its up to you
-        </h2>
-        <div>
-          <h3>Your Skills</h3>
-          <Input
-            
-            placeholder="Add skills here"
-            onChange={e=>skillschecking(e.target.value)}
-          />
-          <p>max 15 skills</p>
-        </div>
-      </div>
-    )
-  } else if (step == STEPS.BIO) {
-    bodyContent = (
-      <div>
+        <h2>Your skills show clients what you can offer, and help us choose which jobs to recommend to you. Start typing to pick more. It's up to you.</h2>
+        <h3>Your Skills</h3>
+        <Controller
+          control={control}
+          name="skills" // Specify the name for the control
+          render={({ field }) => (
+            <>
+             <Input
+                  {...field}
+                  fullWidth
+                  placeholder="Add skills here"
+                  onChange={(e) => skillschecking(e.target.value)}
+                />
+              <p>Max 15 skills</p>
+            </>
+          )}
+        />
+      </>
+    );
+  };
+
+  const DeveloperBioForm = () => {
+    const { control } = useFormContext();
+  
+    return (
+      <>
         <h2>5/10</h2>
         <h2>Great. Now write a bio to tell the world about yourself.</h2>
-        <h2>Help people get know you at a glance. What work do you best? tell them clearly, using paragraphs or bullet points.
+        <h2>Help people get to know you at a glance. What work do you do best? Tell them clearly, using paragraphs or bullet points.
           You can always edit later; just make sure you proofread now.
         </h2>
         <div>
-          <h3>Your Skills</h3>
-          <Input
-            placeholder="Enter your top skills, experience, and interests. This is one of the first things clients will see on your profile"
-            size="lg"
-            name="skills" />
-          <p>Atleast 100 Characters</p>
+          <h3>Your Bio</h3>
+          <Controller
+            control={control}
+            name="bio" // Specify the name for the control
+            render={({ field }) => (
+              <>
+                <Input
+                  {...field}
+                  placeholder="Enter your top skills, experience, and interests. This is one of the first things clients will see on your profile"
+                  size="lg"
+                  fullWidth
+                />
+                <p>At least 100 Characters</p>
+              </>
+            )}
+          />
         </div>
-      </div>
-    )
+      </>
+    );
+  };
+  
+  const PersonalDetailsForm = () => {
+    const { control } = useFormContext();
+  
+    return (
+      <>
+        <Typography variant="h2">Update Your Personal Details</Typography>
+        <Avatar
+          alt="Profile Image"
+          src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=600"
+          sx={{ width: 150, height: 150 }}
+        />
+        
+        <Controller
+          control={control}
+          name="dateOfBirth" 
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Date of Birth"
+              type="birth"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+  
+        <Controller
+          control={control}
+          name="city"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="City"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+  
+        <Controller
+          control={control}
+          name="state" 
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="State"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+  
+        <Controller
+          control={control}
+          name="mediaLinks" 
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Media Links"
+              fullWidth
+              margin="normal"
+            />
+          )}
+        />
+      </>
+    );
+  };
+
+  function getStepContent(step) {
+      switch (step) {
+        case 0:
+          return <TitleForm/>
+        case 1:
+          return <ExperienceForm />;
+        case 2:
+          return <EducationForm />;
+        case 3:
+          return <SkillsForm />;
+        case 4:
+          return <DeveloperBioForm />;
+        case 5:
+          return <PersonalDetailsForm />;
+        default:
+          return "unknown step";
+      }
   }
 
-  else if (step == STEPS.PERSONOL) {
-      bodyContent = (
-        <div>
+const DeveloperProfile = () => {
 
-          <h2>Here You have to Update your Personol details</h2>
-          <h2>profile picture</h2>
-          <h2>date of birth</h2>
-          <h2>city</h2>
-          <h2>state</h2>
-          <h2>media links</h2>
-        </div>
-      )
-  }
+  const { authToken } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [activeStep, setActiveStep] = useState(0);
+  const [skippedSteps, setSkippedSteps] = useState([]);
+  const steps = getSteps();
 
+  const methods = useForm({
+    defaultValues: {
+      title: "",
+      designation_title: "",
+      company: "",
+      location: "",
+      country: "",
+      is_working:"",
+      start_month: "",
+      start_year: "",
+      end_month: "",
+      end_year: "",
+      school: "",
+      degree: "",
+      field_of_study: "",
+      from_year: "",
+      to_year: "",
+      skills: "",
+      bio: "",
+      birth: "",
+      city: "",
+      state: "",
+      mediaLinks: "",
+    },
+  });
+
+  const isStepOptional = (step) => {
+    return step === 1 || step === 2;
+  };
+
+  const isStepSkipped = (step) => {
+    return skippedSteps.includes(step);
+  };
+
+  const handleBack = () => {
+    setActiveStep(activeStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepSkipped(activeStep)) {
+      setSkippedSteps([...skippedSteps, activeStep]);
+    }
+    setActiveStep(activeStep + 1);
+  };
+
+  const handleNext = async (data) => {
+    // const data = methods.getValues();
+    console.log(data);
+    if (activeStep == steps.length - 1) {
+      let response = await axios.post('http://127.0.0.1:8000/developer/profile/', data, {
+        headers: {
+          'Authorization': `Bearer ${authToken.access}`,
+        },
+      })
+        const result = response.data
+        console.log(result);
+    } else {
+      setActiveStep(activeStep + 1);
+      setSkippedSteps(
+        skippedSteps.filter((skipItem) => skipItem !== activeStep)
+      );
+    }
+  };
 
   return (
     <div>
-      <div>{bodyContent}</div>
-      <Button onClick={onBack}>Back</Button>
-      {/* {step == STEPS.EXPERIENCE && (<Button>Skip For Now</Button>)} */}
-      <Button onClick={onNext}>Next</Button>
+
+      {activeStep === steps.length ? (
+        navigate('/')
+      ) : (
+        <>
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(handleNext)}>
+              {getStepContent(activeStep)}
+
+              <Button
+                // className={classes.button}
+                disabled={activeStep === 0}
+                onClick={handleBack}
+              >
+                back
+              </Button>
+              {isStepOptional(activeStep) && (
+                <Button
+                  // className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSkip}
+                >
+                  skip
+                </Button>
+              )}
+              <Button
+                // className={classes.button}
+                variant="contained"
+                color="primary"
+                // onClick={handleNext}
+                type="submit"
+              >
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </Button>
+            </form>
+          </FormProvider>
+        </>
+      )}
     </div>
   )
 }
+
+export default DeveloperProfile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -8,6 +8,17 @@ import { ThemeProvider } from "@material-tailwind/react";
 import store from './Redux/store.jsx'
 
 
+// let authToken = JSON.parse(localStorage.getItem('authToken'))
+
+
+// axios.interceptors.request.use((request)=>{
+//     console.log(request,'111111111');
+//     if (authToken) {
+//         request.headers.Authorization = `Bearer ${authToken.access}`
+//     }
+//     return request;
+// })
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
