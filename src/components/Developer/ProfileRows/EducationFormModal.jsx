@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   Textarea,
+  IconButton
 } from "@material-tailwind/react";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
@@ -14,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { add_education } from "../../../Redux/slices/educationSlice";
 import Select from 'react-select';
 import { Modal, Backdrop, Fade } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const getYearOptions = () => {
   const currentYear = new Date().getFullYear();
@@ -71,9 +73,9 @@ const EducationFormModal = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained" color="primary">
-        Add Education
-      </Button>
+     <IconButton  onClick={handleOpen} color="primary">
+        <AddCircleIcon style={{color:"green" , height:"40px",width:"40px"}} />
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}

@@ -10,12 +10,14 @@ import {
   Modal,
   Backdrop,
   Fade,
+  IconButton
 } from "@mui/material";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
 import { monthOptions } from "../../../utils/MonthOptions";
 import { getYearOptions } from "./EducationFormModal";
 import Select from 'react-select';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const ExperienceFormModal = () => {
@@ -82,9 +84,10 @@ const ExperienceFormModal = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained" color="primary">
-        Add Work Experience
-      </Button>
+      <IconButton  onClick={handleOpen} color="primary">
+        <AddCircleIcon style={{color:"green" , height:"40px",width:"40px"}} />
+      </IconButton>
+
       <Modal
         open={open}
         onClose={handleClose}

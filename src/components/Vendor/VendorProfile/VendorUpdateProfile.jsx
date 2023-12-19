@@ -1,10 +1,10 @@
 import { useRef, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../../context/AuthContext';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import BannerUpload from '../cloudinary/BannerCloudinary';
-import LogoUpload from '../cloudinary/LogoCloudinary';
+import BannerUpload from '../../cloudinary/BannerCloudinary';
+import LogoUpload from '../../cloudinary/LogoCloudinary';
 import {
   Avatar,
   Typography,
@@ -23,7 +23,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 const VendorUpdateProfile = () => {
 
-  const { authToken, setGetView, getView,logoutUser } = useContext(AuthContext)
+  const { authToken, setGetView, getView, logoutUser } = useContext(AuthContext)
   const [image, setImage] = useState()
   const [logo, setLogo] = useState(false)
   const inputRef = useRef()
@@ -118,10 +118,10 @@ const VendorUpdateProfile = () => {
     <div>
 
       <Button variant="contained" color="success" className='float-right'>
-          ADD PROJECT
+        ADD PROJECT
       </Button>
-      <Button onClick={(e)=> logoutUser(e) } variant="contained" color="error" className='float-right'>
-          Log out
+      <Button onClick={(e) => logoutUser(e)} variant="contained" color="error" className='float-right'>
+        Log out
       </Button>
       <form onSubmit={(e) => UpdateProfile(e)} ref={inputRef}>
         {getView &&
