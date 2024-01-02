@@ -14,7 +14,7 @@ import DeveloperProfile from "./components/Developer/ProfileRows/DeveloperProfil
 import PrivateRouter from "./private/PrivateRouter.jsx"
 import { ProjectList } from "./components/Vendor/Project/ProjectList.jsx"
 import ProjectCreate from "./components/Vendor/Project/ProjectCreate.jsx"
-
+import ProjectSkills from "./components/Vendor/Project/ProjectSkills.jsx"
 
 
 
@@ -34,13 +34,14 @@ function App() {
           <Route element={<RegisterDesk />} path="/desk" />
           <Route element={<Welcome1 />} path="/welcome" />
           <Route element={<DeveloperProfile />} path="/profilesetup" />
-          <Route element={<VendorUpdateProfile />} path="/profile/" />
-          <Route element={<ProjectList />} path="/projects/" />
+          <Route element={<VendorUpdateProfile />} path="/profile" />
+          <Route element={<ProjectList />} path="/projects" />
           <Route element={<ProjectCreate />} path="/Addprojects/" />
+          <Route element={<ProjectSkills />} path="/skills/" />
 
         </Routes>
       </AuthProvider>
-    </>
+    </>     
   )
 }
 

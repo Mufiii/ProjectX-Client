@@ -34,13 +34,13 @@ hr {
 
 
 
-
+/* 
 h2 {
   display: flex;
   align-items: center;
-  font-size: 24px; /* Increase font size */
-  margin-bottom: 20px; /* Add more margin for increased spacing */
-}
+  font-size: 24px; 
+  margin-bottom: 20px; 
+} */
 
 h2 svg {
   margin-right: 15px; /* Increase margin to the right of the icons */
@@ -60,10 +60,10 @@ hr {
 }
 
 /* Styles for the paragraph */
-p {
+/* p {
   display: inline-block;
-  margin-top: 10px; /* Adjust the top margin as needed */
-  margin-left: 10px; /* Add margin between the button and paragraph */
-}
+  margin-top: 10px; 
+  margin-left: 10px; 
+} */
 
 

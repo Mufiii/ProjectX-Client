@@ -1,0 +1,11 @@
+
+
+
+.oval {
+  display: inline-block;
+  padding: 13px 18px;
+  background-color: #DCDCDC;
+  border-radius: 45%;
+  cursor: pointer;
+  user-select: none;
+}

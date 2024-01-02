@@ -9,6 +9,7 @@ const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate()
   const [getView,setGetView] = useState([])
+  const [projects, setProjects] = useState([]);
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
     JSON.parse(localStorage.getItem('authtokens')):null)
@@ -32,7 +33,10 @@ const AuthProvider = ({ children }) => {
     setUser: setUser,
     logoutUser:logoutUser,
     getView:getView,
-    setGetView:setGetView
+    setGetView:setGetView,
+    projects:projects,
+    setProjects:setProjects,
+    
   }
 
 

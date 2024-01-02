@@ -11,15 +11,18 @@ import { MdAccountCircle } from "react-icons/md";
 import MessageIcon from '@mui/icons-material/Message';
 // import { Switch } from "@material-tailwind/react";
 import VendorUpdateProfile from "../components/Vendor/VendorProfile/VendorUpdateProfile";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import '../index.css'
+import BottomBar from "./BottomBar";
 
 
 
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate()
+  const location = useLocation()
+  console.log(location.pathname);
 
   React.useEffect(() => {
     window.addEventListener(
@@ -134,6 +137,12 @@ export function HomeNavbar() {
           </Button>
         </Collapse>
       </Navbar>
+      <div>
+        {location.pathname === '/profile' && <BottomBar />}
+      </div>
+
+      {/* <BottomBar/> */}
+
     </>
   );
 }

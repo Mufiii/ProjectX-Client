@@ -5,13 +5,13 @@ import { AuthContext } from "../../../context/AuthContext"
 import ExperienceFormModal from "./ExperienceFormModal"
 import EducationFormModal from "./EducationFormModal";
 import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
 import { 
-  Typography,
   TextField,
   Button,
   Card,
+  Autocomplete,
   IconButton,
+  Chip
 } from '@mui/material';
 import {
   useForm,
@@ -20,12 +20,6 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
-
-
-
-
-
 
 
 
@@ -92,7 +86,7 @@ const ExperienceForm = () => {
             color: 'primary.main', // Customize icon color
           }}>
           </IconButton>
-          <div className="flex flex-col  justify-start mx-5 my-32 ">
+          <div className="flex flex-col justify-start mx-5 py-32 ">
               <ExperienceFormModal />
             <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
           </div>
@@ -134,61 +128,89 @@ const ExperienceForm = () => {
   }
   const SkillsForm = () => {
     const { control } = useFormContext();
-    const [selectedSkills, setSelectedSkills] = useState([]);
-    const {authToken} = useContext(AuthContext)
+    const { authToken } = useContext(AuthContext);
     const [allSkills, setAllSkills] = useState([]);
-
-    
-    const skillschecking = async (e) => {
-        console.log(e);
-        let response = await axios.get(`http://127.0.0.1:8000/developer/profile/?q=${e}`, {
-          headers: {
-            'Authorization': `Bearer ${authToken.access}`,
-        },
-      }) 
-      console.log(response,"1111111111111");
-        const result = response.data.skills
-        console.log(result);
-        if (response.status==200){
-          let data = result.map((item)=>item.name)
-          console.log("data",data);
-          setSelectedSkills(data)
-          console.log("selectedSkills",selectedSkills);
+    const [formData, setFormData] = useState({ skills: [] }); // Set initial state with a skills property
+  
+    const getAllSkills = async (e) => {
+      console.log(e);
+      if (e && e.trim().length > 0) {
+        console.log("dfghjk");
+        try {
+          let response = await axios.get(
+            `http://127.0.0.1:8000/developer/skills/?q=${e}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken.access}`,
+              },
+            }
+          );
+          const skills = response.data;
+          console.log(response.data);
+          setAllSkills(skills);
+          console.log(allSkills, '1111111111111');
+        } catch (error) {
+          console.log(error);
         }
-        console.log(result,'lllllllllll');
+      } else {
+        setAllSkills([]);
       }
-    useEffect(()=>{
-      skillschecking()
-    },[])
+    };
+  
+    const handleDelete = (skillToDelete) => () => {
+      setFormData((prevData) => ({
+        ...prevData,
+        skills: prevData.skills.filter((skill) => skill.name !== skillToDelete.name),
+      }));
+    };
   
     return (
       <>
-      <div className="flex flex-col justify-center items-start mx-32 my-48">
-        <h6 className="mb-2 mx-3">5/10</h6>
-        <p className="text-4xl font-bold mb-1">Nearly there! What work are you here to do?</p>
-        <p className="mb-4">Your skills show clients what you can offer, and help us choose which jobs to recommend to you. Start typing to <br /> pick more. It's up to you.</p>
-        <p className="mb-3 mt-5 mx-3 font-bold">Your Skills</p>
-        <Controller
-          control={control}
-          name="skills" // Specify the name for the control
-          render={({ field }) => (
-            <>
-            <TextField
-                className="mx-6 form-control border border-gray-500 p-2 md:p-3 lg:w-96 rounded-md"
-                id="title"
-                placeholder="Add skills here"
-                style={{width:"820px"}}
-                onChange={(e) => skillschecking(e.target.value)}
-                {...field}
-                />
-              <p>Max 15 skills</p>
-            </>
-          )}
+        <div className="flex flex-col justify-center items-start mx-32 my-48">
+          <h6 className="mb-2 mx-3">5/10</h6>
+          <p className="text-4xl font-bold mb-1">Nearly there! What work are you here to do?</p>
+          <p className="mb-4">Your skills show clients what you can offer, and help us choose which jobs to recommend to you. Start typing to <br /> pick more. It's up to you.</p>
+          <p className="mb-3 mt-5 mx-3 font-bold">Your Skills</p>
+  
+          <Controller
+            name="skills" // Specify the name for React Hook Form
+            control={control} // Pass the control prop from React Hook Form
+            render={({ field }) => (
+              <Autocomplete
+                multiple
+                options={allSkills}
+                getOptionLabel={(option) => option.name}
+                onChange={(event, value) => setFormData((prevData) => ({ ...prevData, skills: value }))}
+                onInputChange={(event, newInputValue) => getAllSkills(newInputValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      key={index}
+                      label={option.name}
+                      onDelete={() => handleDelete(option)}
+                      {...getTagProps({ index })}
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Skills"
+                    style={{ width: "820px" }}
+                    placeholder="Add Skills"
+                    fullWidth
+                  />
+                )}
+                {...field} // Spread the field props from React Hook Form
+              />
+            )}
           />
-      </div>
+        </div>
       </>
     );
   };
+  
 
   const DeveloperBioForm = () => {
     const { control } = useFormContext();
@@ -216,7 +238,7 @@ const ExperienceForm = () => {
                 style={{width:"820px"}}
                 {...field}
                 /> <br />
-                <p>At least 100 Characters</p>
+                <p style={{ marginLeft: '650px' }}>At least 100 Characters</p>
               </>
             )}
           />
@@ -370,7 +392,7 @@ const DeveloperProfile = () => {
   });
 
   const isStepOptional = (step) => {
-    return step === 1 || step === 2;
+    return step === 1 
   };
 
   const isStepSkipped = (step) => {
@@ -389,7 +411,7 @@ const DeveloperProfile = () => {
   };
 
   const handleNext = async (data) => {
-    // const data = methods.getValues();
+    
     console.log(data);
     if (activeStep == steps.length - 1) {
       let response = await axios.post('http://127.0.0.1:8000/developer/profile/', data, {
@@ -399,6 +421,8 @@ const DeveloperProfile = () => {
       })
         const result = response.data
         console.log(result);
+        navigate('/');
+        
     } else {
       setActiveStep(activeStep + 1);
       setSkippedSteps(
