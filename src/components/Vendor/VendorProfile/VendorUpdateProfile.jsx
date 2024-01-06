@@ -116,77 +116,66 @@ const VendorUpdateProfile = () => {
 
   return (
     <div>
-
-      <Button variant="contained" color="success" className='float-right'>
-        ADD PROJECT
-      </Button>
       <Button onClick={(e) => logoutUser(e)} variant="contained" color="error" className='float-right'>
         Log out
       </Button>
       <form onSubmit={(e) => UpdateProfile(e)} ref={inputRef}>
         {getView &&
           getView.map((item) => (
-            <div key={item.id}>
-              <div className="flex">
-                {/* Left Side Content */}
-                <div className="flex flex-col justify-start my-8 mx-40 ">
-                  <div className="mb-4">
-                    <Avatar alt="User Avatar" src="https://avatars.githubusercontent.com/u/135816778?v=4" sx={{ width: 300, height: 300 }} />
-                  </div>
-                  <div className='mx-16'>
-                    <Typography variant="h5">{`${item.first_name} ${item.last_name}`}</Typography>
-                    <Typography variant="body1">{item.vendor_profile?.about}</Typography>
-                    <Typography variant="subtitle1">{item.email}</Typography>
-                    <Typography variant="body1">
-                      <LocationOnIcon /> {item.country}</Typography><br />
-                    <Typography variant="body1 flex ">
-                      <FactoryIcon /> {item.vendor_profile?.industry}
-                    </Typography>
-                    <Typography variant="body1 flex">
-                      <ApartmentIcon /> {item.vendor_profile?.headquaters}
-                    </Typography>
-                    <Typography variant="body1 flex">
-                      <InsertLinkIcon /> {item.vendor_profile?.website}
-                    </Typography>
-                  </div>
+            <div key={item.id} className="flex space-x-2 mx-40"> {/* Added space between elements */}
+              <div className="flex flex-col my-8">
+                <div className="mb-4 ">
+                  <Avatar alt="User Avatar" src="https://avatars.githubusercontent.com/u/135816778?v=4" sx={{ width: 300, height: 300 }} />
                 </div>
+                <div className='mx-16'>
+                  <Typography className='mb-5' variant="h5">{`${item.first_name} ${item.last_name}`}</Typography>
+                  <Button className='w-52 mt-4' variant='contained'>Edit Profile</Button> {/* Adjusted margin */}
+                  <Typography variant="body1">{item.vendor_profile?.about}</Typography>
+                  <Typography variant="body1">
+                    <LocationOnIcon /> {item.country}
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <FactoryIcon /> {item.vendor_profile?.industry}
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <ApartmentIcon /> {item.vendor_profile?.headquaters}
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <InsertLinkIcon /> {item.vendor_profile?.website}
+                  </Typography>
+                </div>
+              </div>
 
-                <div>
-                  {/* Right Side Form */}
-                  {/* <div className="right-side flex flex-col items-start"> */}
-                  {/* <Card className='max-w-full border border-black'> */}
-                  {/* <h1>hello</h1> */}
+              {/* Right Side Form */}
+              <div>
+                <Card className='border-4 border-gray-600' style={{ width: "1000px", height: "700px", margin: "10px",marginTop:"30px"}}>
+                <Card className='border-4 border-gray-500' style={{ width: "100%", height: "30%", margin: "auto" }}>
                   <div>
-                    <Card style={{ width: "900px", height: "700px", margin: "50px", border: "5px" }}>
-                      hello
-                    </Card>
+                      <img src={image} alt="Banner Preview" />
+                    <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                      Upload Banner
+                      <Input type="file" name="banner" ref={bannerFileRef} />
+                    </Button>
+                    <Button onClick={handleUpload}>Upload</Button>
                   </div>
-                  {/* </Card> */}
-                  {/* </div> */}
+                </Card>
+                </Card>
 
+                <Typography variant="body1">{item.vendor_profile?.description}</Typography>
 
-                  <Typography variant="body1">{item.vendor_profile?.description}</Typography>
+                {/* Logo Upload */}
+                <img src={logo} alt="Logo Preview" />
+                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                  Upload Logos
+                  <Input type="file" name="logo" ref={logoFileRef} />
+                </Button>
+                <Button onClick={handleLogos}>Upload</Button>
 
-                  {/* Logo Upload */}
-                  <img src={logo} alt="Logo Preview" />
-                  <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                    Upload Logos
-                    <Input type="file" name="logo" ref={logoFileRef} />
-                  </Button>
-                  <Button onClick={handleLogos}>Upload</Button>
+               
 
-                  {/* Banner Upload */}
-                  <img src={image} alt="Banner Preview" />
-                  <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                    Upload Banner
-                    <Input type="file" name="banner" ref={bannerFileRef} />
-                  </Button>
-                  <Button onClick={handleUpload}>Upload</Button>
-
-                  <Button type="submit" variant="contained" color="primary">
-                    Submit
-                  </Button>
-                </div>
+                <Button type="submit" variant="contained" color="primary">
+                  Submit
+                </Button>
               </div>
             </div>
           ))}

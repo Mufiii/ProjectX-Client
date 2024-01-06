@@ -20,11 +20,12 @@ import Select from 'react-select';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
-const ExperienceFormModal = () => {
+const ExperienceFormModal = ({control}) => {
   const { authToken } = useContext(AuthContext);
   const inputRef = useRef();
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
+  const { experiences, setExperiences } = useContext(AuthContext)
 
   const handleOpen = () => {
     setOpen(true);
@@ -60,6 +61,7 @@ const ExperienceFormModal = () => {
 
       const data = response.data;
       console.log(data);
+      setExperiences([data])
 
       if (response.status === 201) {
         console.log("The new experience added successfully");
@@ -109,19 +111,19 @@ const ExperienceFormModal = () => {
                 <form ref={inputRef} onSubmit={ExperienceView}>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
-                      <TextField label="Title" size="small" fullWidth name="title" />
+                      <TextField label="Title" size="small" fullWidth name="title" control={control} />
                     </div>
                     <div className="col-span-2">
-                      <TextField label="Company" size="small" fullWidth name="company" />
+                      <TextField label="Company" size="small" fullWidth name="company" control={control}/>
                     </div>
                     <div className="col-span-2 lg:col-span-1">
-                      <TextField label="Location" size="small" fullWidth name="location" />
+                      <TextField label="Location" size="small" fullWidth name="location" control={control}/>
                     </div>
                     <div className="col-span-2 lg:col-span-1">
-                      <TextField label="Country" size="small" fullWidth name="country" />
+                      <TextField label="Country" size="small" fullWidth name="country" control={control}/>
                     </div>
                     <div className="flex justify-start">
-                      <Checkbox id="check" name="currentlyWorking" onChange={checkboxHandler} label="I&apos;m currently working in this role" />
+                      <Checkbox id="check" name="currentlyWorking" onChange={checkboxHandler} label="I&apos;m currently working in this role" control={control}/>
                     </div>
                   </div>
 
@@ -134,12 +136,12 @@ const ExperienceFormModal = () => {
                         <Select
                           options={monthOptions}
                           name="start_month"
-                          placeholder="Month"
+                          placeholder="Month" control={control}
                         />
                         <Select
                           options={getYearOptions()}
                           name="start_year"
-                          placeholder="Year"
+                          placeholder="Year" control={control}
                         />
                       </div>
                     </div>
@@ -151,12 +153,12 @@ const ExperienceFormModal = () => {
                         <Select
                           options={monthOptions}
                           name="end_month"
-                          placeholder="Month"
+                          placeholder="Month" control={control}
                         />
                         <Select
                           options={getYearOptions()}
                           name="end_year"
-                          placeholder="Year"
+                          placeholder="Year" control={control}
                         />
                       </div>
                     </div>}

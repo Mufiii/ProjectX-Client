@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 
 const ProjectItemCreated = ({ project }) => {
 
-
+  console.log(project,'qwertyuiolkjhgfd');
   const calculateTimeAgo = (timestamp) => {
     const currentTime = new Date();
     const projectTime = new Date(timestamp);
@@ -25,12 +25,14 @@ const ProjectItemCreated = ({ project }) => {
     }
   };
 
+  const createdAtDate = new Date(project.created_at);
+
 
   return (
     <div>
 
       <Typography style={{ marginBottom: '4px' }}>
-          Posted {calculateTimeAgo(project.created_at)}
+          Posted {calculateTimeAgo(createdAtDate)}
       </Typography>
       
     </div>

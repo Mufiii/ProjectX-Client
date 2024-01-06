@@ -6,8 +6,8 @@ from '@mui/material';
 
 const ProjectCreate = () => {
 
-  const { authToken } = useContext(AuthContext)
-  const [allSkills, setAllSkills] = useState([]);
+  const { authToken,allSkills, setAllSkills} = useContext(AuthContext)
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -28,7 +28,6 @@ const ProjectCreate = () => {
       const response = await axios.post('http://127.0.0.1:8000/vendor/project/',
       {
         ...formData,
-        // skills: formData.skills.map((skill) => ({ id: skill.id, name: skill.name })),
         skills: formData.skills.map((skill) =>  skill.id),
       },
       {
@@ -81,11 +80,6 @@ const ProjectCreate = () => {
       [name]: value,
     }));
   };
-
-  useEffect(() => {
-    getAllSkills();
-  }, []);
-
   
 
   return (

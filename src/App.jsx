@@ -2,7 +2,7 @@ import AuthProvider from "./context/AuthContext"
 import VendorRegister from "./components/Authentications/VendorRegister"
 import DevRegister from "./components/Authentications/DeveloperRegister.jsx"
 import { Routes, Route } from "react-router-dom"
-import Home from "./components/Home"
+import Home from "./components/HomePage/Home.jsx"
 import Login from './components/Authentications/Login.jsx';
 import OtpVerify from "./components/Authentications/OtpVerify.jsx";
 import VerifyEmail from "./components/Authentications/VerifyEmail.jsx"
@@ -15,6 +15,9 @@ import PrivateRouter from "./private/PrivateRouter.jsx"
 import { ProjectList } from "./components/Vendor/Project/ProjectList.jsx"
 import ProjectCreate from "./components/Vendor/Project/ProjectCreate.jsx"
 import ProjectSkills from "./components/Vendor/Project/ProjectSkills.jsx"
+import ProjectDetail from "./components/Developer/DeveloperProject/ProjectDetail.jsx"
+import ApplicantsList from "./components/Vendor/Applicants/ApplicantsList.jsx"
+import VendorProjectDetailPage from "./components/Vendor/Project/VendorProjectDetailPage.jsx"
 
 
 
@@ -36,12 +39,14 @@ function App() {
           <Route element={<DeveloperProfile />} path="/profilesetup" />
           <Route element={<VendorUpdateProfile />} path="/profile" />
           <Route element={<ProjectList />} path="/projects" />
+          <Route element={<ProjectDetail />} path="/projects/:project_id" />
           <Route element={<ProjectCreate />} path="/Addprojects/" />
           <Route element={<ProjectSkills />} path="/skills/" />
-
+          <Route element={<ApplicantsList />} path="/projects/applicationslist/:projectId" />
+          <Route element={<VendorProjectDetailPage />} path="/projects/detail/:id" />
         </Routes>
       </AuthProvider>
-    </>     
+    </>
   )
 }
 

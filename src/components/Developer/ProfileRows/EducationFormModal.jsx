@@ -24,7 +24,7 @@ export const getYearOptions = () => {
 };
 
 const EducationFormModal = () => {
-  const { authToken } = useContext(AuthContext);
+  const { authToken,setEducations } = useContext(AuthContext);
   const inputRef = useRef();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
@@ -59,8 +59,7 @@ const EducationFormModal = () => {
       );
 
       const educationData = response.data;
-      dispatch(add_education(educationData));
-      console.log(educationData);
+      setEducations([educationData])
       if (response.status === 201) {
         console.log("Education added successfully");
       }
@@ -130,7 +129,7 @@ const EducationFormModal = () => {
                   </div>
                 </CardBody>
                 <CardFooter className="pt-0">
-                  <Button type="submit" variant="gradient" fullWidth>
+                  <Button type="submit" variant="gradient" fullWidth onClick={EducationEntry}>
                     Submit
                   </Button>
                 </CardFooter>

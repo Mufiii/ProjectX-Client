@@ -20,6 +20,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { Typography } from "@material-tailwind/react";
 
 
 
@@ -39,7 +40,7 @@ const TitleForm = () =>{
     const { control } = useFormContext();
     return (
       <>
-      <div className="flex flex-col justify-center items-start mx-32 my-48">
+      <div className="flex flex-col justify-center items-start mx-32 my-64">
 
         <div className="flex flex-col items-start">
           <h6 className="mb-2 mx-3">2/10</h6>
@@ -68,17 +69,35 @@ const TitleForm = () =>{
   
 const ExperienceForm = () => {
   const { control } = useFormContext();
+  const { experiences } = useContext(AuthContext)
+  console.log(experiences,'123456798');
 
   return (
     <>
-      <div className="flex flex-col justify-center items-start mx-32 my-48">
+    <div style={{ display:"flex" }}>
+      <div className="flex flex-col justify-center items-start mx-32 my-32">
         <h6 className="mb-2 mx-3">3/10</h6>
         <p className="text-4xl font-bold mb-1">If you have relevant experience, add it <br /> here.</p>
-        <p className="mb-4">
+        <p className="mb-7">
           Freelancers who add their experience are twice as likely to win work. But if you're just starting out, <br /> you can
           still create a great profile. Just head to the next page.
         </p>
-        <Card className="w-96 h-60 border-2 mx-3 border-dashed rounded-lg bg-green-900">
+        <div className="gap-6" style={{display:'flex', borderRadius:"14px"}}>
+          <div>
+            {experiences.map((experience, index) => (
+              <div key={index}>
+                <Card style={{backgroundColor:"#ced4da",borderRadius:"14px"}} className="w-96 h-60 border-2 border-dashed ">
+                  <div className="p-10">
+                    <Typography className="font-bold">Title : <span>{experience.title}</span> </Typography>
+                    <Typography className="font-bold">Company : <span>{experience.company}</span> </Typography>
+                  </div>
+                </Card>
+              </div>
+            ))}
+          </div>
+        <Card style={{backgroundColor:"#ced4da", borderRadius:"14px"}} 
+          className="w-96 h-60 border-2  border-dashed bg-green-900" 
+        >
           <IconButton sx={{
             position: 'absolute',
             top: 10, // Adjust position based on desired placement
@@ -87,50 +106,75 @@ const ExperienceForm = () => {
           }}>
           </IconButton>
           <div className="flex flex-col justify-start mx-5 py-32 ">
-              <ExperienceFormModal />
+              <ExperienceFormModal control={control} />
             <h2 className="text-xl font-semibold mb-4">Add Experience</h2>
           </div>
         </Card>
 
+        
+        </div>
+
       </div>
+    </div>
     </>
   );
 };
 
   const EducationForm = () => {
       const {control} = useFormContext()
+      const {educations} = useContext(AuthContext)
+      console.log(educations,"dcfvgbh");
+
+      // const handleAddEducation = (newEducations) => {
+      //     setEducations([...educations,newEducations])
+      // }
 
       return (
       <>
-        <div className="flex flex-col justify-center items-start mx-32 my-48">
+        <div className="flex flex-col justify-center items-start mx-32 my-32">
 
           <h6 className="mb-2 mx-3">4/10</h6>
           <p className="text-4xl font-bold mb-1">Clients likes to know what you know - add <br /> your education here.</p>
           <p className="mb-4">
               You don't have to have a degree. Adding any relevent education helps you to get more work.
           </p>
-          <Card className="w-96 h-60 mx-3 border-2 border-dashed rounded-lg bg-green-900">
-            <IconButton sx={{
-              position: 'absolute',
-              top: 10, // Adjust position based on desired placement
-              right: 10, // Adjust position based on desired placement
-              color: 'primary.main', // Customize icon color
-            }}>
-            </IconButton>
-            <div className="flex flex-col  justify-start mx-5 my-32 ">
-                <EducationFormModal />
-              <h2 className="text-xl font-semibold mb-4 mt-3">Add education</h2>
+          <div className="gap-6" style={{display:'flex', borderRadius:"14px"}}>
+            <div>
+              {educations.map((education, index) => (
+                <div key={index}>
+                  <Card style={{backgroundColor:"#ced4da",borderRadius:"14px"}} className="w-96 h-60 border-2 border-dashed ">
+                    <div className="p-10">
+                      <Typography className="font-bold">School : <span>{education.school}</span> </Typography>
+                      <Typography className="font-bold">Degree : <span>{education.degree}</span> </Typography>
+                    </div>
+                  </Card>
+                </div>
+              ))}
             </div>
-      </Card>
-    </div>
-        </>
+            <Card style={{backgroundColor:"#ced4da",borderRadius:"14px"}} className="w-96 h-60 border-2 border-dashed rounded-lg bg-green-900">
+              <IconButton sx={{
+                position: 'absolute',
+                top: 10, // Adjust position based on desired placement
+                right: 10, // Adjust position based on desired placement
+                color: 'primary.main', // Customize icon color
+              }}>
+              </IconButton>
+              <div className="flex flex-col  justify-start mx-5 my-32 ">
+                  <EducationFormModal />
+                <h2 className="text-xl font-semibold mb-4 mt-3">Add education</h2>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </>
       )
   }
+
+  
   const SkillsForm = () => {
     const { control } = useFormContext();
-    const { authToken } = useContext(AuthContext);
-    const [allSkills, setAllSkills] = useState([]);
-    const [formData, setFormData] = useState({ skills: [] }); // Set initial state with a skills property
+    const { authToken, allSkills,setAllSkills } = useContext(AuthContext);
+    const [formData , setFormData] = useState({ skills: [] })
   
     const getAllSkills = async (e) => {
       console.log(e);
@@ -146,7 +190,7 @@ const ExperienceForm = () => {
             }
           );
           const skills = response.data;
-          console.log(response.data);
+          console.log(skills, "55555555555555555");
           setAllSkills(skills);
           console.log(allSkills, '1111111111111');
         } catch (error) {
@@ -163,10 +207,14 @@ const ExperienceForm = () => {
         skills: prevData.skills.filter((skill) => skill.name !== skillToDelete.name),
       }));
     };
+
+    useEffect(() => {
+      getAllSkills();
+    }, []);
   
     return (
       <>
-        <div className="flex flex-col justify-center items-start mx-32 my-48">
+        <div className="flex flex-col justify-center items-start mx-32 my-64">
           <h6 className="mb-2 mx-3">5/10</h6>
           <p className="text-4xl font-bold mb-1">Nearly there! What work are you here to do?</p>
           <p className="mb-4">Your skills show clients what you can offer, and help us choose which jobs to recommend to you. Start typing to <br /> pick more. It's up to you.</p>
@@ -202,7 +250,6 @@ const ExperienceForm = () => {
                     fullWidth
                   />
                 )}
-                {...field} // Spread the field props from React Hook Form
               />
             )}
           />
@@ -382,7 +429,7 @@ const DeveloperProfile = () => {
       field_of_study: "",
       from_year: "",
       to_year: "",
-      skills: "",
+      skills: [],
       bio: "",
       birth: "",
       city: "",
@@ -412,9 +459,9 @@ const DeveloperProfile = () => {
 
   const handleNext = async (data) => {
     
-    console.log(data);
+    console.log(data,'4444444444444');
     if (activeStep == steps.length - 1) {
-      let response = await axios.post('http://127.0.0.1:8000/developer/profile/', data, {
+      let response = await axios.put('http://127.0.0.1:8000/developer/profile/', data, {
         headers: {
           'Authorization': `Bearer ${authToken.access}`,
         },
@@ -432,71 +479,53 @@ const DeveloperProfile = () => {
   };
 
   return (
-    <div>
+    <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: '20px', backgroundColor: 'white' }}>
+  {activeStep === steps.length ? (
+    navigate('/')
+    ) : (
+      <>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(handleNext)}>
+          {getStepContent(activeStep)}
 
-      {activeStep === steps.length ? (
-        navigate('/')
-      ) : (
-        <>
-          <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(handleNext)}>
-              {getStepContent(activeStep)}
+      <div style={{backgroundColor:"green",height:"2px"}}></div>
+        <div className="mt-3">
+          <Button
+            disabled={activeStep === 0}
+            variant="contained"
+            onClick={handleBack}
+            className="w-28"
+            >
+            back
+          </Button>
+          {isStepOptional(activeStep) && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSkip}
+              className="w-28"
+            >
+              skip
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="success"
+            type="submit"
+            className="w-28 float-right"
+            >
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </div>
+        </form>
+      </FormProvider>
+    </>
+  )}
+</div>
 
-              <Button
-                // className={classes.button}
-                disabled={activeStep === 0}
-                onClick={handleBack}
-              >
-                back
-              </Button>
-              {isStepOptional(activeStep) && (
-                <Button
-                  // className={classes.button}
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                >
-                  skip
-                </Button>
-              )}
-              <Button
-                // className={classes.button}
-                variant="contained"
-                color="primary"
-                // onClick={handleNext}
-                type="submit"
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </form>
-          </FormProvider>
-        </>
-      )}
-    </div>
   )
 }
 
 export default DeveloperProfile
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

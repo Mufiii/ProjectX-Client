@@ -7,10 +7,10 @@ import { Typography } from '@mui/material';
 const BottomBar = () => {
   return (
     <div>
-        <header style={{ backgroundColor: "black" }} className="w-full h-14 flex items-center justify-between">
+        <header style={{ backgroundColor: "white" }} className="w-full h-14 flex items-center justify-between">
           <div className="flex items-center px-8 space-x-5">
           <Typography
-          className='ty'
+            className='ty'
             as="a" 
             href="#" 
             // onClick={handleOverviewClick}

@@ -10,11 +10,15 @@ import {
 import './ProjectList.css'
 import ProjectSkills from './ProjectSkills'
 import ProjectItemCreated from './ProjectItemCreated'
+import { useNavigate } from 'react-router-dom'
+// import FavoriteBorderIcon from
+
+
 
 export const ProjectList = () => {
 
   const { authToken,projects,setProjects } = useContext(AuthContext)
-  console.log(projects,'111111111111111111111');
+  const navigate = useNavigate()
 
   useEffect(() =>{
 
@@ -52,11 +56,9 @@ export const ProjectList = () => {
           <h1>Project List</h1>
           {projects.map(project => (
             <div key={project.id} className="project-container">
-              <Card className="border-y-2  border-gray-100 max-w-7xl mx-16 hover:bg-gray-200 transition duration-300">
+              <Card onClick={() => navigate(`/projects/detail/${project.id}`)} className="border-y-2  border-gray-100 max-w-7xl mx-16 hover:bg-gray-200 transition duration-300">
                 <CardContent>
-                    {/* <Button as="a" href='/Addprojects' variant="contained" color="error" className='float-right'>
-                        Edit PROJECT
-                    </Button> */}
+                    {/* <FavoriteBorderIcon style={{ position: 'absolute', top: 10, right: 10 }} /> */}
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <ProjectItemCreated project={project} />
                       <Typography style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '8px' }}>

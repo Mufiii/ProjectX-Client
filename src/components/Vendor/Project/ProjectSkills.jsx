@@ -23,7 +23,6 @@ const ProjectSkills = ({project_id}) => {
         );
         const data = response.data;
         setSkills(data)
-        console.log(data, '222222222222');
       } catch (error) {
         console.log(error.message);
       }
@@ -31,7 +30,6 @@ const ProjectSkills = ({project_id}) => {
   
     GetAllSkills();
   }, []);
-  console.log(skills,'lllllllllll');
 
 
   return (

@@ -2,7 +2,6 @@ import axios from "axios"
 import './auth.css'
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Typography,
@@ -24,6 +23,7 @@ const DeveloperRegister = () => {
 
       let response = await axios.post('http://127.0.0.1:8000/register/',{
         'email':e.target.email.value,
+        'username':e.target.username.value,
         'first_name':e.target.first_name.value,
         'last_name':e.target.last_name.value,
         'country':e.target.country.value
@@ -45,8 +45,8 @@ const DeveloperRegister = () => {
   return (
     <div>
       
-      <form className="center-card w-full max-w-screen-md mx-auto" onSubmit={DevRegister}>
-  <Card className="w-full">
+  <form className="center-card w-full max-w-screen-md mx-auto" onSubmit={DevRegister}>
+    <Card className="w-full">
       <Typography className="mb-5" variant="h2" color="black">
         Sign up to find work you love
       </Typography>
@@ -56,6 +56,9 @@ const DeveloperRegister = () => {
       </div>
       <div className="col-span-2 lg:col-span-1">
         <Input label="Last Name" size="lg" name="last_name" />
+      </div>
+      <div className="col-span-2">
+        <Input label="Username" size="lg" name="username" />
       </div>
       <div className="col-span-2">
         <Input label="Email" size="lg" name="email" />

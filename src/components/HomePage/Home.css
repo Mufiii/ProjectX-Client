@@ -1,0 +1,15 @@
+.filter {
+  cursor: pointer;
+}
+
+.filter.selected {
+  color: green;
+  font-weight: bold;
+}
+
+.horizontal-line {
+  height: 2px;
+  background-color: #ced4da;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
