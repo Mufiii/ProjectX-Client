@@ -13,6 +13,7 @@ const AuthProvider = ({ children }) => {
   const [experiences, setExperiences] = useState([]);
   const [educations,setEducations] = useState([])
   const [allSkills, setAllSkills] = useState([]);
+  // const [applicants,setApplicants] = useState([])
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
     JSON.parse(localStorage.getItem('authtokens')):null)
@@ -44,7 +45,9 @@ const AuthProvider = ({ children }) => {
     educations:educations,
     setEducations:setEducations,
     allSkills:allSkills,
-    setAllSkills:setAllSkills
+    setAllSkills:setAllSkills,
+    // applicants:applicants,
+    // setApplicants:setApplicants
   }
 
 

@@ -8,6 +8,7 @@ import {
   TextareaAutosize,
   Card,
   CardContent,
+  Grid
 } from '@mui/material'
 import ProjectSkills from "../../Vendor/Project/ProjectSkills"
 import ProjectItemCreated from "../../Vendor/Project/ProjectItemCreated"
@@ -17,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PsychologyIcon from '@mui/icons-material/Psychology';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 
 const ProjectDetail = () => {
@@ -101,15 +103,18 @@ const ProjectDetail = () => {
   },[])
     
   return (
-    <div className="flex">
-      <div className="left-content">
+    <>
+
+      <Grid container spacing={2}>
+        <Grid item xs={8} >
+          <div className="left-content">
           {projectDetail.map(project => (
             <div key={project.id} className="project-container ml-40">
                 <div style={{ display: 'flex', flexDirection: 'column', marginTop: '50px' }}>
                   <Typography className="main-title" style={{ fontWeight: 'bold', fontSize: '25px'  }}>
                     {project.title}
                   </Typography>
-                  <div className="mb-8">
+                  <div className="mb-5 mt-2">
                     <ProjectItemCreated project={project} />
                   </div>
                 </div>
@@ -215,7 +220,7 @@ const ProjectDetail = () => {
                                       name="attachments"
                                       type="text"
                                       placeholder="Upload the Project files"
-                                      className="h-20 muu border-4 border-dashed rounded-lg bg-gray-300"
+                                      className="h-20 upload border-4 border-dashed rounded-lg bg-gray-300"
                                       >
                                       <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                                         Upload file
@@ -229,44 +234,55 @@ const ProjectDetail = () => {
                                       )}
                                     </div>
                                 </div>
-                              </CardContent>
-                            </Card>
-                            </form>
-
-                            
-
+                            </CardContent>
+                          </Card>
+                        </form>
             </div>
             ))} 
         </div>
-        <div className="right-content">
-          <div className="vertical-line">
-
-            <div className="main-div mr-96">
-              <div className="mb-8 ml-10 justify-start">
-                <div className="flex flex-col">
-                <Button
-                  as="a"
-                  href=""
-                  variant="contained"
-                  color="success"
-                  className="buttons rounded-xl"
-                  onClick={ProjectProposal}
-                  >
-                  Apply
-                </Button>
-                <Button
-                  as="a"
-                  href=""
-                  className="buttons border-2 rounded-xl mt-4" 
-                >
-                  <FavoriteBorderIcon /> Save job
-                </Button>
+      </Grid>
+          <Grid item xs={4}>
+            <div className="right-content">
+              <div className="vertical-line">
+                <div className="main-div mr-96">
+                  <div className="mb-8 ml-10 justify-start">
+                    <div className="flex flex-col w-48 ">
+                        <Button
+                          as="a"
+                          variant="contained"
+                          color="success"
+                          className="buttons border-2 border-green-700 text-center mt-4"
+                          onClick={ProjectProposal}
+                          >
+                          Apply
+                        </Button>
+                        <Button
+                          as="a"
+                          href=""
+                          className="buttons border-2 border-green-700 rounded-xl mt-4 text-center" 
+                        >
+                          <FavoriteBorderIcon style={{color:"green"}} /> <span style={{color:"green"}}>Save job</span>
+                        </Button>
+                        <div className="mt-10">
+                            <p className="flex justify-center" style={{ fontWeight: 'bold', fontSize: '20px'  }}>
+                              About the client
+                            </p>
+                            <div className="mt-5">
+                              <p className="flex gap-1"><VerifiedIcon  style={{ color: 'gray' }} /> Payment method verified</p>
+                              <p></p>
+                              <p></p>
+                            </div>
+                        </div>
+                    </div>
                   </div>
+                </div>
               </div>
             </div>
-          </div>
-                  </div>
-    </div>
+          </Grid>
+        </Grid>
+    
+    </>
+
   )
 }
 

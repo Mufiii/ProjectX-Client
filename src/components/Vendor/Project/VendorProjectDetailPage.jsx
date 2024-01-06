@@ -5,12 +5,14 @@ import { AuthContext } from '../../../context/AuthContext';
 import { 
   Grid,
   Typography,
+  Avatar, 
 } from '@mui/material'
 import ProjectSkills from './ProjectSkills'
 import ProjectItemCreated from './ProjectItemCreated'
 import './VendorProjectDetail.css'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PsychologyIcon from '@mui/icons-material/Psychology';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 
@@ -44,8 +46,8 @@ const VendorProjectDetailPage = () => {
   return (
     <>
      <Grid container spacing={2}>
-  <Grid item xs={8}>
-  <div className="left-content">
+        <Grid item xs={8}>
+          <div className="left-content">
             {vendorProjects && vendorProjects.map(project => (
 
                 <div key={project.id} className="project-container ml-40">
@@ -120,14 +122,32 @@ const VendorProjectDetailPage = () => {
           <Grid item xs={4}>
           <div className="right-content">
             <div className="vertical-line">
-                  <div className="flex w-full mx-24"  style={{width:'200px',marginTop: '50px'}}>
-                      <p style={{fontWeight: 'bold', fontSize: '25px'}}>Applicants <span>List</span></p>
-                  </div>
+              <div className="flex flex-col w-full mx-10" style={{ width: '200px', marginTop: '50px' }}>
+                <p className='mt-7' style={{ fontWeight: 'bold', fontSize: '25px' }}>Applicants <span>List</span></p>
+                <div className='mt-10'>
+                  {vendorProjects.map((project) => (
+                    <div key={project.id}>
+                      {project.applicants.map((applicant) => (
+                        <div className='flex gap-3 mb-2' key={applicant.user.id}>
+                          {applicant.profile_picture ? (
+                            <Avatar src={applicant.profile_picture} style={{ width: "40px", height: "40px" }} alt={`Profile Picture of ${applicant.user.username}`} />
+                          ) : (
+                            <Avatar style={{ width: "40px", height: "40px" }} src="/broken-image.jpg" />
+                          )}
+                          <Typography className='text-6xl font-bold'>{applicant.user.username}</Typography>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <div className="max-w-5xl mt-4" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
+                    <p className='flex justify-end mt-4'>See all <ArrowForwardIosIcon /></p>
+                <div className="max-w-5xl mt-4" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
+              </div>
             </div>
           </div>
-  </Grid>
- 
-</Grid>
+      </Grid> 
+    </Grid>
     </>
   )
 }

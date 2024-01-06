@@ -45,8 +45,13 @@ const Home = () => {
 
   return (
     <div>
+      <div className="left-content mx-44">
+        <div className="">
+          <p className="flex flex-col">Category</p>
+        </div>
+      </div>
       <div className="mt-10 mx-16  ">
-        <div className="flex gap-4">
+        <div style={{marginLeft:"410px"}} className="flex gap-4">
           <p
             className={`filter ${selectedFilter === 'bestMatches' ? 'selected' : ''}`}
             onClick={() => handleFilterClick('bestMatches')}
@@ -69,11 +74,12 @@ const Home = () => {
             Saved jobs
           </p>
         </div>
-      <div className="horizontal-line max-w-7xl"></div>
-        <div>
+      <div className="horizontal-line max-w-6xl ml-auto"></div>
+        <div className="flex justify-end">
+          <div>
           {AllProjects.map(project => (
-            <div key={project.id} className="flex flex-col justify-end">
-              <Card className="border-y-2  border-gray-100 max-w-7xl  hover:bg-gray-200 transition duration-300"
+            <div key={project.id} className="flex flex-col">
+              <Card className="border-y-2  border-gray-100 max-w-6xl  hover:bg-gray-200 transition duration-300"
                 onClick={() => navigate(`/projects/${project.id}`)}
                 >
                 <CardContent style={{ position: 'relative' }}>
@@ -107,6 +113,7 @@ const Home = () => {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   )

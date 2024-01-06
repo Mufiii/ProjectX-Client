@@ -2,14 +2,14 @@ import axios from "axios"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../../context/AuthContext"
 import { useParams } from "react-router-dom"
-import { Avatar, Typography } from '@mui/material';
+
 
 
 const ApplicantsList = () => {
 
-  const {authToken} = useContext(AuthContext)
+  const {authToken,applicants,setApplicants} = useContext(AuthContext)
   const {projectId} = useParams()
-  const [applicants,setApplicants] = useState([])
+
 
   const ApplicationListView = async () => {
     try {
@@ -35,7 +35,7 @@ const ApplicantsList = () => {
         {applicants.map((applicant) => (
           <div key={applicant.id}>
             {applicant.user?.profile_picture && (
-              <Avatar src={applicant.user.profile_picture} alt={`Profile Picture of ${applicant.user.username}`} />
+              <Avatar src={applicant.developer.profile_picture} alt={`Profile Picture of ${applicant.user.username}`} />
             )}
             <Typography>{applicant.developer.user.username}</Typography>
           </div>
