@@ -4,21 +4,22 @@ import {
   Typography,
   Button,
   IconButton,
-  Collapse, AppBar, Toolbar, InputBase, Paper
+  Collapse,
+  TextField
 } from "@material-tailwind/react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import MessageIcon from '@mui/icons-material/Message';
 // import { Switch } from "@material-tailwind/react";
-import VendorUpdateProfile from "../components/Vendor/VendorProfile/VendorUpdateProfile";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import '../index.css'
 import BottomBar from "./BottomBar";
+import WorkspaceBar from '../Monitorization/Workspace/WorkspaceBar.jsx'
 
 
 
-export function HomeNavbar() {
+const HomeNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate()
   const location = useLocation()
@@ -58,26 +59,20 @@ export function HomeNavbar() {
             <span className="text-logo-green">K</span>
           </Typography>
           <div className="flex items-center gap-6 px-6">
-            {/* <AppBar position="static">
-              <Toolbar>
-                <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                  Your Logo
-                </Typography>
-                <Paper
-                  component="form"
-                  sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-                >
-                  <IconButton sx={{ p: '10px' }} aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                  <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Search"
-                    inputProps={{ 'aria-label': 'search' }}
-                  />
-                </Paper>
-              </Toolbar>
-            </AppBar> */}
+            {/* <div>
+              <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                fullWidth
+                InputProps={{
+                  startAdornment: (
+                    <SearchIcon color="action" style={{ marginRight: 8 }} />
+                    ),
+                  }}
+              />
+              </div> */}
+
 
             <div className="hidden lg:inline-block text-primary-purple">
               <MessageIcon />
@@ -140,9 +135,14 @@ export function HomeNavbar() {
       <div>
         {location.pathname === '/profile' && <BottomBar />}
       </div>
+      {/* <div>
+        {location.pathname === '/workspace' && <WorkspaceBar />}
+      </div> */}
 
       {/* <BottomBar/> */}
 
     </>
   );
 }
+
+export default HomeNavbar

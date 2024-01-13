@@ -11,8 +11,6 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
-import { useDispatch } from 'react-redux';
-import { add_education } from "../../../Redux/slices/educationSlice";
 import Select from 'react-select';
 import { Modal, Backdrop, Fade } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -26,7 +24,6 @@ export const getYearOptions = () => {
 const EducationFormModal = () => {
   const { authToken,setEducations } = useContext(AuthContext);
   const inputRef = useRef();
-  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {

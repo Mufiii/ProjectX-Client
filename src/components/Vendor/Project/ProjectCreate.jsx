@@ -19,6 +19,7 @@ const ProjectCreate = () => {
     price_type: '',
     price: '',
     status: '',
+    end_date:''
   });
 
 
@@ -176,9 +177,9 @@ const ProjectCreate = () => {
                   value={formData.level}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value={1}>Entry Level</MenuItem>
-                  <MenuItem value={2}>Mid Level</MenuItem>
-                  <MenuItem value={3}>Expert Level</MenuItem>
+                  <MenuItem value={1}>Entry</MenuItem>
+                  <MenuItem value={2}>Intermediate</MenuItem>
+                  <MenuItem value={3}>Expert</MenuItem>
                 </Select>
               </FormControl>
 
@@ -228,6 +229,13 @@ const ProjectCreate = () => {
                 label="Price"
                 type="text"
                 value={formData.price}
+                onChange={handleInputChange}
+              />
+              <TextField
+                fullWidth
+                name="end_date"
+                type="date"
+                value={formData.end_date}
                 onChange={handleInputChange}
               />
 

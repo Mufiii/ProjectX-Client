@@ -132,7 +132,7 @@ const ProjectDetail = () => {
                             <p>
                               <PsychologyIcon />
                               <span className='font-bold'>{project.level.name}</span>
-                              {project.level.name === 'Entry Level' && (
+                              {project.level.name === 'Entry' && (
                                 <>
                                     <br />
                                   <div className='mx-6'>
@@ -142,7 +142,7 @@ const ProjectDetail = () => {
                                   </div>
                                 </>
                               )}
-                              {project.level.name === 'Expert Level' && (
+                              {project.level.name === 'Expert' && (
                                 <>
                                   <br />
                                   <div className='mx-6 mt-1'>
@@ -153,10 +153,10 @@ const ProjectDetail = () => {
                                   </div>
                                 </>
                               )}
-                              {project.level.name === 'Entry' && (
+                              {project.level.name === 'Intermediate' && (
                                 <>
-                                  <div className='mx-6'>
                                     <br />
+                                  <div className='mx-6'>
                                     <span style={{ color: 'gray' }}>
                                       I am looking for a mix <br /> of experience and <br /> value
                                     </span>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext';
 import { 
   Grid,
@@ -22,7 +22,7 @@ const VendorProjectDetailPage = () => {
   const {id} = useParams();
   const {authToken} = useContext(AuthContext)
   const [vendorProjects,setVendorProjects] = useState([])
-  console.log(vendorProjects,'77777777777777');
+  const navigate = useNavigate();
 
   const ProjectDetailPage = async () => {
     try {
@@ -73,7 +73,7 @@ const VendorProjectDetailPage = () => {
                              <p>
                                <PsychologyIcon />
                                <span className='font-bold'>{project.level.name}</span>
-                               {project.level.name === 'Entry Level' && (
+                               {project.level.name === 'Entry' && (
                                 <>
                                     <br />
                                   <div className='mx-6'>
@@ -83,7 +83,7 @@ const VendorProjectDetailPage = () => {
                                   </div>
                                 </>
                               )}
-                              {project.level.name === 'Expert Level' && (
+                              {project.level.name === 'Expert' && (
                                 <>
                                   <br />
                                   <div className='mx-6 mt-1'>
@@ -94,10 +94,10 @@ const VendorProjectDetailPage = () => {
                                   </div>
                                 </>
                               )}
-                              {project.level.name === 'Entry' && (
+                              {project.level.name === 'Intermediate' && (
                                 <>
-                                  <div className='mx-6'>
                                     <br />
+                                  <div className='mx-6'>
                                     <span style={{ color: 'gray' }}>
                                       I am looking for a mix <br /> of experience and <br /> value
                                     </span>
@@ -122,26 +122,32 @@ const VendorProjectDetailPage = () => {
           <Grid item xs={4}>
           <div className="right-content">
             <div className="vertical-line">
-              <div className="flex flex-col w-full mx-10" style={{ width: '200px', marginTop: '50px' }}>
+              <div className="flex flex-col w-full mx-10" style={{ width: '200px', marginTop: '44px' }}>
                 <p className='mt-7' style={{ fontWeight: 'bold', fontSize: '25px' }}>Applicants <span>List</span></p>
+                  <div className="max-w-5xl mt-10" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
                 <div className='mt-10'>
-                  {vendorProjects.map((project) => (
+                {vendorProjects.map((project) => (
                     <div key={project.id}>
-                      {project.applicants.map((applicant) => (
-                        <div className='flex gap-3 mb-2' key={applicant.user.id}>
-                          {applicant.profile_picture ? (
-                            <Avatar src={applicant.profile_picture} style={{ width: "40px", height: "40px" }} alt={`Profile Picture of ${applicant.user.username}`} />
-                          ) : (
-                            <Avatar style={{ width: "40px", height: "40px" }} src="/broken-image.jpg" />
-                          )}
-                          <Typography className='text-6xl font-bold'>{applicant.user.username}</Typography>
-                        </div>
-                      ))}
+                      {project.applicants.length > 0 ? (
+                        project.applicants.map((applicant) => (
+                          <div className='flex gap-3 mb-2' key={applicant.user.id}>
+                            {applicant.profile_picture ? (
+                              <Avatar src={applicant.profile_picture} style={{ width: "40px", height: "40px" }} alt={`Profile Picture of ${applicant.user.username}`} />
+                            ) : (
+                              <Avatar style={{ width: "40px", height: "40px" }} src="/broken-image.jpg" />
+                            )}
+                            <Typography className='text-6xl font-bold'>{applicant.user.first_name} {applicant.user.last_name}</Typography>
+                          </div>
+                        ))
+                      ) : (
+                        <Typography style={{color:"#ced4da"}} className='flex justify-center'>No applications yet</Typography>
+                      )}
                     </div>
                   ))}
                 </div>
-                <div className="max-w-5xl mt-4" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
-                    <p className='flex justify-end mt-4'>See all <ArrowForwardIosIcon /></p>
+                <div className="max-w-5xl mt-10" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
+                    <p onClick={()=> navigate(`projects/applicationslist/$projectsId`)} className='flex justify-end mt-4'>
+                      See all <ArrowForwardIosIcon /></p>
                 <div className="max-w-5xl mt-4" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
               </div>
             </div>

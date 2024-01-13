@@ -5,7 +5,8 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from "@material-tailwind/react";
-import store from './Redux/store.jsx'
+import {store,persistor} from './Redux/store.jsx'
+import { PersistGate } from 'redux-persist/integration/react'
 
 
 // let authToken = JSON.parse(localStorage.getItem('authToken'))
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
       <ThemeProvider >
         <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
            <App />
+          </PersistGate>
         </Provider>
       </ThemeProvider>
   </BrowserRouter>

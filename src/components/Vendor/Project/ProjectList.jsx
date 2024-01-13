@@ -49,11 +49,8 @@ export const ProjectList = () => {
     <div>
 
       <form>
-      <Button as="a" href='/Addprojects' variant="contained" color="success" className='float-right'>
-        ADD PROJECT
-      </Button><br />
         <div>
-          <h1>Project List</h1>
+          <h1 className='mx-16 mt-12 mb-10' style={{ fontWeight: 'bold', fontSize: '25px', marginBottom: '8px' }}>Projects</h1>
           {projects.map(project => (
             <div key={project.id} className="project-container">
               <Card onClick={() => navigate(`/projects/detail/${project.id}`)} className="border-y-2  border-gray-100 max-w-7xl mx-16 hover:bg-gray-200 transition duration-300">

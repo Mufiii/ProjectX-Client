@@ -10,7 +10,8 @@ import {
   Modal,
   Backdrop,
   Fade,
-  IconButton
+  IconButton,
+  FormControlLabel
 } from "@mui/material";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
@@ -18,6 +19,7 @@ import { monthOptions } from "../../../utils/MonthOptions";
 import { getYearOptions } from "./EducationFormModal";
 import Select from 'react-select';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Controller, useForm } from "react-hook-form";
 
 
 const ExperienceFormModal = ({control}) => {
@@ -26,6 +28,7 @@ const ExperienceFormModal = ({control}) => {
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
   const { experiences, setExperiences } = useContext(AuthContext)
+  const { handleSubmit, reset } = useForm({ control });
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,6 +37,13 @@ const ExperienceFormModal = ({control}) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const onSubmit = (data) => {
+    // Handle form submission logic here
+    console.log(data, 'Data from ExperienceFormModal');
+    // Perform any other actions, e.g., closing the modal
+    reset();
+  };  
 
   const ExperienceView = async (e) => {
     e.preventDefault();
@@ -79,9 +89,11 @@ const ExperienceFormModal = ({control}) => {
     }
   };
 
-  const checkboxHandler = () => {
+  const checkboxHandler = (e) => {
     console.log(document.getElementById('check').checked);
     setShow(document.getElementById('check').checked);
+    // setShow(value);
+    setShow(e.target.checked);
   }
 
   return (
@@ -108,22 +120,88 @@ const ExperienceFormModal = ({control}) => {
                 <Typography className="mb-5 flex justify-start px-7" variant="h2" color="black">
                   Add Work Experience
                 </Typography>
-                <form ref={inputRef} onSubmit={ExperienceView}>
+                <form onSubmit={handleSubmit(onSubmit)} >
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
-                      <TextField label="Title" size="small" fullWidth name="title" control={control} />
+                    <Controller
+                      control={control}
+                      name="title"
+                      size="small"
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Title"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                          />
+                        )}
+                      />
                     </div>
                     <div className="col-span-2">
-                      <TextField label="Company" size="small" fullWidth name="company" control={control}/>
+                    <Controller
+                      control={control}
+                      name="company"
+                      size="small"
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Company"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                          />
+                        )}
+                      />
                     </div>
                     <div className="col-span-2 lg:col-span-1">
-                      <TextField label="Location" size="small" fullWidth name="location" control={control}/>
+                      {/* <TextField label="Location" size="small" fullWidth name="location" control={control}/> */}
+                      <Controller
+                      control={control}
+                      name="location"
+                      size="small"
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Location"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                          />
+                        )}
+                      />
                     </div>
                     <div className="col-span-2 lg:col-span-1">
-                      <TextField label="Country" size="small" fullWidth name="country" control={control}/>
+                      {/* <TextField label="Country" size="small" fullWidth name="country" control={control}/> */}
+                      <Controller
+                      control={control}
+                      name="country"
+                      size="small"
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Country"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                          />
+                        )}
+                      />
                     </div>
                     <div className="flex justify-start">
                       <Checkbox id="check" name="currentlyWorking" onChange={checkboxHandler} label="I&apos;m currently working in this role" control={control}/>
+                      <Controller
+                        control={control}
+                        id="check"
+                        name="currentlyWorking"
+                        onChange={(e) => checkboxHandler(e)}
+                        render={({ field }) => (
+                          <FormControlLabel
+                            control={<Checkbox {...field} size="small" />}
+                            label="I'm currently working in this role"
+                          />
+                        )}
+                      />
                     </div>
                   </div>
 
@@ -133,35 +211,61 @@ const ExperienceFormModal = ({control}) => {
                         Start Date
                       </Typography>
                       <div className="flex space-x-2">
-                        <Select
-                          options={monthOptions}
+                        <Controller
+                          control={control}
                           name="start_month"
-                          placeholder="Month" control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={monthOptions}
+                              placeholder="Month"
+                            />
+                          )}
                         />
-                        <Select
-                          options={getYearOptions()}
+                        <Controller
+                          control={control}
                           name="start_year"
-                          placeholder="Year" control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={getYearOptions()}
+                              placeholder="Year"
+                            />
+                          )}
                         />
                       </div>
                     </div>
-                    {!show && <div>
-                      <Typography variant="small" className="mb-2">
-                        End Date
-                      </Typography>
-                      <div className="flex space-x-2">
-                        <Select
-                          options={monthOptions}
-                          name="end_month"
-                          placeholder="Month" control={control}
-                        />
-                        <Select
-                          options={getYearOptions()}
-                          name="end_year"
-                          placeholder="Year" control={control}
-                        />
+                    {!show && (
+                      <div>
+                        <Typography variant="small" className="mb-2">
+                          End Date
+                        </Typography>
+                        <div className="flex space-x-2">
+                          <Controller
+                            control={control}
+                            name="end_month"
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                options={monthOptions}
+                                placeholder="Month"
+                              />
+                            )}
+                          />  
+                          <Controller
+                            control={control}
+                            name="end_year"
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                options={getYearOptions()}
+                                placeholder="Year"
+                              />
+                            )}
+                          />
+                        </div>
                       </div>
-                    </div>}
+                    )}
                   </div>
                 </form>
               </CardContent>

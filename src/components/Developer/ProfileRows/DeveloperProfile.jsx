@@ -248,6 +248,7 @@ const ExperienceForm = () => {
                     style={{ width: "820px" }}
                     placeholder="Add Skills"
                     fullWidth
+                    {...field}
                   />
                 )}
               />
