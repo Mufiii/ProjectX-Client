@@ -4,7 +4,7 @@ import {persistStore,persistReducer} from 'redux-persist'
 import storage from "redux-persist/lib/storage"
 
 const rootreducer = combineReducers({
-    workspace:WorkspaceSlice
+    workspaces: WorkspaceSlice
 })
 
 const persistConfig = {

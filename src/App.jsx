@@ -19,10 +19,12 @@ import ProjectDetail from "./components/Developer/DeveloperProject/ProjectDetail
 import ApplicantsList from "./components/Vendor/Applicants/ApplicantsList.jsx"
 import VendorProjectDetailPage from "./components/Vendor/Project/VendorProjectDetailPage.jsx"
 import Workspace from "./Monitorization/Workspace/Workspace.jsx"
-import CreateWorkSpace from "./Monitorization/CreateWorkSpace.jsx"
+import CreateWorkSpace from "./Monitorization/Workspace/CreateWorkSpace.jsx"
 import GetWorkspace from "./Monitorization/Workspace/GetWorkspace.jsx"
 import Secondbar from "./utils/Secondbar.jsx"
 import CreateBoard from "./Monitorization/Board/CreateBoard.jsx"
+import Footer from "./utils/Footer.jsx"
+import DevProfile from "./components/Developer/ProfileRows/DevProfile.jsx"
 
 
 
@@ -58,7 +60,8 @@ function App() {
           <Route element={<VendorProjectDetailPage />} path="/projects/detail/:id" />
           {/* <Route element={<CreateWorkSpace />} path="/create" /> */}
           <Route element={<CreateBoard />} path="/boards/:id" />
-
+          <Route element={<Footer />} path="/footer" />
+          <Route element={<DevProfile />} path="/devprofile" />
 
         </Routes>
       </AuthProvider>

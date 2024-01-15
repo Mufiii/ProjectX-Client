@@ -35,23 +35,17 @@ const Separator = styled('div')({
 const SideBar = () => {
 
 
-  const { currentWorkspace } = useSelector((state) => state.workspace);
-  console.log(currentWorkspace,"hgh");
-
   return (
     <div>
       <Sidebar className='h-full min-h-[43.2rem]'>
         <div className='flex justify-around'>
-
-      <div>
-          {currentWorkspace ? (
-            currentWorkspace.name
-            ):(<p>yoyoooo</p> )}
-          
-          <Button>
-            <ArrowCircleLeftOutlinedIcon />
-          </Button>
-      </div>
+          <div>
+              
+              
+              <Button>
+                <ArrowCircleLeftOutlinedIcon />
+              </Button>
+          </div>
     </div>
         <Separator/>
         <div className='mt-2'>

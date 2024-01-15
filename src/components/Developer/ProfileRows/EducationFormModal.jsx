@@ -14,6 +14,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import Select from 'react-select';
 import { Modal, Backdrop, Fade } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Controller, useForm } from "react-hook-form";
 
 export const getYearOptions = () => {
   const currentYear = new Date().getFullYear();
@@ -21,10 +22,11 @@ export const getYearOptions = () => {
   return years.map((year) => ({ label: year.toString(), value: year }));
 };
 
-const EducationFormModal = () => {
-  const { authToken,setEducations } = useContext(AuthContext);
+const EducationFormModal = ({ control }) => {
+  const { authToken, setEducations } = useContext(AuthContext);
   const inputRef = useRef();
   const [open, setOpen] = React.useState(false);
+  const { handleSubmit } = useForm({ control });
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,19 +36,25 @@ const EducationFormModal = () => {
     setOpen(false);
   };
 
-  const EducationEntry = async (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    // Handle form submission logic here
+    console.log(data, 'Data from EducationFormModal') ;
+    EducationEntry(data);
+  };
+
+  const EducationEntry = async (data) => {
+    data.preventDefault();
 
     try {
       let response = await axios.post(
         'http://127.0.0.1:8000/developer/education/',
         {
-          school: inputRef.current.school.value,
-          degree: inputRef.current.degree.value,
-          field_of_study: inputRef.current.field_of_study.value,
-          start_date: inputRef.current.from_year.value,
-          end_date: inputRef.current.to_year.value,
-          description: inputRef.current.description.value,
+          school: data.school,
+          degree: data.degree,
+          field_of_study: data.field_of_study,
+          from_year: data.from_year,
+          to_year: data.to_year,
+          description: data.description,
         },
         {
           headers: {
@@ -61,7 +69,7 @@ const EducationFormModal = () => {
         console.log("Education added successfully");
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error adding education:', error);
     } finally {
       handleClose(); // Close the modal regardless of success or failure
     }
@@ -69,8 +77,8 @@ const EducationFormModal = () => {
 
   return (
     <div>
-     <IconButton  onClick={handleOpen} color="primary">
-        <AddCircleIcon style={{color:"green" , height:"40px",width:"40px"}} />
+      <IconButton onClick={handleOpen} color="primary">
+        <AddCircleIcon style={{ color: "green", height: "40px", width: "40px" }} />
       </IconButton>
       <Modal
         open={open}
@@ -89,35 +97,90 @@ const EducationFormModal = () => {
               <Typography className="mb-5 mt-5 flex justify-start px-7" variant="h2" color="black">
                 Add Education History
               </Typography>
-              <form ref={inputRef} onSubmit={EducationEntry}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <CardBody className="grid grid-cols-2 gap-2 min-h-36">
                   <label htmlFor="" className="flex justify-start">School</label>
                   <div className="col-span-2">
-                    <Input label="Ex: Northwestern University " size="lg" name="school" />
+                    {/* <Input label="Ex: Northwestern University " size="lg" name="school" /> */}
+                    <Controller
+                      control={control}
+                      name="school"
+                      size="small"
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label="School"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                        />
+                      )}
+                    />
                   </div>
                   <label htmlFor="" className="flex justify-start">Degree</label>
                   <div className="col-span-2">
-                    <Input label="Ex: Bachelors" size="lg" name="degree" />
+                    {/* <Input label="Ex: Bachelors" size="lg" name="degree" /> */}
+                    <Controller
+                      control={control}
+                      name="degree"
+                      size="small"
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label="Degree"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                        />
+                      )}
+                    />
                   </div>
                   <label htmlFor="" className="flex justify-start">Field of study</label>
                   <div className="col-span-2">
-                    <Input label="Ex: Computer Science" size="lg" name="field_of_study" />
+                    {/* <Input label="Ex: Computer Science" size="lg" name="field_of_study" /> */}
+                    <Controller
+                      control={control}
+                      name="field_of_study"
+                      size="small"
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          label="Field of study"
+                          type="text"
+                          fullWidth
+                          margin="normal"
+                        />
+                      )}
+                    />
                   </div>
                   <label htmlFor="" className="flex justify-start">Date Started</label>
                   <div className="flex justify-between items-center">
                     <div className="col-span-2 lg:col-span-1">
-                      <Select
+                      <Controller
+                        control={control}
                         id="from"
-                        options={getYearOptions()}
                         name="from_year"
-                        placeholder="From"
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={getYearOptions()}
+                            placeholder="From"
+                          />
+                        )}
                       />
                     </div>
                     <div className="col-span-2 lg:col-span-1">
-                      <Select
-                        options={getYearOptions()}
+                      <Controller
+                        control={control}
+                        id="from"
                         name="to_year"
-                        placeholder="To (or expected graduation year)"
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={getYearOptions()}
+                            placeholder="To (or expected graduation year)"
+                          />
+                        )}
                       />
                     </div>
                   </div>

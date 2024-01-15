@@ -2,21 +2,23 @@
 import { Typography, Button, Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
-import CreateWorkSpace from '../CreateWorkSpace';
+import CreateWorkSpace from './CreateWorkSpace';
 import { AuthContext } from '../../context/AuthContext';
 import CreateBoard from '../Board/CreateBoard';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectWorkspaces, selectLoading, selectError } from '../../Redux/slices/WorkspaceSlice';
+import { fetchAllWorkspaces } from '../../Redux/Actions/WorkspaceActions';
 
-const BottomBar = ({ workspaces }) => {
+const BottomBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [drop, setDrop] = useState(null);
   const { setStore } = useContext(AuthContext)
 
   const navigate = useNavigate()
-  console.log(workspaces, '12584255');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleClick = (event) => {
@@ -44,6 +46,30 @@ const BottomBar = ({ workspaces }) => {
     navigate(`/workspace/${workspace.id}`);
   };
 
+  const dispatch = useDispatch();
+  const workspaces = useSelector(selectWorkspaces);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    console.log('Inside useEffect');
+    dispatch(fetchAllWorkspaces())
+      .then((result) => console.log('Fetch success:', result))
+      .catch((err) => console.error('Fetch error:', err));
+  }, [dispatch]);
+
+  if (loading) {
+    console.log('Loading...');
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.log('Error:', error);
+    return <p>Error: {error}</p>;
+  }
+
+  // console.log('Workspaces:', workspaces);
+
 
   return (
     <div>
@@ -61,7 +87,6 @@ const BottomBar = ({ workspaces }) => {
               anchorEl={drop}
               open={Boolean(drop)}
               onClose={handleCloseMenu}
-
             >
               {workspaces.map((workspace, index) => (
                 <MenuItem
@@ -73,7 +98,6 @@ const BottomBar = ({ workspaces }) => {
                   {workspace.name}
                 </MenuItem>
               ))}
-
             </Menu>
           </div>
           <Button

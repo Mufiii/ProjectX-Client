@@ -59,9 +59,9 @@ const TitleForm = () =>{
                   placeholder="Software Engineer | Javascript | iOS"
                   style={{width:"820px"}}
                   {...field}
-                />
-                )}
-                />
+              />
+            )}
+          />
         </div>
       </>
     )}
@@ -73,6 +73,7 @@ const ExperienceForm = () => {
   console.log(experiences,'123456798');
 
   return (
+    
     <>
     <div style={{ display:"flex" }}>
       <div className="flex flex-col justify-center items-start mx-32 my-32">
@@ -139,7 +140,7 @@ const ExperienceForm = () => {
               You don't have to have a degree. Adding any relevent education helps you to get more work.
           </p>
           <div className="gap-6" style={{display:'flex', borderRadius:"14px"}}>
-            <div>
+            {/* <div>
               {educations.map((education, index) => (
                 <div key={index}>
                   <Card style={{backgroundColor:"#ced4da",borderRadius:"14px"}} className="w-96 h-60 border-2 border-dashed ">
@@ -150,7 +151,7 @@ const ExperienceForm = () => {
                   </Card>
                 </div>
               ))}
-            </div>
+            </div> */}
             <Card style={{backgroundColor:"#ced4da",borderRadius:"14px"}} className="w-96 h-60 border-2 border-dashed rounded-lg bg-green-900">
               <IconButton sx={{
                 position: 'absolute',
@@ -160,7 +161,7 @@ const ExperienceForm = () => {
               }}>
               </IconButton>
               <div className="flex flex-col  justify-start mx-5 my-32 ">
-                  <EducationFormModal />
+                  <EducationFormModal control={control} />
                 <h2 className="text-xl font-semibold mb-4 mt-3">Add education</h2>
               </div>
             </Card>
@@ -174,7 +175,7 @@ const ExperienceForm = () => {
   const SkillsForm = () => {
     const { control } = useFormContext();
     const { authToken, allSkills,setAllSkills } = useContext(AuthContext);
-    const [formData , setFormData] = useState({ skills: [] })
+    const {setFormData} = useContext(AuthContext)
   
     const getAllSkills = async (e) => {
       console.log(e);
@@ -337,8 +338,8 @@ const ExperienceForm = () => {
                 fullWidth
                 margin="normal"
                 />
-                )}
-                />
+              )}
+            />
   
           <Controller
             control={control}
@@ -407,7 +408,7 @@ const ExperienceForm = () => {
 
 const DeveloperProfile = () => {
 
-  const { authToken } = useContext(AuthContext)
+  const { authToken,formData } = useContext(AuthContext)
   const navigate = useNavigate()
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -462,13 +463,18 @@ const DeveloperProfile = () => {
     
     console.log(data,'4444444444444');
     if (activeStep == steps.length - 1) {
-      let response = await axios.put('http://127.0.0.1:8000/developer/profile/', data, {
+      let response = await axios.put('http://127.0.0.1:8000/developer/profile/',
+      {
+        data, 
+        skills: formData.skills.map((skill) =>  skill.id),
+      },
+      {
         headers: {
           'Authorization': `Bearer ${authToken.access}`,
         },
       })
         const result = response.data
-        console.log(result);
+        console.log(result,'22222222222222222222222');
         navigate('/');
         
     } else {

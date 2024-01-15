@@ -42,15 +42,10 @@ const GetWorkspace = () => {
         <>
           <h2>{workspaceData.name}</h2>
           <p>{workspaceData.description}</p>
-          {/* <CreateBoard
-            workspaceId={workspace_id}
-            workspaceName={workspaceData && workspaceData.name}
-          /> */}
         </>
       ) : (
         <p>Loading...</p>
         )}
-        {/* <CreateBoard workspaceId={workspace_id} workspaceName={workspaceData && workspaceData.name}  /> */}
 
     </div>
   )

@@ -1,12 +1,13 @@
 import axios from "axios"
-import { useContext, useRef, useState } from "react"
-import { AuthContext } from "../context/AuthContext"
+import { useContext, useEffect, useRef, useState } from "react"
+import { AuthContext } from "../../context/AuthContext"
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useDispatch } from "react-redux";
-import { addWorkspace } from "../Redux/slices/WorkspaceSlice";
+import { fetchAllWorkspaces } from "../../Redux/Actions/WorkspaceActions";
+// import { addWorkspace } from "../../Redux/slices/WorkspaceSlice";
 
 
 const CreateWorkSpace = () => {
@@ -16,11 +17,8 @@ const CreateWorkSpace = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const inputRef = useRef()
-  const {workspaces, setWorkspaces} = useContext(AuthContext)
+  const dispatch = useDispatch()
 
-  const dispatch = useDispatch((state) => state.workspace)
-  // const currentWorkspace = useSelector((state) => state.workspace.currentWorkspace);
-  
   const [formData, setFormData] = useState({
     name: "",
     description: ""
@@ -36,29 +34,25 @@ const CreateWorkSpace = () => {
 
     try {
       let response = await axios({
-        url:'http://127.0.0.1:8000/workspace/' ,
-        method: 'POST', 
+        url: 'http://127.0.0.1:8000/workspace/',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${authToken.access}`,
         },
         data: formData,
-        // ? {
-        //     name: inputRef.current.name?.value,
-        //     description: inputRef.current.description?.value,
-        //   }
-        // : null,
       })
       const newWorkspace = response.data.data;
-      console.log(newWorkspace, "Fetched Workspaces");
-      dispatch(addWorkspace(newWorkspace));
-      } catch (error) {
-        console.log((error));
-      }
+      console.log(newWorkspace, "Fetched Workspaces")
+      dispatch(fetchAllWorkspaces());
+    } catch (error) {
+      console.log((error));
+    }
   }
+
   return (
 
     <div>
-      <Button onClick={handleOpen}>Open Modal</Button>
+      <Button style={{ color: "black", fontWeight: 'bold' }} onClick={handleOpen}>Create Workspace</Button>
 
       <Modal
         open={open}
@@ -96,8 +90,8 @@ const CreateWorkSpace = () => {
                   onChange={handleChange}
                   id="name"
                   style={{
-                    width: "28em", backgroundColor: "#242424", border: "1px solid white", 
-                    borderRadius: "4px", 
+                    width: "28em", backgroundColor: "#242424", border: "1px solid white",
+                    borderRadius: "4px",
                     padding: "15px",
                     color: "white",
                     marginBottom: "0.5em"
@@ -119,9 +113,9 @@ const CreateWorkSpace = () => {
                     backgroundColor: "#242424",
                     border: "1px solid white",
                     borderRadius: "4px",
-                    padding: "15px",  
+                    padding: "15px",
                     color: "white",
-                    lineHeight: "1", 
+                    lineHeight: "1",
                     marginBottom: "0.5em",
                   }}
                 />

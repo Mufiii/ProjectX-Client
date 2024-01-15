@@ -27,7 +27,7 @@ const ExperienceFormModal = ({control}) => {
   const inputRef = useRef();
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
-  const { experiences, setExperiences } = useContext(AuthContext)
+  const {  setExperiences } = useContext(AuthContext)
   const { handleSubmit, reset } = useForm({ control });
 
   const handleOpen = () => {
@@ -38,21 +38,31 @@ const ExperienceFormModal = ({control}) => {
     setOpen(false);
   };
 
-  const onSubmit = (data) => {
-    // Handle form submission logic here
-    console.log(data, 'Data from ExperienceFormModal');
-    // Perform any other actions, e.g., closing the modal
-    reset();
-  };  
+  const onSubmit = async (data) => {
+    try {
+      // Handle form submission logic here (e.g., send data to server)
+      console.log('Submitting form data:', data);
+  
+      // Optionally, perform additional actions here
+  
+      // Reset the form after successful submission
+      reset();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Handle error (e.g., display an error message to the user)
+    }
+  };
+   
 
   const ExperienceView = async (e) => {
     e.preventDefault();
 
     try {
+      
       let response = await axios.post(
         'http://127.0.0.1:8000/developer/experience/',
         {
-          title: inputRef.current.title.value,
+          designation_title: inputRef.current.designation_title.value,
           company: inputRef.current.company.value,
           location: inputRef.current.location.value,
           country: inputRef.current.country.value,
@@ -83,6 +93,7 @@ const ExperienceFormModal = ({control}) => {
         console.log('Response data:', error.response.data);
         console.log('Response status:', error.response.status);
         console.log('Response headers:', error.response.headers);
+        console.log('Response message:', error.message);
       }
     } finally {
       handleClose(); // Close the modal regardless of success or failure
@@ -120,12 +131,12 @@ const ExperienceFormModal = ({control}) => {
                 <Typography className="mb-5 flex justify-start px-7" variant="h2" color="black">
                   Add Work Experience
                 </Typography>
-                <form onSubmit={handleSubmit(onSubmit)} >
+                <form ref={inputRef} onSubmit={handleSubmit(onSubmit)} >
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                     <Controller
                       control={control}
-                      name="title"
+                      name="designation_title"
                       size="small"
                       render={({ field }) => (
                         <TextField
@@ -269,13 +280,10 @@ const ExperienceFormModal = ({control}) => {
                   </div>
                 </form>
               </CardContent>
-              <CardActions className="flex justify-end gap-3 rounded-md">
-                <Button color="error" onClick={handleClose}>
-                  Cancel
-                </Button>
-                <Button color="success" type="submit" onClick={ExperienceView}>
-                  Sign In
-                </Button>
+              <CardActions className="flex justify-end gap-3 mb-4 rounded-md">
+                  <Button style={{backgroundColor:"black",color:"white",fontWeight:"bold"}} type="submit" variant="gradient" fullWidth onClick={ExperienceView}>
+                    Submit
+                  </Button>
               </CardActions>
             </Card>
           </div>
@@ -288,161 +296,3 @@ const ExperienceFormModal = ({control}) => {
 export default ExperienceFormModal;
 
 
-
-
-// import axios from "axios";
-// import { getYearOptions } from "./EducationFormModal";
-// import {
-//   Card,
-//   CardBody,
-//   CardFooter,
-//   Typography,
-//   Input,
-//   Checkbox,
-//   Button,
-// } from "@material-tailwind/react";
-// import { useContext, useRef, useState } from "react";
-// import { AuthContext } from "../../../context/AuthContext";
-// import { monthOptions } from "../../../utils/MonthOptions";
-// import Select from 'react-select'
-
-
-// const ExperienceFormModal = () => {
-
-//   const { authToken } = useContext(AuthContext)
-//   const inputRef = useRef()
-//   const [show, setShow] = useState(false)
- 
-
-//   const ExperienceView = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       let response = await axios.post(
-//         'http://127.0.0.1:8000/developer/experience/',
-//         {
-//           title: inputRef.current.title.value,
-//           company: inputRef.current.company.value,
-//           location: inputRef.current.location.value,
-//           country: inputRef.current.country.value,
-//           start_date: `year:${inputRef.current.start_year.value}-month:${inputRef.current.start_month.value}`,
-//           end_date: !show
-//             ? `year:${inputRef.current.end_year.value}-month:${inputRef.current.end_month.value}`
-//             : null,
-//           is_working:show
-//         },
-        
-//         {
-//           headers: {
-//             'Authorization': `Bearer ${authToken.access}`
-//           }
-//         }
-//       );
-
-//       const data = response.data;
-//       console.log(data);
-
-//       if (response.status === 201) {
-//         console.log("The new experience added successfully");
-//       }
-//     } catch (error) {
-//       console.error('Error adding experience:', error);
-
-//       if (error.response) {
-//         console.log('Response data:', error.response.data);
-//         console.log('Response status:', error.response.status);
-//         console.log('Response headers:', error.response.headers);
-//       }
-//     }
-//   };
-   
-  
-//   const checkboxHandler = ()=>{
-//   console.log(document.getElementById('check').checked);
-//   if (document.getElementById('check').checked) {
-//     setShow(true);
-
-//   } else {
-//     setShow(false);
-//   }}
-
-//   return (
-//     <div>
-      
-//       <form ref={inputRef} onSubmit={ExperienceView} className="center-card w-full max-w-screen-md mx-auto">
-//         <Card className="w-full border-2 border-solid">
-
-//           <Typography className="mb-5 flex justify-start px-7" variant="h2" color="black">
-//             Add Work Experience
-//           </Typography>
-//           <CardBody className="grid grid-cols-2 gap-4">
-//             <div className="col-span-2">
-//               <Input label="Title" size="lg" name="title" />
-//             </div>
-//             <div className="col-span-2">
-//               <Input label="Company" size="lg" name="company" />
-//             </div>
-//             <div className="col-span-2 lg:col-span-1">
-//               <Input label="Location" size="lg" name="location" />
-//             </div>
-//             <div className="col-span-2 lg:col-span-1">
-//               <Input label="Country" size="lg" name="country" />
-//             </div>
-//             <div className="flex justify-start">
-//               <Checkbox id="check" name="currentlyWorking" onChange={checkboxHandler} label="I&apos;m currently working in this role" />
-//             </div>
-//           </CardBody>
-
-//           <CardBody className="grid grid-cols-2 gap-4 justify-around">
-//             <div>
-//               <Typography variant="small" className="mb-2">
-//                 Start Date
-//               </Typography>
-//               <div className="flex space-x-2">
-//                   <Select
-//                   options={monthOptions}
-//                   name="start_month"
-//                   placeholder="Month"
-//                 />
-//                   <Select
-//                   options={getYearOptions()}
-//                   name="start_year"
-//                   placeholder="Year"
-//                 />
-//               </div>
-//             </div>
-//             {!show &&<div>
-//               <Typography variant="small" className="mb-2">
-//                 End Date
-//               </Typography>
-//                <div className="flex space-x-2">
-//                <Select
-//                   options={monthOptions}
-//                   name="end_month"
-//                   placeholder="Month"
-//                   />
-//                   <Select
-//                   options={getYearOptions()}
-//                   name="end_year"
-//                   placeholder="Year"
-//                   />
-//               </div>
-//             </div>}
-//           </CardBody>
-//           <CardFooter className="pt-0 flex justify-end gap-3 rounded-md">
-//             <Button color="red" type="submit" variant="gradient">
-//               Cancel
-//             </Button>
-//             <Button color="green" type="submit" variant="gradient">
-//               Sign In
-//             </Button>
-//           </CardFooter>
-//         </Card>
-
-//       </form>
-
-//     </div>
-//   )
-// }
-
-// export default ExperienceFormModal

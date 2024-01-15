@@ -16,6 +16,10 @@ const AuthProvider = ({ children }) => {
   const [workspaces, setWorkspaces] = useState([]);
   // const [applicants,setApplicants] = useState([])
   const [store,setStore] = useState([])
+  const [formData , setFormData] = useState({ skills: [] })
+  console.log(typeof(formData),'1111111111');
+
+
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
     JSON.parse(localStorage.getItem('authtokens')):null)
@@ -24,6 +28,7 @@ const AuthProvider = ({ children }) => {
     jwtDecode(localStorage.getItem('authtokens')):null)
 
 
+    
     let logoutUser = () => {
       setAuthToken(null)
       setUser(null)
@@ -54,6 +59,8 @@ const AuthProvider = ({ children }) => {
     setWorkspaces:setWorkspaces,
     store:store,
     setStore:setStore,
+    formData:formData,
+    setFormData:setFormData,
   }
 
 

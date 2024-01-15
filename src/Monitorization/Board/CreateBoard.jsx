@@ -9,7 +9,6 @@ const CreateBoard = () => {
 
   const inputRef = useRef()
   const { authToken ,store, } = useContext(AuthContext)
-  console.log(store);
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
