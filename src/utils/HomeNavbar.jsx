@@ -23,7 +23,6 @@ const HomeNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location.pathname);
 
   React.useEffect(() => {
     window.addEventListener(

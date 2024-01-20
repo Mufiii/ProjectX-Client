@@ -57,7 +57,7 @@ const OtpVerify = () => {
         const decodedToken = jwtDecode(data.token.access)
         console.log(decodedToken);
         setUser(decodedToken)
-        navigate("/")
+        navigate("/welcome")
       }
     }catch(error){
         console.log(error);

@@ -30,9 +30,10 @@ import DevProfile from "./components/Developer/ProfileRows/DevProfile.jsx"
 
 function App() {
 
+
   return (
     <>
-      <AuthProvider>
+      <AuthProvider >
         <HomeNavbar />
         <Routes>
 
@@ -62,6 +63,7 @@ function App() {
           <Route element={<CreateBoard />} path="/boards/:id" />
           <Route element={<Footer />} path="/footer" />
           <Route element={<DevProfile />} path="/devprofile" />
+          <Route element={<CreateBoard />} path="/boards" />
 
         </Routes>
       </AuthProvider>

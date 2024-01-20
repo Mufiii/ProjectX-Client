@@ -38,7 +38,7 @@ const EducationFormModal = ({ control }) => {
 
   const onSubmit = (data) => {
     // Handle form submission logic here
-    console.log(data, 'Data from EducationFormModal') ;
+    console.log(data, 'Data from EducationFormModal');
     EducationEntry(data);
   };
 
@@ -49,12 +49,12 @@ const EducationFormModal = ({ control }) => {
       let response = await axios.post(
         'http://127.0.0.1:8000/developer/education/',
         {
-          school: data.school,
-          degree: data.degree,
-          field_of_study: data.field_of_study,
-          from_year: data.from_year,
-          to_year: data.to_year,
-          description: data.description,
+          school: inputRef.current.school.value,
+          degree: inputRef.current.degree.value,
+          field_of_study: inputRef.current.field_of_study.value,
+          from_year: inputRef.current.from_year.value,
+          to_year: inputRef.current.to_year.value,
+          note: inputRef.current.note.value,
         },
         {
           headers: {
@@ -97,7 +97,7 @@ const EducationFormModal = ({ control }) => {
               <Typography className="mb-5 mt-5 flex justify-start px-7" variant="h2" color="black">
                 Add Education History
               </Typography>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form ref={inputRef} onSubmit={handleSubmit(onSubmit)}>
                 <CardBody className="grid grid-cols-2 gap-2 min-h-36">
                   <label htmlFor="" className="flex justify-start">School</label>
                   <div className="col-span-2">
@@ -185,7 +185,19 @@ const EducationFormModal = ({ control }) => {
                     </div>
                   </div>
                   <div className="col-span-2">
-                    <Textarea className="h-20 mb-5" label="Describe your studies, Awards, etc.." size="lg" name="description" />
+                    <Controller
+                      control={control}
+                      className="h-20 mb-5"
+                      size="lg"
+                      name="note"
+                      render={({ field }) => (
+                        <Textarea
+                          {...field}
+                          options={getYearOptions()}
+                          label="Describe your studies, Awards, etc.."
+                        />
+                      )}
+                    />
                   </div>
                 </CardBody>
                 <CardFooter className="pt-0">

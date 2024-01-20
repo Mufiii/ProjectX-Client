@@ -2,9 +2,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import WorkspaceSlice from "./slices/WorkspaceSlice"
 import {persistStore,persistReducer} from 'redux-persist'
 import storage from "redux-persist/lib/storage"
+import DevProfileSlice from "./slices/DevProfileSlice"
+import BoardSlice from "./slices/BoardSlice"
 
 const rootreducer = combineReducers({
-    workspaces: WorkspaceSlice
+    workspaces: WorkspaceSlice,
+    DeveloperProfile: DevProfileSlice,
+    spaceBoards:BoardSlice,
 })
 
 const persistConfig = {
@@ -22,17 +26,3 @@ export const store = configureStore({
 })
 
 export const persistor = persistStore(store) 
-
-
-
-
-// import { configureStore } from "@reduxjs/toolkit"
-// import educationSlice from "./slices/educationSlice"
-
-
-// // const store = configureStore({
-// //     reducer:educationSlice
-// // })
-
-
-// export default store

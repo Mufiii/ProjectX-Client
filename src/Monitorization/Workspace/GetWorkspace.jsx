@@ -10,7 +10,7 @@ const GetWorkspace = () => {
 
   const { workspace_id } = useParams()
   const { authToken } = useContext(AuthContext)
-  const [workspaceData, setWorkspaceData] = useState(null);
+  const {workspaceData, setWorkspaceData} = useContext(AuthContext)
 
   const TheWorkspace = async(e) => {
     e?.preventDefault()
@@ -23,11 +23,13 @@ const GetWorkspace = () => {
         },
       })
       const data = response.data
-      console.log(data);
+      console.log(data,'55555555555555555555555555555555555555555555555555555555555');
       setWorkspaceData(data)
-      console.log(workspaceData);
+      console.log(workspaceData,'111111111');
     } catch (error) {
-        console.log((error));
+      console.error('Error during Axios request:', error);
+      console.error('response:', error.response);
+      console.error(error.message);
     }
   }
 

@@ -23,8 +23,7 @@ import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 const VendorUpdateProfile = () => {
 
-  const { authToken, setGetView, getView, logoutUser } = useContext(AuthContext)
-  const [image, setImage] = useState()
+  const { authToken, setGetView, getView, logoutUser,image, setImage } = useContext(AuthContext)
   const [logo, setLogo] = useState(false)
   const inputRef = useRef()
   const bannerFileRef = useRef()

@@ -9,14 +9,16 @@ import CreateWorkSpace from './CreateWorkSpace';
 import { AuthContext } from '../../context/AuthContext';
 import CreateBoard from '../Board/CreateBoard';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectWorkspaces, selectLoading, selectError } from '../../Redux/slices/WorkspaceSlice';
-import { fetchAllWorkspaces } from '../../Redux/Actions/WorkspaceActions';
+import { selectWorkspaces } from '../../Redux/slices/WorkspaceSlice';
+import { fetchAllWorkspaces } from '../../Redux/Actions/Actions';
+import { setCurrentWorkspace } from '../../Redux/Actions/Actions';
 
 const BottomBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [drop, setDrop] = useState(null);
-  const { setStore } = useContext(AuthContext)
+  const { store,setStore } = useContext(AuthContext)
+  console.log(store,'77777777777777777');
 
   const navigate = useNavigate()
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,10 +31,10 @@ const BottomBar = () => {
     setDrop(event.currentTarget);
   };
 
-  const handleMenuItemClick = (index) => {
-    setSelectedIndex(index);
-    setDrop(null);
-  };
+  // const handleMenuItemClick = (index) => {
+  //   setSelectedIndex(index);
+  //   setDrop(null);
+  // };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -41,15 +43,17 @@ const BottomBar = () => {
   const handleCloseMenu = () => {
     setDrop(null);
   };
-  const selectedItem = (workspace) => {
-    setStore({ id: workspace.id, name: workspace.name });
-    navigate(`/workspace/${workspace.id}`);
-  };
+
+  // const selectedItem = (workspace) => {
+  //   setStore({ id: workspace.id, name: workspace.name });
+  //   navigate(`/workspace/${workspace.id}`);
+  // };
 
   const dispatch = useDispatch();
+
   const workspaces = useSelector(selectWorkspaces);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  // const loading = useSelector(selectLoading);
+  // const error = useSelector(selectError);
 
   useEffect(() => {
     console.log('Inside useEffect');
@@ -58,15 +62,21 @@ const BottomBar = () => {
       .catch((err) => console.error('Fetch error:', err));
   }, [dispatch]);
 
-  if (loading) {
-    console.log('Loading...');
-    return <p>Loading...</p>;
-  }
 
-  if (error) {
-    console.log('Error:', error);
-    return <p>Error: {error}</p>;
-  }
+  const selectedItem = (workspace) => {
+    dispatch(setCurrentWorkspace(workspace));
+    navigate(`/workspace/${workspace.id}`);
+  };
+
+  // if (loading) {
+  //   console.log('Loading...');
+  //   return <p>Loading...</p>;
+  // }
+
+  // if (error) {
+  //   // console.log('Error:', error);
+  //   return <p>Error: {error}</p>;
+  // }
 
   // console.log('Workspaces:', workspaces);
 
@@ -93,11 +103,15 @@ const BottomBar = () => {
                   key={workspace.id}
                   style={{ width: '250px' }}
                   selected={index === selectedIndex}
-                  onClick={() => selectedItem(workspace)}
+                  onClick={() => {
+                    setSelectedIndex(index);
+                    selectedItem(workspace);
+                  }}
                 >
                   {workspace.name}
                 </MenuItem>
               ))}
+
             </Menu>
           </div>
           <Button
@@ -112,9 +126,12 @@ const BottomBar = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem style={{ width: "200px" }} >
-              {/* <PeopleAltIcon/> Create Workspace */}
-              <CreateWorkSpace />
+            <MenuItem className='flex flex-col' style={{ width: '200px' }}>
+                <PeopleAltIcon />
+                <CreateWorkSpace />
+              {/* <Typography className='font-normal' style={{ fontSize: '14px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                A workspace is a group of boards and people.<br /> Use it to organize your company, side hustle, family, or friends.
+              </Typography> */}
             </MenuItem>
             <MenuItem >
               <SpaceDashboardIcon />

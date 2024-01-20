@@ -1,32 +1,64 @@
 import { useRef, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { AuthContext } from '../../../context/AuthContext';
 import { styled } from '@mui/material/styles';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import BannerUpload from '../../cloudinary/BannerCloudinary';
-import LogoUpload from '../../cloudinary/LogoCloudinary';
+// import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+// import BannerUpload from '../../cloudinary/BannerCloudinary';
+// import LogoUpload from '../../cloudinary/LogoCloudinary';
 import {
   Avatar,
   Typography,
   Input,
   Button,
-  Card
+  Card,
+  Grid
 } from '@mui/material';
 // import './UpdateProfile.css'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FactoryIcon from '@mui/icons-material/Factory';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import Secondbar from '../../../utils/Secondbar';
+import BottomBar from '../../../utils/BottomBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDevProfile, selectDevLoading, selectDevError } from '../../../Redux/slices/DevProfileSlice';
+import { fetchDeveloperProfile } from '../../../Redux/Actions/Actions';
+import { fontSize } from '@mui/system';
+import ProjectSkills from '../../Vendor/Project/ProjectSkills';
+import '../DeveloperProject/ProjectDetail.css'
+import { MdEdit } from "react-icons/md";
 
 const DevProfile = () => {
 
-  const { authToken, setGetView, getView, logoutUser } = useContext(AuthContext)
-  const [image, setImage] = useState()
-  const [logo, setLogo] = useState(false)
-  const inputRef = useRef()
-  const bannerFileRef = useRef()
-  const logoFileRef = useRef()
-  console.log(image, 'dfgh');
+  const { logoutUser, profile } = useContext(AuthContext)
+
+  const dispatch = useDispatch();
+  const devProfile = useSelector(selectDevProfile);
+  const loading = useSelector(selectDevLoading);
+  const error = useSelector(selectDevError);
+
+  useEffect(() => {
+    console.log('Inside useEffect');
+    dispatch(fetchDeveloperProfile())
+      .then((result) => console.log('Fetch success:', result))
+      .catch((err) => console.error('Fetch error:', err));
+  }, [dispatch]);
+
+  if (loading) {
+    console.log('Loading...');
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    console.log('Error:', error);
+    return <p>Error: {error}</p>;
+  }
+
+  console.log('000000000', devProfile);
+
+  const experiences = devProfile.dev_profile.experiences;
+  const educations = devProfile.dev_profile.educations;
+
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -40,136 +72,136 @@ const DevProfile = () => {
     width: 1,
   });
 
-  const handleUpload = async () => {
-    const banner = bannerFileRef.current.files[0]
-    try {
-      const url = await BannerUpload(banner);
-      setImage(url)
-
-
-    } catch (error) {
-      console.log("Error from upload", error.message);
-    }
-    console.log(image, '11111111');
-
-  };
-
-  const handleLogos = async () => {
-    const logo = logoFileRef.current.files[0]
-    try {
-      const url = await LogoUpload(logo)
-      setLogo(url)
-    } catch (error) {
-      console.log("Error from Logo upload", error.message);
-    }
-    console.log(image, '222222222');
-  }
-
-  const DeveloperProfile = async (e) => {
-    e?.preventDefault()
-
-    try {
-      const headers = {
-        Authorization: `Bearer ${authToken.access}`,
-        'Content-Type': 'application/json',
-      };
-      const response = await axios({
-        method: !e ? 'GET' : 'PUT',
-        url: 'http://127.0.0.1:8000/developer/profile/',
-        headers: headers,
-        data:
-          e ? {
-            headline: inputRef.current.first_name?.value,
-            last_name: inputRef.current.last_name?.value,
-            country: inputRef.current.country?.value,
-            vendor_profile: {
-              logo: bannerFileRef.current.logo?.value,
-              banner: image,
-              about: inputRef.current.about?.value,
-              description: inputRef.current.description?.value,
-              industry: inputRef.current.industry?.value,
-              headquaters: inputRef.current.headquaters?.value,
-              website: inputRef.current.website?.value,
-            }
-          } : null,
-      })
-      const data = response.data
-      if (response.status == 200 & !e) {
-        setGetView([data])
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
-
-
   return (
     <div>
+      <BottomBar />
       <Button onClick={(e) => logoutUser(e)} variant="contained" color="error" className='float-right'>
         Log out
       </Button>
-      <form ref={inputRef}>
-        {getView &&
-          getView.map((item) => (
-            <div key={item.id} className="flex space-x-2 mx-40"> {/* Added space between elements */}
-              <div className="flex flex-col my-8">
-                <div className="mb-4 ">
-                  <Avatar alt="User Avatar" src="https://avatars.githubusercontent.com/u/135816778?v=4" sx={{ width: 300, height: 300 }} />
-                </div>
-                <div className='mx-16'>
-                  <Typography className='mb-5' variant="h5">{`${item.first_name} ${item.last_name}`}</Typography>
-                  <Button className='w-52 mt-4' variant='contained'>Edit Profile</Button> {/* Adjusted margin */}
-                  <Typography variant="body1">{item.vendor_profile?.about}</Typography>
-                  <Typography variant="body1">
-                    <LocationOnIcon /> {item.country}
-                  </Typography>
-                  <Typography variant="body1 flex">
-                    <FactoryIcon /> {item.vendor_profile?.industry}
-                  </Typography>
-                  <Typography variant="body1 flex">
-                    <ApartmentIcon /> {item.vendor_profile?.headquaters}
-                  </Typography>
-                  <Typography variant="body1 flex">
-                    <InsertLinkIcon /> {item.vendor_profile?.website}
-                  </Typography>
-                </div>
+
+      <Grid container spacing={0}>
+        <Grid item xs={4} >
+          <div className="flex space-x-2 mx-36 mt-1">
+            <div className="flex flex-col my-8">
+              <div className="mb-2">
+                <Avatar alt="User Avatar" src={devProfile.dev_profile.profile_picture} sx={{ width: 300, height: 300 }} />
               </div>
-
-              {/* Right Side Form */}
               <div>
-                <Card className='border-4 border-gray-600' style={{ width: "1000px", height: "700px", margin: "10px",marginTop:"30px"}}>
-                <Card className='border-4 border-gray-500' style={{ width: "100%", height: "30%", margin: "auto" }}>
-                  <div>
-                      <img src={image} alt="Banner Preview" />
-                    <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                      Upload Banner
-                      <Input type="file" name="banner" ref={bannerFileRef} />
-                    </Button>
-                    <Button onClick={handleUpload}>Upload</Button>
-                  </div>
-                </Card>
-                </Card>
-
-                <Typography variant="body1">{item.vendor_profile?.description}</Typography>
-
-                {/* Logo Upload */}
-                <img src={logo} alt="Logo Preview" />
-                <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                  Upload Logos
-                  <Input type="file" name="logo" ref={logoFileRef} />
-                </Button>
-                <Button onClick={handleLogos}>Upload</Button>
-
-               
-
-                <Button type="submit" variant="contained" color="primary">
-                  Submit
-                </Button>
+                <Typography className='mb-5' variant="h5">
+                    {devProfile.first_name} {devProfile.last_name} 
+                </Typography>
+                <Typography className='mb-5' variant="h6">{devProfile.username} </Typography>
+                <Typography className='mb-5' variant="h6">{devProfile.email} </Typography>
+                <Button style={{color:"white",backgroundColor:"Gray"}} className='w-72 mt-4 h-12 mb-5 bg-blue-gray-500' >Edit Profile</Button>
+                <div className='mt-3'>
+                  <Typography variant="body1">
+                    <LocationOnIcon />country
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <FactoryIcon /> {devProfile.dev_profile.city}, {devProfile.dev_profile.state}
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <ApartmentIcon />{devProfile.dev_profile.country ? devProfile.dev_profile.country : "country"}
+                  </Typography>
+                  <Typography variant="body1 flex">
+                    <InsertLinkIcon /> {devProfile.dev_profile.media_links}
+                  </Typography>
+                </div>
               </div>
             </div>
-          ))}
-      </form>
-    </div>
+          </div>
+        </Grid>
+        <Grid item xs={8}>
+          <div>
+            <Card className='border-2 border-gray-100' style={{ width: "65em", height: "auto", margin: "10px", marginTop: "30px" }}>
+              <Card className='first border-4 border-gray-500' style={{ width: "100%", height: "18em", margin: "auto" }}>
+                <div>
+                  <p className='p-8'>
+                    <div className='mb-5'>
+                      <Typography className='font-bold mb-4 flex gap-9' variant="h4">
+                        {devProfile.dev_profile.headline} <MdEdit className='font-thin'/>
+                      </Typography>
+                    </div>
+                    <Typography variant="h6">
+                      {devProfile.dev_profile.description}
+                    </Typography>
+                  </p>
+                </div>
+              </Card>
+              <Card className='second border-4 border-gray-500' style={{ width: "100%", height: "15em", margin: "auto" }}>
+                <div>
+                  <p className='p-8'>
+                    <div>
+                      <Typography variant="h4" >Work History</Typography>
+                      {experiences && experiences.length > 0 ? (
+                        <div className='mb-8'>
+                          <Typography variant="h6">
+                            {experiences[0].designation_title} | {experiences[0].company}
+                          </Typography>
+                          <Typography variant="h6">
+                            {experiences[0].start_date} - {experiences[0].end_date}
+                          </Typography>
+                          <Typography variant="h6">
+                            {experiences[0].location}, {experiences[0].country}
+                          </Typography>
+                        </div>
+                      ) : (
+                        <Typography variant="h6">No work history</Typography>
+                      )}
+                    </div>
+                  </p>
+                </div>
+              </Card>
+              <Card className='second border-4 border-gray-500' style={{ width: "100%", height: "15em", margin: "auto" }}>
+                <div>
+                  <p className='p-8'>
+                    <Typography variant="h4">Education History</Typography>
+                    {educations && educations.length > 0 ? (
+                      <div className='mb-8'>
+                        <Typography variant="h6">
+                          {educations[0].degree} | {educations[0].field_of_study}
+                        </Typography>
+                        <Typography variant="h6">
+                          {educations[0].school}
+                        </Typography>
+                        <Typography variant="h6">
+                          {/* {educations[0].start_date} - {educations[0].end_date} */}
+                        </Typography>
+                        <Typography variant="h6">
+                          {educations[0].note}
+                        </Typography>
+                      </div>
+                    ) : (
+                      <Typography variant="h6">No work history</Typography>
+                    )}
+                  </p>
+                </div>
+              </Card>
+              <Card className='second border-4 border-gray-500' style={{ width: "100%", height: "15em", margin: "auto" }}>
+                <div className='p-8'>
+                  <p>
+                    <Typography variant="h4">Skills</Typography>
+                    <div className='flex'>
+
+                      {/* <ProjectSkills project_id={devProfile.dev_profile.skills} /> */}
+
+                      {/* If devProfile.dev_profile.skills is also available, you can render it as well */}
+                      {/* {devProfile.dev_profile.skills && devProfile.dev_profile.skills.length > 0 ? (
+                        <ul>
+                          {devProfile.dev_profile.skills}
+                        </ul>
+                      ) : (
+                        <Typography variant="h6">No skills available</Typography>
+                      )}  */}
+                    </div>
+                  </p>
+                </div>
+              </Card>
+            </Card>
+          </div>
+        </Grid>
+      </Grid>
+    </div >
   )
 }
 

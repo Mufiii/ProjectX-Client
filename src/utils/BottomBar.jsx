@@ -29,21 +29,6 @@ const BottomBar = () => {
             <Button
               variant='contained'
               color='success'
-              // onClick={handleClick}
-            >
-              Create
-            </Button>
-            <Menu
-              // anchorEl={anchorEl}
-              // open={Boolean(anchorEl)}
-              // onClose={handleClose}
-            >
-            {/* //   <MenuItem onClick={() => navigate('/addprojects')}>Project</MenuItem>
-            //   <MenuItem onClick={() => navigate('Option2')}>Workspace</MenuItem> */}
-            </Menu>
-            <Button
-              variant='contained'
-              color='error'
               as="a"
               href='/workspace'
             >

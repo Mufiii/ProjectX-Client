@@ -14,10 +14,12 @@ const AuthProvider = ({ children }) => {
   const [educations,setEducations] = useState([])
   const [allSkills, setAllSkills] = useState([]);
   const [workspaces, setWorkspaces] = useState([]);
+  const [image, setImage] = useState([]);
   // const [applicants,setApplicants] = useState([])
   const [store,setStore] = useState([])
   const [formData , setFormData] = useState({ skills: [] })
-  console.log(typeof(formData),'1111111111');
+  const [ profile,setProfile] = useState([])
+  const [workspaceData, setWorkspaceData] = useState(null);
 
 
 
@@ -61,6 +63,12 @@ const AuthProvider = ({ children }) => {
     setStore:setStore,
     formData:formData,
     setFormData:setFormData,
+    profile:profile,
+    setProfile:setProfile,
+    image:image,
+    setImage: setImage,
+    setWorkspaceData:setWorkspaceData,
+    workspaceData:workspaceData,
   }
 
 
