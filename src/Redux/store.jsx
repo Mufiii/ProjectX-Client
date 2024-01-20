@@ -3,12 +3,14 @@ import WorkspaceSlice from "./slices/WorkspaceSlice"
 import {persistStore,persistReducer} from 'redux-persist'
 import storage from "redux-persist/lib/storage"
 import DevProfileSlice from "./slices/DevProfileSlice"
-import BoardSlice from "./slices/BoardSlice"
+// import BoardSlice from "./slices/BoardSlice"
+import WorkspaceDataSlice from "./slices/WorkspaceDataSlice"
 
 const rootreducer = combineReducers({
     workspaces: WorkspaceSlice,
     DeveloperProfile: DevProfileSlice,
-    spaceBoards:BoardSlice,
+    workspacesData:WorkspaceDataSlice
+    // spaceBoards:BoardSlice,
 })
 
 const persistConfig = {

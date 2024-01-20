@@ -1,53 +1,58 @@
 import axios from "axios"
 import { useContext, useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext"
 import { Button } from "@mui/material"
 import CreateBoard from "../Board/CreateBoard"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchWorkspaceData } from "../../Redux/Actions/Actions"
+import { selectError, selectLoading, selectWorkspaces } from "../../Redux/slices/WorkspaceSlice"
 
 
 const GetWorkspace = () => {
 
   const { workspace_id } = useParams()
-  const { authToken } = useContext(AuthContext)
-  const {workspaceData, setWorkspaceData} = useContext(AuthContext)
+  // const {workspaceData, setWorkspaceData} = useContext(AuthContext)
+  const location = useLocation()
+  console.log(location.pathname);
 
-  const TheWorkspace = async(e) => {
-    e?.preventDefault()
-    try {
-      const response = await axios({
-        url:`http://127.0.0.1:8000/workspace/${workspace_id}`,
-        method: !e? 'GET':'PUT',
-        headers: {
-          'Authorization': `Bearer ${authToken.access}`,
-        },
-      })
-      const data = response.data
-      console.log(data,'55555555555555555555555555555555555555555555555555555555555');
-      setWorkspaceData(data)
-      console.log(workspaceData,'111111111');
-    } catch (error) {
-      console.error('Error during Axios request:', error);
-      console.error('response:', error.response);
-      console.error(error.message);
-    }
+  const dispatch = useDispatch();
+  const workspaces = useSelector(selectWorkspaces);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+
+  useEffect(() => {
+    console.log("mufees rahman");
+    dispatch(fetchWorkspaceData(workspace_id))
+      .then((result) => console.log("Fetch success in WorkData:", result))
+      .catch((err) => console.error("fetch error in WorkData:", err));
+  }, [dispatch, workspace_id]);
+
+
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
-  useEffect(()=>{
-    TheWorkspace()
-  },[])
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+
 
   return (
     <div>
-      
-      {workspaceData ? (
-        <>
-          <h2>{workspaceData.name}</h2>
-          <p>{workspaceData.description}</p>
-        </>
+
+      {workspaces.length > 0 ? (
+        workspaces.map((work) => (
+          <div key={work.id}>
+            <p>{work.name}</p>
+          </div>
+        ))
       ) : (
-        <p>Loading...</p>
-        )}
+        <p>lllllllllllllllll</p>
+      )}
+
 
     </div>
   )

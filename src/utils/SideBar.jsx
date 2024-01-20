@@ -9,10 +9,12 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentWorkspace } from '../Redux/slices/WorkspaceSlice';
-import { boardError, boardLoading, selectBoards } from '../Redux/slices/BoardSlice';
-import { fetchAllBoards } from '../Redux/Actions/Actions';
+// import { boardError, boardLoading, selectBoards } from '../Redux/slices/BoardSlice';
+import { fetchWorkspaceData } from '../Redux/Actions/Actions';
 import { deepOrange } from '@mui/material/colors';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useParams } from 'react-router-dom';
+import { selectWorkspaceData } from '../Redux/slices/WorkspaceDataSlice';
 
 
 
@@ -59,32 +61,33 @@ const SideBar = ({ handleOpen }) => {
 
   const { store } = useContext(AuthContext)
   const currentWorkspace = useSelector(selectCurrentWorkspace);
-
+  const { workspace_id } = useParams()
 
   const dispatch = useDispatch()
 
-  const boards = useSelector(selectBoards)
-  const loading = useSelector(boardLoading)
-  const error = useSelector(boardError)
+  // const boards = useSelector(selectBoards)
+  // const loading = useSelector(boardLoading)
+  // const error = useSelector(boardError)
+  const boards = useSelector(selectWorkspaceData)
 
   useEffect(() => {
     console.log("inside board useeffect");
-    dispatch(fetchAllBoards())
+    dispatch(fetchWorkspaceData(workspace_id))
       .then((result) => console.log("fetch success:", result))
       .catch((err) => console.error("fetch error:", err));
   }, [dispatch])
 
-  if (loading) {
-    console.log('Loading...');
-    return <p>Loading...</p>;
-  }
+  // if (loading) {
+  //   console.log('Loading...');
+  //   return <p>Loading...</p>;
+  // }
 
-  if (error) {
-    console.log('Error:', error);
-    return <p>Error: {error}</p>;
-  }
+  // if (error) {
+  //   console.log('Error:', error);
+  //   return <p>Error: {error}</p>;
+  // }
 
-  console.log('Boards:', boards);
+  // console.log('Boards:', boards);
 
 
   return (
@@ -105,13 +108,15 @@ const SideBar = ({ handleOpen }) => {
         </MenuItem>
         <MenuItem className='flex justify-between' >
           <PersonOutlineOutlinedIcon onClick={() => handleOpen(<WorkspaceInviteModal />)} />
-          Members
+          Members<WorkspaceInviteModal /> 
           <AddIcon />
         </MenuItem>
       </div>
-      <label style={{ marginTop: '5px', padding: '10px', color: '#aaa', fontSize: '14px' }}>Your Boards</label>
+      <label style={{ marginTop: '5px', padding: '10px', color: 'white', fontSize: '16px' }}>
+        Your Boards <AddIcon/>
+      </label>
       <div>
-        {boards.map((board, index) => (
+        {boards.boards.map((board, index) => (
           <div key={index}>
             <ListItem className='flex justify-center'>
               <Avatar style={{ backgroundColor: deepOrange[500] }} variant="square">
