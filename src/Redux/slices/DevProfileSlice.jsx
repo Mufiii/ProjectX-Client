@@ -8,7 +8,6 @@ const initialState = {
     error: null
 }
 
-
 const ProfileSlice = createSlice({
   name: "DeveloperProfile",
   initialState,

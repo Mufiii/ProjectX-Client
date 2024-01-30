@@ -68,22 +68,12 @@ const BottomBar = () => {
     navigate(`/workspace/${workspace.id}`);
   };
 
-  // if (loading) {
-  //   console.log('Loading...');
-  //   return <p>Loading...</p>;
-  // }
-
-  // if (error) {
-  //   // console.log('Error:', error);
-  //   return <p>Error: {error}</p>;
-  // }
-
   // console.log('Workspaces:', workspaces);
 
 
   return (
     <div>
-      <header style={{ backgroundColor: "#242424" }} className="w-full h-14 flex items-center justify-between">
+      <header style={{ backgroundColor: "#242424" }} className="w-full h-14 fixed flex items-center justify-between">
         <div className="flex items-center px-8 space-x-5">
           <Button style={{ color: "white", fontWeight: "bold" }}>Home</Button>
           <div>

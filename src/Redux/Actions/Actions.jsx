@@ -102,7 +102,7 @@ export const fetchWorkspaceData = createAsyncThunk(
       };
 
       const response = await axios.get(`http://127.0.0.1:8000/workspace/${workspaceId}/`, config);
-      console.log(response.data,'9999999999');
+      console.log(response.data,'workspacedata');
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 404) {
@@ -118,3 +118,65 @@ export const fetchWorkspaceData = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchBoardDetails = createAsyncThunk(
+  'boards/fetchDetails',
+  async (boardId, { rejectWithValue }) => {
+    try {
+      const authTokenString = localStorage.getItem('authtokens');
+      const authTokensObject = authTokenString ? JSON.parse(authTokenString) : null;
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authTokensObject.access}`,
+        },
+      };
+
+      const response = await axios.get(`http://127.0.0.1:8000/boards/${boardId}/`, config);
+      return response.data;
+    } catch (error) {
+      console.error('Error during Axios request:', error);
+      console.error('response:', error.response);
+      console.error(error.message);
+      return rejectWithValue('Error fetching board details');
+    }
+  }
+);
+
+
+export const fetchAllProjectDetails = createAsyncThunk(
+    'fetchallProjects',
+    async(_,{rejectWithValue}) => {
+      try {
+        const authTokenString = localStorage.getItem('authtokens');
+        const authTokensObject = authTokenString ? JSON.parse(authTokenString) : null;
+  
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authTokensObject.access}`,
+          },
+        };
+  
+        const response = await axios.get('http://127.0.0.1:8000/vendor/project/', config);
+        console.log('API Response:', response.data);
+        console.log("oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        console.log(response.data,'woowowoow');
+        return response.data;
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          // Handle not found scenario (e.g., redirect to an error page)
+          console.log('project not found');
+          return rejectWithValue('project not found');
+        } else {
+          console.error('Error during Axios request:', error);
+          console.error('response:', error.response);
+          console.error(error.message);
+          return rejectWithValue('Error fetching workspace data');
+        }
+      }
+    }
+    
+)

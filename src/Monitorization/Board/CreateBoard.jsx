@@ -4,8 +4,8 @@ import { AuthContext } from "../../context/AuthContext"
 import { Button, Modal, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useParams } from "react-router-dom"
-// import { fetchAllBoards } from "../../Redux/Actions/Actions"
 import { useDispatch } from "react-redux"
+import { fetchWorkspaceData } from "../../Redux/Actions/Actions"
 
 const CreateBoard = () => {
 
@@ -38,7 +38,7 @@ const CreateBoard = () => {
         })
         const newWorkspace = response.data.data;
         console.log(response,'**********');
-        // dispatch(fetchAllBoards())
+        dispatch(fetchWorkspaceData())
         console.log(newWorkspace, "Fetched Boards");
       } catch (error) {
         console.log((error));

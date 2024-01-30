@@ -1,0 +1,52 @@
+.master .board-coloumns {
+  display: flex;
+  margin: 2em;
+  overflow-x: auto;
+}
+.master .board-coloumns .coloumn {
+  flex: 0 0 auto;
+  width: 300px;
+  margin: 0.5em;
+  height: calc(100% - 10px);
+}
+.master .board-coloumns .coloumn > * {
+  background-color: #101305;
+  color: white;
+  padding: 0 15px;
+}
+.master .board-coloumns .coloumn header {
+  padding-left: 25px;
+  height: 56px;
+  line-height: 56px;
+  font-size: 16px;
+  font-weight: bold;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.master .board-coloumns .coloumn footer {
+  padding-left: 15px;
+  height: 56px;
+  line-height: 56px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.master .board-coloumns .coloumn ul {
+  list-style-type: none;
+  margin: 0;
+  max-height: calc(100% - 56px - 56px);
+}
+.master .board-coloumns .coloumn ul li {
+  background-color: #23262b;
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.master .board-coloumns .coloumn ul li:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.clicked {
+  background-color: #23262b;
+}/*# sourceMappingURL=Workspace.css.map */

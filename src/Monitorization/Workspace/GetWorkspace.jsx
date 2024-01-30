@@ -7,6 +7,7 @@ import CreateBoard from "../Board/CreateBoard"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWorkspaceData } from "../../Redux/Actions/Actions"
 import { selectError, selectLoading, selectWorkspaces } from "../../Redux/slices/WorkspaceSlice"
+import Card from "../Board/Card"
 
 
 const GetWorkspace = () => {
@@ -17,9 +18,9 @@ const GetWorkspace = () => {
   console.log(location.pathname);
 
   const dispatch = useDispatch();
-  const workspaces = useSelector(selectWorkspaces);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
+  // const workspaces = useSelector(selectWorkspaces);
+  // const loading = useSelector(selectLoading);
+  // const error = useSelector(selectError);
 
 
   useEffect(() => {
@@ -30,20 +31,10 @@ const GetWorkspace = () => {
   }, [dispatch, workspace_id]);
 
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-
-
   return (
     <div>
-
-      {workspaces.length > 0 ? (
+          
+      {/* {workspaces.length > 0 ? (
         workspaces.map((work) => (
           <div key={work.id}>
             <p>{work.name}</p>
@@ -51,7 +42,7 @@ const GetWorkspace = () => {
         ))
       ) : (
         <p>lllllllllllllllll</p>
-      )}
+      )} */}
 
 
     </div>

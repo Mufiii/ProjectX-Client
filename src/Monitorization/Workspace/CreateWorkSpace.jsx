@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useDispatch } from "react-redux";
-import { fetchAllWorkspaces } from "../../Redux/Actions/Actions";
+import { fetchAllWorkspaces, fetchWorkspaceData } from "../../Redux/Actions/Actions";
 // import { addWorkspace } from "../../Redux/slices/WorkspaceSlice";
 
 
@@ -43,7 +43,8 @@ const CreateWorkSpace = () => {
       })
       const newWorkspace = response.data.data;
       console.log(newWorkspace, "Fetched Workspaces")
-      dispatch(fetchAllWorkspaces());
+      // dispatch(fetchAllWorkspaces());
+      dispatch(fetchWorkspaceData())
     } catch (error) {
       console.log((error));
       console.error(error.messages);

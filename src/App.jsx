@@ -25,6 +25,9 @@ import Secondbar from "./utils/Secondbar.jsx"
 import CreateBoard from "./Monitorization/Board/CreateBoard.jsx"
 import Footer from "./utils/Footer.jsx"
 import DevProfile from "./components/Developer/ProfileRows/DevProfile.jsx"
+import HeroSection from "./components/Landing Pages/HeroSection.jsx"
+import Dashboard from "./components/Vendor/Dashboard/Dashboard.jsx"
+// import Card from "./Monitorization/Board/Card.jsx"
 
 
 
@@ -40,15 +43,16 @@ function App() {
           <Route element={<Workspace />} path="/workspace" >
             <Route index element={<Secondbar />} />
             <Route element={<GetWorkspace />} path="/workspace/:workspace_id" />
+            {/* <Route element={<Card/>}/> */}
           </Route>
 
-
+          <Route element={<Dashboard/>} path="/dashboard" />
           <Route element={<VendorRegister />} path="/hiretalent" />
           <Route element={<DevRegister />} path="/register" />
           <Route element={<VerifyEmail />} path="/email_verify/:token" />
           <Route element={<Login />} path="/login/" />
           <Route element={<OtpVerify />} path="/:otpverify/:email" />
-          <Route element={<PrivateRouter><Home /></PrivateRouter>} path="/" />
+          <Route element={<PrivateRouter><Home /></PrivateRouter>} path="/home" />
           <Route element={<RegisterDesk />} path="/desk" />
           <Route element={<Welcome1 />} path="/welcome" />
           <Route element={<DeveloperProfile />} path="/profilesetup" />
@@ -64,6 +68,7 @@ function App() {
           <Route element={<Footer />} path="/footer" />
           <Route element={<DevProfile />} path="/devprofile" />
           <Route element={<CreateBoard />} path="/boards" />
+          <Route element={<HeroSection />} path="/" />
 
         </Routes>
       </AuthProvider>

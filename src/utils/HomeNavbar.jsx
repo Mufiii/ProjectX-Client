@@ -16,7 +16,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import '../index.css'
 import BottomBar from "./BottomBar";
 import WorkspaceBar from '../Monitorization/Workspace/WorkspaceBar.jsx'
-
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { DragDropContext } from 'react-beautiful-dnd'
 
 
 const HomeNavbar = () => {
@@ -41,36 +42,38 @@ const HomeNavbar = () => {
 
   return (
     <>
-      <Navbar className="sticky bg-green  top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-7 lg:py-4">
+      <Navbar className="sticky bg-white  top-0 z-10 h-max max-w-full rounded-none bg py-2 px-4 lg:px-7 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Typography
-            as="a"
-            href="/"
-            color="green"
-            className="text-3xl mr-4 cursor-pointer py-1.5 font-bold"
-          >
-            <span className="text-primary-purple">G</span>
-            <span className="text-logo-yellow">o</span>
-            {/* <span className="text-logo-orange">o</span> */}
-            <span className="text-primary-purple">W</span>
-            <span className="text-logo-rose">O</span>
-            <span className="text-logo-green">R</span>
-            <span className="text-logo-green">K</span>
-          </Typography>
-          <div className="flex items-center gap-6 px-6">
-            {/* <div>
-              <TextField
-                label="Search"
-                variant="outlined"
-                size="small"
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <SearchIcon color="action" style={{ marginRight: 8 }} />
-                    ),
-                  }}
+          <div className="flex items-center gap-2">
+            <Typography
+              as="a"
+              href="/"
+              color="green"
+              className="text-3xl mr-4 cursor-pointer py-1.5 font-bold"
+            >
+              <span className="text-primary-purple">G</span>
+              <span className="text-logo-yellow">o</span>
+              {/* <span className="text-logo-orange">o</span> */}
+              <span className="text-primary-purple">W</span>
+              <span className="text-logo-rose">O</span>
+              <span className="text-logo-green">R</span>
+              <span className="text-logo-green">K</span>
+            </Typography>
+            <div className="items-center">
+              <Typography className="font-bold">
+                Projects
+              </Typography>
+            </div>
+          </div>
+          <div className="flex items-center gap-8 px-6">
+            <div className="flex w-96 border-2  border-gray-500 items-center bg-white rounded-lg p-1 shadow-md flex-1 md:flex-initial">
+              <FaMagnifyingGlass className="h-4 w-6  text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="flex-1 outline-none p-2 "
               />
-              </div> */}
+            </div>
 
 
             <div className="hidden lg:inline-block text-primary-purple">
