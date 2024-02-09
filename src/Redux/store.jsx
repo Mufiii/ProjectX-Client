@@ -6,15 +6,18 @@ import DevProfileSlice from "./slices/DevProfileSlice"
 // import BoardSlice from "./slices/BoardSlice"
 import WorkspaceDataSlice from "./slices/WorkspaceDataSlice"
 import BoardDataSlice from "./slices/BoardDataSlice"
-import { projectDetailSlice } from "./slices/ProjectSlice";
-// import { createLogger } from "redux-logger"
+import  projectSlice  from './slices/ProjectSlice'
+import ProjectDetailSlice from "./slices/ProjectDetailSlice"
+import FetchAlldevSlice from "./slices/FetchAlldevSlice"
 
 const rootreducer = combineReducers({
     workspaces: WorkspaceSlice,
     DeveloperProfile: DevProfileSlice,
     workspacesData:WorkspaceDataSlice,
     board:BoardDataSlice,
-    projects: projectDetailSlice,
+    projects: projectSlice,
+    projectDetail:ProjectDetailSlice,
+    AllDevelopers:FetchAlldevSlice,
 })
 
 const persistConfig = {

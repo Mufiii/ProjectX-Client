@@ -61,7 +61,7 @@ const ProjectDetail = () => {
   const SingleProjectView = async() => {
     
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/developer/view_projects/${project_id}`, {
+      const response = await axios.get(`http://127.0.0.1:8000/developer/view_projects/${project_id}/`, {
         headers: {
           Authorization: `Bearer ${authToken.access}`
         }

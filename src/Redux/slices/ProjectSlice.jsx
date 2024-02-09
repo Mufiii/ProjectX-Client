@@ -3,13 +3,13 @@ import { fetchAllProjectDetails } from "../Actions/Actions";
 
 
 const initialState = {
-    projectsData:null,
+    projectsData:[],
     loading: false,
     error: null,
 }
 
 
-export const projectDetailSlice = createSlice({
+const projectSlice = createSlice({
     name:'projects',
     initialState,
     reducers:{},
@@ -25,7 +25,7 @@ export const projectDetailSlice = createSlice({
         console.log('API Response:', action.payload); 
         state.loading = false;
         state.projectsData = action.payload;
-        console.log("LLLLLLLLL",state.projects);
+        // console.log("LLLLLLLLL",state.projects);
       })
       
       .addCase(fetchAllProjectDetails.rejected, (state, action) => {
@@ -35,12 +35,11 @@ export const projectDetailSlice = createSlice({
     }
 })
 
-
-export default projectDetailSlice.reducer;
+export default projectSlice.reducer;
 
 export const selectProjects = (state) => {
   // console.log('Redux State:', state);
-  return state.projects.projectsData
+  return state.projects
 };
 
 export const selectLoading = (state) => state.projects.loading;

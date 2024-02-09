@@ -2,10 +2,11 @@ import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../../context/AuthContext';
-import { 
+import {
   Grid,
   Typography,
-  Avatar, 
+  Avatar,
+  Card,
 } from '@mui/material'
 import ProjectSkills from './ProjectSkills'
 import ProjectItemCreated from './ProjectItemCreated'
@@ -13,148 +14,156 @@ import './VendorProjectDetail.css'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { fetchSpecificProjectInDetail } from '../../../Redux/Actions/Actions';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { selectProjectDetail } from '../../../Redux/slices/ProjectDetailSlice';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
 
 const VendorProjectDetailPage = () => {
 
-  const {id} = useParams();
-  const {authToken} = useContext(AuthContext)
-  const [vendorProjects,setVendorProjects] = useState([])
-  const navigate = useNavigate();
 
-  const ProjectDetailPage = async () => {
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/vendor/project/${id}`, {
-        headers: {
-          Authorization: `Bearer ${authToken.access}`,
-        },
+  const dispatch = useDispatch()
+  const { projId } = useParams()
+  const projectDetail = useSelector(selectProjectDetail)
+  const [selectedSection, setSelectedSection] = useState('viewJob');
+
+  const handleSectionClick = (section) => {
+    setSelectedSection(section === selectedSection ? null : section);
+  };
+
+  const getSectionStyle = (section) => ({
+    flex: 1,
+    cursor: 'pointer',
+    backgroundColor: selectedSection === section ? 'green' : 'inherit',
+    padding: '10px',
+    textAlign: 'center',
+    transition: 'background-color 0.3s',
+  });
+
+  useEffect(() => {
+    console.log('inside UseEffect');
+    dispatch(fetchSpecificProjectInDetail(projId))
+      .then((result) => {
+        console.log('Fetch success', result);
+        setSelectedSection('viewJob');
+      })
+      .catch((err) => {
+        console.error('Fetch error', err);
       });
-      const data = response.data;
-      console.log(response, '33333333333');
-      console.log(data, '66666666666');
-      setVendorProjects([data]); 
-    } catch (error) {
-      console.error('Error fetching project details:', error);
-    }
-  }
-  useEffect(()=>{
-    ProjectDetailPage()
-  },[])
+  }, [dispatch, projId])
+
 
   return (
-    <>
-     <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <div className="left-content">
-            {vendorProjects && vendorProjects.map(project => (
+    <div>
+      {/* <Card style={{ width: '60em', borderRadius: '10px', border: '2px solid #888' }} className=' h-full p-3'> */}
+        <Grid container spacing={2} className='flex'>
+          <Grid item xs={9}>
+            {projectDetail ? (
+              <div>
 
-                <div key={project.id} className="project-container ml-40">
-                    <div style={{ display: 'flex', flexDirection: 'column', marginTop: '50px' }}>
-                      <Typography className="main-title" style={{ fontWeight: 'bold', fontSize: '25px'  }}>
-                        {project.title}
-                      </Typography>
-                      <div className="mb-8">
-                        <ProjectItemCreated project={project} />
-                      </div>
-                    </div>
-                    <div className="max-w-5xl mb-8" style={{ "height": "2px","backgroundColor": "#ced4da "}}></div>
-                      <h2>{project.category ? project.category.name : 'Unknown Category'}</h2>
-                      <h2>{project.description}</h2>
-                    <div className="max-w-7xl mt-10 mb-8" style={{ "height": "2px","backgroundColor": "#ced4da "}}></div>
-                      <div className='flex gap-16'>
-                        <div>
-                          <p><AttachMoneyIcon/> <span className='font-bold'>${project.price}</span></p>
-                          <p style={{color:"gray"}} className='mx-7'>{project.price_type}</p>
-                        </div>
-
-                        <div>
-                             <p>
-                               <PsychologyIcon />
-                               <span className='font-bold'>{project.level.name}</span>
-                               {project.level.name === 'Entry' && (
-                                <>
-                                    <br />
-                                  <div className='mx-6'>
-                                    <span style={{ color: 'gray' }}>
-                                      I am looking for <br />freelancers with the <br /> lowest rates
-                                    </span>
-                                  </div>
-                                </>
-                              )}
-                              {project.level.name === 'Expert' && (
-                                <>
-                                  <br />
-                                  <div className='mx-6 mt-1'>
-                                    <span style={{ color: 'gray' }}>
-                                      I am willing to pay <br /> higher rates for the <br />
-                                      most experienced <br /> freelancers
-                                    </span>
-                                  </div>
-                                </>
-                              )}
-                              {project.level.name === 'Intermediate' && (
-                                <>
-                                    <br />
-                                  <div className='mx-6'>
-                                    <span style={{ color: 'gray' }}>
-                                      I am looking for a mix <br /> of experience and <br /> value
-                                    </span>
-                                  </div>
-                                </>
-                              )}
-                             </p>
-                           </div>
-                         </div>
-                     <div className="max-w-7xl mt-10 mb-8" style={{ "height": "2px","backgroundColor": "#ced4da "}}></div>
-                     <p className='text-xl font-bold mb-5'>Skills and Expertise</p>
-                     <p>
-                       <ProjectSkills project_id={project.id}/>
-                     </p>
-                     <div className="max-w-6xl mt-10 mb-8" style={{ "height": "2px","backgroundColor": "#ced4da "}}></div>
-                        <h2><span>Project type:</span> {project.project_type}</h2>
-                     <div className="max-w-6xl mt-10 mb-8" style={{ "height": "2px","backgroundColor": "#ced4da "}}></div>
-               </div>
-              ))}
-            </div>
-          </Grid>
-          <Grid item xs={4}>
-          <div className="right-content">
-            <div className="vertical-line">
-              <div className="flex flex-col w-full mx-10" style={{ width: '200px', marginTop: '44px' }}>
-                <p className='mt-7' style={{ fontWeight: 'bold', fontSize: '25px' }}>Applicants <span>List</span></p>
-                  <div className="max-w-5xl mt-10" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
-                <div className='mt-10'>
-                {vendorProjects.map((project) => (
-                    <div key={project.id}>
-                      {project.applicants.length > 0 ? (
-                        project.applicants.map((applicant) => (
-                          <div className='flex gap-3 mb-2' key={applicant.user.id}>
-                            {applicant.profile_picture ? (
-                              <Avatar src={applicant.profile_picture} style={{ width: "40px", height: "40px" }} alt={`Profile Picture of ${applicant.user.username}`} />
-                            ) : (
-                              <Avatar style={{ width: "40px", height: "40px" }} src="/broken-image.jpg" />
-                            )}
-                            <Typography className='text-6xl font-bold'>{applicant.user.first_name} {applicant.user.last_name}</Typography>
-                          </div>
-                        ))
-                      ) : (
-                        <Typography style={{color:"#ced4da"}} className='flex justify-center'>No applications yet</Typography>
-                      )}
-                    </div>
-                  ))}
+                  <div className="flex-1 mb-1">
+                  <h5 style={{ color: "green", fontWeight: "700", fontSize: "1.2em" }}>{projectDetail.title}</h5>
                 </div>
-                <div className="max-w-5xl mt-10" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
-                    <p onClick={()=> navigate(`projects/applicationslist/$projectsId`)} className='flex justify-end mt-4'>
-                      See all <ArrowForwardIosIcon /></p>
-                <div className="max-w-5xl mt-4" style={{ "height": "2px", "backgroundColor": "#ced4da " }}></div>
+                <div>
+                  <ProjectItemCreated project={projectDetail} />
+                </div>
+                <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "2em" }} />
+                <h2>{projectDetail.description}</h2>
+                <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} />
+                <div className='flex gap-12'>
+                  <div>
+                    <div className='flex flex-col'>
+                      <p><AttachMoneyIcon /> <span className='font-bold'>${projectDetail.price}</span></p>
+                      <p style={{ color: "gray" }} className='mx-7 flex'>{projectDetail.price_type}</p>
+                    </div>
+
+                    <div>
+                      <p>
+                        <PsychologyIcon />
+                        <span className='font-bold'>{projectDetail.level.name}</span>
+                        {projectDetail.level.name === 'Entry' && (
+                          <>
+                            <br />
+                            <div className='mx-6'>
+                              <span style={{ color: 'gray' }}>
+                                I am looking for <br />freelancers with the <br /> lowest rates
+                              </span>
+                            </div>
+                          </>
+                        )}
+                        {projectDetail.level.name === 'Expert' && (
+                          <>
+                            <br />
+                            <div className='mx-6 mt-1'>
+                              <span style={{ color: 'gray' }}>
+                                I am willing to pay <br /> higher rates for the <br />
+                                most experienced <br /> freelancers
+                              </span>
+                            </div>
+                          </>
+                        )}
+                        {projectDetail.level.name === 'Intermediate' && (
+                          <>
+                            <br />
+                            <div className='mx-6'>
+                              <span style={{ color: 'gray' }}>
+                                I am looking for a mix <br /> of experience and <br /> value
+                              </span>
+                            </div>
+                          </>
+                        )}
+                        <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} />
+                        <div>
+
+                          <p className='text-xl font-bold mb-5'>Skills and Expertise</p>
+                          <p>
+                            <ProjectSkills project_id={projectDetail.id} />
+                          </p>
+                        </div>
+                        <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} />
+                        <h2><span>Project type:</span> {projectDetail.project_type}</h2>
+                        <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                        </div>
+            ) : (
+              <p>Loading...</p>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <div className="flex-1 mt-10">
+              <div className='h-full' style={{ borderLeft: '1px solid black', height: '70vh', marginRight: '1px' }}>
+                <div className="flex items-center mx-10">
+                  <EditIcon style={{ fontSize: '15px', color: 'green' }} />
+                  <span style={{ fontSize: '15px', color: 'green' }}>Edit posting</span>
+                </div>
+                <div className="flex items-center mx-10">
+                  <CloseIcon style={{ fontSize: '15px', color: 'green' }} />
+                  <span style={{ fontSize: '15px', color: 'green', }}>Remove posting</span>
+                </div>
+                <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "2.7em", marginBottom: "5px" }} />
+                {/* <div className='flex justify-center mt-5 items-center'>
+                        <h6>About the client</h6>
+                        <h6>Payment method Verified</h6>
+                      </div> */}
               </div>
             </div>
-          </div>
-      </Grid> 
-    </Grid>
-    </>
+          </Grid>
+
+
+        </Grid>
+      {/* </Card> */}
+    </div>
+
+
+
   )
 }
 

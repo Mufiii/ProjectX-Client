@@ -6,7 +6,7 @@ import Secondbar from '../../utils/Secondbar.jsx';
 
 const Workspace = () => {
   return (
-    <div style={{ display: 'flex', height: '100%' }}>
+    <div className='w-full' style={{ display: 'flex', height: '100%' }}>
       <div style={{ flex: '0 0 auto', width: '200px' }}>
         <div className='flex flex-col'>
           <WorkspaceBar />

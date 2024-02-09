@@ -198,6 +198,7 @@ const SkillsForm = () => {
         console.log(skills, "55555555555555555");
         setAllSkills(skills);
         console.log(allSkills, '1111111111111');
+        console.log(response, '9999999999');
       } catch (error) {
         console.log(error);
       }
@@ -508,16 +509,12 @@ const DeveloperProfile = () => {
   };
 
   const handleNext = async (data) => {
+  
 
     console.log("data to send", data);
     if (activeStep == steps.length - 1) {
       try {
-        let response = await axios.put('http://127.0.0.1:8000/developer/profile/',
-          {
-            data,
-            // formData
-          },
-          {
+        let response = await axios.put('http://127.0.0.1:8000/developer/profile/', data,{
             headers: {
               'Authorization': `Bearer ${authToken.access}`,
             },

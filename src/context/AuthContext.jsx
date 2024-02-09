@@ -15,12 +15,12 @@ const AuthProvider = ({ children }) => {
   const [allSkills, setAllSkills] = useState([]);
   const [workspaces, setWorkspaces] = useState([]);
   const [image, setImage] = useState([]);
-  // const [applicants,setApplicants] = useState([])
+  const [applicants,setApplicants] = useState([])
   const [store,setStore] = useState([])
   const [formData , setFormData] = useState({ skills: [] })
   const [ profile,setProfile] = useState([])
   const [workspaceData, setWorkspaceData] = useState(null);
-
+  const [developers, setDevelopers] = useState([]);
 
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
@@ -55,8 +55,8 @@ const AuthProvider = ({ children }) => {
     setEducations:setEducations,
     allSkills:allSkills,
     setAllSkills:setAllSkills,
-    // applicants:applicants,
-    // setApplicants:setApplicants,
+    applicants:applicants,
+    setApplicants:setApplicants,
     workspaces:workspaces,
     setWorkspaces:setWorkspaces,
     store:store,
@@ -69,6 +69,8 @@ const AuthProvider = ({ children }) => {
     setImage: setImage,
     setWorkspaceData:setWorkspaceData,
     workspaceData:workspaceData,
+    developers:developers,
+    setDevelopers:setDevelopers
   }
 
 

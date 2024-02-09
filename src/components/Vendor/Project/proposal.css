@@ -1,0 +1,10 @@
+.card {
+  width: 100%;
+  max-width: 60em; /* Set maximum width for the card */
+  overflow: hidden; /* Hide overflow content */
+}
+
+.card-content {
+  max-height: 200px; /* Set maximum height for the card content */
+  overflow: hidden; /* Hide overflow content */
+}

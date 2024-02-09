@@ -7,7 +7,6 @@ import CreateBoard from "../Board/CreateBoard"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWorkspaceData } from "../../Redux/Actions/Actions"
 import { selectError, selectLoading, selectWorkspaces } from "../../Redux/slices/WorkspaceSlice"
-import Card from "../Board/Card"
 
 
 const GetWorkspace = () => {

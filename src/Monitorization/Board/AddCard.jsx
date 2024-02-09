@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectBoardDetails } from '../../Redux/slices/BoardDataSlice';
 
 
-const AddCard = () => {
+const AddCard = ({ onClose }) => {
 
   const { authToken } = useContext(AuthContext)
   const [handleClick,setHandleClick] = useState(false)
@@ -42,7 +42,7 @@ const AddCard = () => {
 
       const card = response.data;
       console.log('Card added successfully:', card);
-
+      onClose();
     } catch (error) {
       console.error('Error adding list:', error);
       console.error('RESPONSE:', error.response);
@@ -52,7 +52,6 @@ const AddCard = () => {
 
   return (
     <div>
-
       <form onSubmit={handleAddCard}>
         <input
           type="text"
@@ -65,11 +64,10 @@ const AddCard = () => {
         <Button variant='contained' type="submit">
           Add Card
         </Button>
-        <Button type='submit'>
-            <CloseIcon style={{ color: "white", cursor: 'pointer' }} onClick={handleCloseClick} />
+        <Button type='button' onClick={onClose}>
+          <CloseIcon style={{ color: "white", cursor: 'pointer' }} />
         </Button>
       </form>
-
     </div>
   )
 }

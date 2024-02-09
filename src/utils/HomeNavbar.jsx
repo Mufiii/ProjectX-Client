@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Typography,
-  Button,
   IconButton,
   Collapse,
-  TextField
 } from "@material-tailwind/react";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import {Button} from '@mui/material'
 import { MdAccountCircle } from "react-icons/md";
 import MessageIcon from '@mui/icons-material/Message';
 // import { Switch } from "@material-tailwind/react";
@@ -18,12 +17,32 @@ import BottomBar from "./BottomBar";
 import WorkspaceBar from '../Monitorization/Workspace/WorkspaceBar.jsx'
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { DragDropContext } from 'react-beautiful-dnd'
+// import { useDispatch } from "react-redux";
+// import { fetchAllDevelopers } from "../Redux/Actions/Actions.jsx";
+// import DevelopersList from "../components/Vendor/Project/DevelopersList.jsx";
+// import { useSelector } from "react-redux";
+// import { selectDevelopers } from "../Redux/slices/FetchAlldevSlice.jsx";
+
 
 
 const HomeNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate()
   const location = useLocation()
+  // const dispatch = useDispatch();
+  // const [searchQuery, setSearchQuery] = useState(''); 
+  // const searchedDevelopers = useSelector(selectDevelopers);
+
+  // Function to handle search query change
+  // const handleSearchChange = (event) => {
+  //   setSearchQuery(event.target.value); // Update search query state
+  // };
+
+
+  // const handleSearchSubmit = () => {
+  //   dispatch(fetchAllDevelopers(searchQuery));
+  //   navigate('dashboard/developers/');
+  // };
 
   React.useEffect(() => {
     window.addEventListener(
@@ -72,8 +91,14 @@ const HomeNavbar = () => {
                 type="text"
                 placeholder="Search"
                 className="flex-1 outline-none p-2 "
+                // value={searchQuery} // Bind input value to search query state
+                // onChange={handleSearchChange} // Call handleSearchChange on input change
+                
               />
+              {/* <Button onClick={handleSearchSubmit}
+               variant="contained" color="success" type="submit"> Submit </Button> */}
             </div>
+              
 
 
             <div className="hidden lg:inline-block text-primary-purple">
@@ -133,16 +158,10 @@ const HomeNavbar = () => {
             <span>Create an Account</span>
           </Button>
         </Collapse>
+        {/* <DevelopersList searchedDevelopers={searchedDevelopers} /> */}
+        {location.pathname == '/profile' ? <BottomBar/>:null}
       </Navbar>
-      <div>
-        {location.pathname === '/profile' && <BottomBar />}
-      </div>
-      {/* <div>
-        {location.pathname === '/workspace' && <WorkspaceBar />}
-      </div> */}
-
-      {/* <BottomBar/> */}
-
+        
     </>
   );
 }

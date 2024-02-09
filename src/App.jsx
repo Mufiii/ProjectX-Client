@@ -16,7 +16,7 @@ import { ProjectList } from "./components/Vendor/Project/ProjectList.jsx"
 import ProjectCreate from "./components/Vendor/Project/ProjectCreate.jsx"
 import ProjectSkills from "./components/Vendor/Project/ProjectSkills.jsx"
 import ProjectDetail from "./components/Developer/DeveloperProject/ProjectDetail.jsx"
-import ApplicantsList from "./components/Vendor/Applicants/ApplicantsList.jsx"
+// import ApplicantsList from "./components/Vendor/Applicants/ApplicantsList.jsx"
 import VendorProjectDetailPage from "./components/Vendor/Project/VendorProjectDetailPage.jsx"
 import Workspace from "./Monitorization/Workspace/Workspace.jsx"
 import CreateWorkSpace from "./Monitorization/Workspace/CreateWorkSpace.jsx"
@@ -27,6 +27,10 @@ import Footer from "./utils/Footer.jsx"
 import DevProfile from "./components/Developer/ProfileRows/DevProfile.jsx"
 import HeroSection from "./components/Landing Pages/HeroSection.jsx"
 import Dashboard from "./components/Vendor/Dashboard/Dashboard.jsx"
+import ProjectDetailPage from './components/Vendor/Project/ProjectDetailPage.jsx'
+import InviteFreelancersComponent from "./components/Vendor/Project/InviteFreelancersComponent.jsx"
+import ReviewProposalsComponent from "./components/Vendor/Project/ReviewProposalsComponent.jsx"
+// import DevelopersList from "./components/Vendor/Project/DevelopersList.jsx"
 // import Card from "./Monitorization/Board/Card.jsx"
 
 
@@ -47,6 +51,10 @@ function App() {
           </Route>
 
           <Route element={<Dashboard/>} path="/dashboard" />
+          <Route element={<ProjectDetailPage/>} path="/dashboard/:projId" />
+          {/* <Route element={<DevelopersList />} path="/dashboard/developers" /> */}
+
+
           <Route element={<VendorRegister />} path="/hiretalent" />
           <Route element={<DevRegister />} path="/register" />
           <Route element={<VerifyEmail />} path="/email_verify/:token" />
@@ -61,7 +69,7 @@ function App() {
           <Route element={<ProjectDetail />} path="/projects/:project_id" />
           <Route element={<ProjectCreate />} path="/addprojects/" />
           <Route element={<ProjectSkills />} path="/skills/" />
-          <Route element={<ApplicantsList />} path="/projects/applicationslist/:projectId" />
+          <Route element={<ReviewProposalsComponent />} path="/dashboard/:projectId" />
           <Route element={<VendorProjectDetailPage />} path="/projects/detail/:id" />
           {/* <Route element={<CreateWorkSpace />} path="/create" /> */}
           <Route element={<CreateBoard />} path="/boards/:id" />
@@ -71,6 +79,7 @@ function App() {
           <Route element={<HeroSection />} path="/" />
 
         </Routes>
+        {/* <Footer/> */}
       </AuthProvider>
     </>
   )

@@ -75,9 +75,8 @@ const SideBar = ({ handleOpen }) => {
     console.log("inside board useeffect");
     dispatch(fetchWorkspaceData(workspace_id))
       .then((result) => console.log("fetch success:", result))
-
-      
       .catch((err) => console.error("fetch error:", err));
+
   }, [dispatch])
 
 
@@ -129,9 +128,8 @@ const SideBar = ({ handleOpen }) => {
                 {board.title.charAt(0).toUpperCase()}
               </Avatar>
               <ListItemText
-                // onClick={() => handleBoardClick(board)}
                 primary={board.title}
-                style={{ color: "white", margin: "auto", paddingLeft: '8px' }}
+                style={{ color: "white", margin: "auto", paddingLeft: '3px',cursor:"pointer" }}
                 />
                 <MoreHorizIcon/>
             </ListItem>
