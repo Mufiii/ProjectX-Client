@@ -34,7 +34,7 @@ const CreateWorkSpace = () => {
 
     try {
       let response = await axios({
-        url: 'http://127.0.0.1:8000/workspace/',
+        url: 'http://127.0.0.1:8000/workspace/workspace/',
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${authToken.access}`,

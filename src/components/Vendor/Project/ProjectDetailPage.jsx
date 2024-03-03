@@ -18,15 +18,24 @@ import CloseIcon from '@mui/icons-material/Close';
 import VendorProjectDetailPage from './VendorProjectDetailPage'
 import InviteFreelancersComponent from './InviteFreelancersComponent'
 import ReviewProposalsComponent from './ReviewProposalsComponent'
+import HireDevelopersComponent from './HireDevelopersComponent'
+import { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
 
-const ProjectDetail = () => {
+const ProjectDetailPage = () => {
 
   const dispatch = useDispatch()
+  const {hiredDevelopers} = useContext(AuthContext) 
   const { projId } = useParams()
   const projectDetail = useSelector(selectProjectDetail)
   // const loading = useSelector(selectProjectLoading)
   // const error = useSelector(selectProjectError)
   const [selectedSection, setSelectedSection] = useState('viewJob');
+
+  const totalApplicants = hiredDevelopers.reduce(
+    (total, item) => 
+      total + item.applicant.length, 0
+    );
 
   const handleSectionClick = (section) => {
     setSelectedSection(section === selectedSection ? null : section);
@@ -106,7 +115,7 @@ const ProjectDetail = () => {
           </div>
           <Divider style={{ borderRadius: "10px" }} orientation="vertical" variant="middle" flexItem />
           <div className='text-center' style={getSectionStyle('hire')} onClick={() => handleSectionClick('hire')}>
-            <Typography variant="body1">Hire (0)</Typography>
+            <Typography variant="body1">Hire ({totalApplicants})</Typography>
           </div>
         </Box>
         <div>
@@ -115,7 +124,7 @@ const ProjectDetail = () => {
               {selectedSection === 'viewJob' && <VendorProjectDetailPage />}
               {selectedSection === 'inviteFreelancers' && <InviteFreelancersComponent />}
               {selectedSection === 'reviewProposals' && <ReviewProposalsComponent />}
-              {/* {selectedSection === 'hire' && <HireComponent />}  */}
+              {selectedSection === 'hire' && <HireDevelopersComponent />} 
             </div>
           </Card>
         </div>
@@ -126,4 +135,4 @@ const ProjectDetail = () => {
   )
 }
 
-export default ProjectDetail
+export default ProjectDetailPage

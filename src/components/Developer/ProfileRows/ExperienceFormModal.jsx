@@ -126,7 +126,7 @@ const ExperienceFormModal = ({control}) => {
       >
         <Fade in={open}>
           <div className="center-card w-full max-w-screen-md mx-auto">
-            <Card className="w-full border-2 border-solid">
+            <Card style={{backgroundColor:"white"}} className="w-full border-2 border-solid">
               <CardContent>
                 <Typography className="mb-5 flex justify-start px-7" variant="h2" color="black">
                   Add Work Experience

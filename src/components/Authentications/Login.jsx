@@ -49,8 +49,8 @@ const Login = () => {
             variant="gradient"
             color="gray"
             className="mb-4 grid h-28 place-items-center">
-            <Typography variant="h3" color="white">
-              Sign Up
+            <Typography variant="h2" color="white">
+              Sign in
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">

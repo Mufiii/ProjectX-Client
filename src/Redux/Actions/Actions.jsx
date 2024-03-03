@@ -24,7 +24,7 @@ export const fetchAllWorkspaces = createAsyncThunk(
           Authorization: `Bearer ${authTokensObject.access}`, // Use the extracted accessToken
         },
       };
-      const response = await axios.get('http://127.0.0.1:8000/workspace/', config);
+      const response = await axios.get('http://127.0.0.1:8000/workspace/workspace/', config);
       console.log("daaa",response.data);
       return response.data;
     } catch (error) {
@@ -102,7 +102,7 @@ export const fetchWorkspaceData = createAsyncThunk(
         },
       };
 
-      const response = await axios.get(`http://127.0.0.1:8000/workspace/${workspaceId}/`, config);
+      const response = await axios.get(`http://127.0.0.1:8000/workspace/workspace/${workspaceId}/`, config);
       console.log(response.data,'workspacedata');
       return response.data;
     } catch (error) {
@@ -135,7 +135,7 @@ export const fetchBoardDetails = createAsyncThunk(
         },
       };
 
-      const response = await axios.get(`http://127.0.0.1:8000/boards/${boardId}/`, config);
+      const response = await axios.get(`http://127.0.0.1:8000/workspace/boards/${boardId}/`, config);
       return response.data;
     } catch (error) {
       console.error('Error during Axios request:', error);
@@ -219,7 +219,6 @@ export const fetchSpecificProjectInDetail = createAsyncThunk(
 
 
 export const fetchAllDevelopers = createAsyncThunk(
-  console.log('Starting fetchAllDevelopers'),
   'developers/fetchAllDevelopers',
 
   async(_, {rejectWithValue}) => {

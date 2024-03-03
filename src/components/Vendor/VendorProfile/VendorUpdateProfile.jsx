@@ -22,15 +22,30 @@ import { Label } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 
 
+const inputStyle = {
+  padding: '10px',
+  borderRadius: '5px',
+  border: '1px solid #ccc',
+  width: '100%',
+  boxSizing: 'border-box',
+  fontSize: '16px',
+  marginTop: '10px',
+  marginBottom: '10px',
+};
+
+
 
 const VendorUpdateProfile = () => {
 
   const { authToken, setGetView, getView, logoutUser, image, setImage } = useContext(AuthContext)
+  const [value, setValue] = useState([])
+  console.log(value, '--------------------');
   const [logo, setLogo] = useState(false)
   const inputRef = useRef()
   const bannerFileRef = useRef()
   const logoFileRef = useRef()
   // console.log(image, 'dfgh');
+  const [editMode, setEditMode] = useState(false);
   const [activeSection, setActiveSection] = useState('Home');
   const [submitButton, setSubmitButton] = useState(false)
 
@@ -47,38 +62,54 @@ const VendorUpdateProfile = () => {
   });
 
   const handleUpload = async () => {
-    const banner = bannerFileRef.current.files[0]
+    const banner = bannerFileRef.current.files[0];
     try {
       const url = await BannerUpload(banner);
-      setImage(url)
+      setImage(url);
 
-
+      // Update the state with the new banner URL
+      setValue(prevValue => ({
+        ...prevValue,
+        vendor_profile: {
+          ...prevValue.vendor_profile,
+          banner: url
+        }
+      }));
     } catch (error) {
       console.log("Error from upload", error.message);
     }
     console.log(image, '11111111');
-
   };
 
   const handleLogos = async () => {
-    const logo = logoFileRef.current.files[0]
+    const logo = logoFileRef.current.files[0];
     try {
-      const url = await LogoUpload(logo)
-      setLogo(url)
+      const url = await LogoUpload(logo);
+      setLogo(url);
+
+      // Update the state with the new logo URL
+      setValue(prevValue => ({
+        ...prevValue,
+        vendor_profile: {
+          ...prevValue.vendor_profile,
+          logo: url
+        }
+      }));
     } catch (error) {
       console.log("Error from Logo upload", error.message);
     }
     console.log(image, '222222222');
-  }
+  };
 
-  const [editMode, setEditMode] = useState(false);
+
 
   const handleEditClick = () => {
     setEditMode(true);
+    bannerFileRef.current.click()
   };
 
   const handleSaveClick = (e) => {
-    e.preventDefault();
+
     setEditMode(false);
     UpdateProfile(e);
   };
@@ -87,8 +118,8 @@ const VendorUpdateProfile = () => {
 
 
   const UpdateProfile = async (e) => {
-    // e?.preventDefault()
-    console.log(inputRef.current.industry?.value);
+    e?.preventDefault()
+
 
     try {
       const headers = {
@@ -105,8 +136,8 @@ const VendorUpdateProfile = () => {
             last_name: inputRef.current.last_name?.value,
             country: inputRef.current.country?.value,
             vendor_profile: {
-              // logo: bannerFileRef.current.logo?.value,
-              // banner: image,
+              logo: logo,
+              banner: image,
               about: inputRef.current.about?.value,
               description: inputRef.current.description?.value,
               industry: inputRef.current.industry?.value,
@@ -119,21 +150,15 @@ const VendorUpdateProfile = () => {
       console.log(data, '11111111111111111');
       if (response.status == 200 & !e) {
         setGetView([data])
+        setEditMode(false);
       }
+      setValue(data)
     } catch (error) {
       if (error.response) {
 
         console.error('Server responded with an error:', error.response.status);
         console.error('Error details:', error.response.data);
 
-        if (error.response.status === 400) {
-          console.error('Bad Request: ', error.response.data.vendor_profile.industry);
-        }
-
-      } else if (error.request) {
-        console.error('No response received from the server:', error.request);
-      } else {
-        console.error('Error setting up the request:', error.message);
       }
     }
   }
@@ -167,49 +192,114 @@ const VendorUpdateProfile = () => {
         );
       case 'About':
         return (
-          <Card style={{ maxWidth: 800 }} className='h-full mt-7 ml-10 border-2 border-gray-900'>
+          <Card style={{ maxWidth: 800 }} className='h-full mb-5 mt-7 ml-10 border-2 border-gray-900'>
             <div className='p-5 '>
               <div className='flex justify-between'>
                 <label style={{ color: "black", fontWeight: "600", fontSize: "1.5em" }} className='' htmlFor="">Overview</label>
-                {!editMode ? (
+                <div>
                   <EditIcon onClick={handleEditClick} />
-                ) : (
-                  <Button variant='contained' onClick={handleSaveClick}>Save</Button>
-                )}
+                </div>
               </div>
-              <div className='mt-5 '>
-                <form onSubmit={(e) => UpdateProfile(e)} ref={inputRef} onChange={() => setSubmitButton(true)}>
-                  {getView.map((item) => (
-                    <div key={item.id} className='flex flex-col '>
-                      <Typography>{item.vendor_profile.description}</Typography>
-                      <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} className='mt-2 mb-1' htmlFor="">
-                        Email Address
-                      </label>
-                      <input style={{ border: "black" }} type='text' placeholder='Email Address' name='email' defaultValue={item && item.email} />
-                      <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} className='mt-2 mb-1' htmlFor="">Website</label>
-                      <input style={{ border: "black" }} type='text' placeholder='Website' name='website' defaultValue={item && item.vendor_profile.website} />
-                      <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} className='mt-2 mb-1' htmlFor="">Industry</label>
-                      <input style={{ border: "black" }} type='text' placeholder='Industry' name='industry' defaultValue={item && item.vendor_profile.industry} />
-                      <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} className='mt-2 mb-1' htmlFor="">Headquarters</label>
-                      <input style={{ border: "black" }} type='text' placeholder='Industry' name='industry' defaultValue={item && item.vendor_profile.headquaters} />
+              <div className='mt-5 flex flex-col '>
+                {editMode ? (
+                  <form onSubmit={handleSaveClick} ref={inputRef}>
+                    {getView.map((item) => (
+                      <div key={item.id} className=' flex flex-col '>
+                        <textarea
+                          type="text"
+                          name='description'
+                          style={{ minHeight: "7em" }}
+                          placeholder='Description'
+                          defaultValue={value && value.vendor_profile && value.vendor_profile.description}
+                        />
+                        {/* <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Email Address
+                        </label>
+                        <input
+                          type='text'
+                          placeholder='Email Address'
+                          name='email'
+                          defaultValue={value && value.email}
+                        /> */}
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Website
+                        </label>
+                        <input
+                          type='text'
+                          placeholder='Website'
+                          name='website'
+                          defaultValue={value && value.vendor_profile && value.vendor_profile.website}
+                          style={inputStyle}
+                        />
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Industry
+                        </label>
+
+                        <input
+                          type='text'
+                          placeholder='Industry'
+                          name='industry'
+                          defaultValue={value && value.vendor_profile && value.vendor_profile.industry}
+                          style={inputStyle}
+                        />
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Headquaters
+                        </label>
+                        <input
+                          type='text'
+                          placeholder='Headquaters'
+                          name='headquaters'
+                          defaultValue={value && value.vendor_profile && value.vendor_profile.headquaters}
+                          style={inputStyle}
+                        />
+                      </div>
+                    ))}
+                    <div className='flex justify-end gap-3 mt-3'>
+                      <Button onClick={() => setEditMode(false)}>Cancel</Button>
+                      <Button variant='contained' color='success' onClick={handleSaveClick}>Save</Button>
                     </div>
-                  ))}
-                </form>
+                  </form>
+                ) : (
+                  <div>
+                    {getView.map((item) => (
+                      <div key={item.id}>
+                        <div className='mb-4'>
+                          <Typography>{item.vendor_profile.description}</Typography>
+                        </div>
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Email Address
+                        </label>
+                        <p className='mt-2 mb-1'>{item.email}</p>
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Website
+                        </label>
+                        <p className='mt-2 mb-1'>{item.vendor_profile.website}</p>
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Industry
+                        </label>
+                        <p className='mt-2 mb-1'>{item.vendor_profile.industry}</p>
+                        <label style={{ color: "black", fontWeight: "bold", fontSize: "1em" }} >
+                          Headquaters
+                        </label>
+                        <p className='mt-2 mb-1'>{item.vendor_profile.headquaters}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </Card>
         );
-      // Add more cases for additional sections if needed
       default:
         return null;
+
     }
   };
-
 
   return (
     <div>
       <Card sx={{ maxWidth: 800, display: 'flex', flexDirection: 'column' }} className='h-full border-2 border-gray-500 mt-5 ml-10'>
-        <form onSubmit={(e) => UpdateProfile(e)} ref={inputRef}>
+        <div onSubmit={(e) => UpdateProfile(e)} ref={inputRef}>
           {getView &&
             getView.map((item) => (
               <div key={item.id}>
@@ -222,31 +312,55 @@ const VendorUpdateProfile = () => {
                     flexDirection: 'column', // Arrange children in a column
                   }}
                 >
-                  {/* Cover Image */}
-                  <div style={{
-                    width: '100%',
-                    height: '100%',
-                  }}>
+                  <div>
+                    {/* Cover Image */}
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                    }}>
 
-                    <img
-                      src="https://imgs.search.brave.com/CvRq1uGlpV1Hrz5XUzu4POpmJarnr7Op3d0Hx5IkVjI/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9saDYu/Z29vZ2xldXNlcmNv/bnRlbnQuY29tL2xh/ZlNaT3lzMmU2UE1Q/UDhNVzZNREhmQzQt/WUVxOExWM0YzZExr/Wm9jZ1NReWhsMTl5/amplYUw2dWZYWVZo/ZkdYX1VMM0QwbFJG/a0V6bGJidXpBQWVF/cHduNVBuYlloeThU/TU1UTTE3SDZLa1lY/SnFUU2x0Z3RzU0ZV/bjF1Y3ZkclZEX0VF/eDI"
-                      alt="Cover"
-                      style={{
-                        width: '100%',
-                        height: '60%',
-                        objectFit: 'cover',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                      }}
-                    />
+                      <img
+                        src={value && value.vendor_profile && value.vendor_profile.banner}
+                        alt="Cover"
+                        style={{
+                          width: '100%',
+                          height: '60%',
+                          objectFit: 'cover',
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                        }}
+                      />
+                      {!editMode && (
+                        <EditIcon
+                          style={{ cursor: 'pointer', position: 'absolute', top: 15, right: 15 }}
+                          onClick={handleEditClick}
+                        />
+                      )}
+                      {editMode && (
+                        <Button type="submit" variant="contained" color="success"
+                          style={{ position: 'absolute', top: 15, right: 15 }}
+                          onClick={UpdateProfile}>
+                          Submit
+                        </Button>
+                      )}
+                      {/* Hidden file input */}
+                      <input
+                        type="file"
+                        name="banner"
+                        ref={bannerFileRef}
+                        style={{ display: 'none' }}
+                        onChange={handleUpload}
+                      />
+                    </div>
+                    {/* </div> */}
                   </div>
-                  {/* Logo  */}
+                  {/* Logo */}
                   <div>
                     <Avatar
                       variant="square"
                       alt="Remy Sharp"
-                      src="https://imgs.search.brave.com/3lxaXK_pmldMTTO3nG0ufLVMSAYYdPCfjhPnJnQdJZ8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/Y29taW5nc29vbi5u/ZXQvd3AtY29udGVu/dC91cGxvYWRzL3Np/dGVzLzMvZ2FsbGVy/eS90aGUtYmF0bWFu/LTIwMjEvdGIxLmpw/Zw"
+                      src={value && value.vendor_profile && value.vendor_profile.logo}
                       sx={{
                         width: 140,
                         height: 140,
@@ -255,19 +369,34 @@ const VendorUpdateProfile = () => {
                         left: 30,
                       }}
                     />
-                  </div>
-                  {/* Text and paragraphs */}
-                  <Box sx={{ marginTop: '2em', padding: '2em', color: 'white' }}>
-                    <div>
-                      <Typography style={{ color: "black" }} variant="h5">{item.first_name}{item.last_name}</Typography>
-                      <Typography style={{ color: "black" }} variant="body1">
-                        {item.vendor_profile.about} &nbsp;
-                        {item.vendor_profile.headquaters} &nbsp;
-                        {item.country}
-                      </Typography>
-                      {/* <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} /> */}
+                    <div style={{ position: 'relative' }}>
+                      <input
+                        type="file"
+                        name="logo"
+                        ref={logoFileRef}
+                        style={{ display: 'none' }}
+                        onChange={handleLogos}
+                      />
                     </div>
-                  </Box>
+                    <div style={{ position: 'relative' }}>
+                      <EditIcon
+                        style={{ cursor: 'pointer', position: 'absolute', top: 15, left: 135, color: "white" }}
+                        onClick={() => logoFileRef.current.click()}
+                      />
+                    </div>
+                    {/* Text and paragraphs */}
+                    <Box sx={{ marginTop: '2em', padding: '2em', color: 'white' }}>
+                      <div>
+                        <Typography style={{ color: "black" }} variant="h5">{item.first_name}{item.last_name}</Typography>
+                        <Typography style={{ color: "black" }} variant="body1">
+                        {item.vendor_profile.industry} &nbsp;
+                          {item.vendor_profile.headquaters} &nbsp;
+                          {item.country}
+                        </Typography>
+                        {/* <hr style={{ borderTop: "2px solid #ddd", margin: "12px 0", marginTop: "1em" }} /> */}
+                      </div>
+                    </Box>
+                  </div>
                 </Box>
                 <div>
                   {/* Navigation */}
@@ -292,7 +421,8 @@ const VendorUpdateProfile = () => {
                 </div>
               </div>
             ))}
-        </form>
+        </div>
+
       </Card>
       <div>
         {renderContent()}

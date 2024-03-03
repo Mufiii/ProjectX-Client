@@ -29,6 +29,8 @@ const InviteDevModal = ({ isOpen, handleClose, selectedUser }) => {
   const {authToken} = useContext(AuthContext)
   const { projId } = useParams()
   const [message,setMessage] = useState('')
+
+  
   const handleInputChange = (e) => {
     setMessage(e.target.value)
   };

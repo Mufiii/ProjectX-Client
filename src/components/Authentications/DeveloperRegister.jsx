@@ -47,9 +47,11 @@ const DeveloperRegister = () => {
       
   <form className="center-card w-full max-w-screen-md mx-auto" onSubmit={DevRegister}>
     <Card className="w-full">
+      <div className="flex justify-center mt-4">
       <Typography className="mb-5" variant="h2" color="black">
         Sign up to find work you love
       </Typography>
+      </div>
     <CardBody className="grid grid-cols-2 gap-4">
       <div className="col-span-2 lg:col-span-1">
         <Input label="First Name" size="lg" name="first_name" />

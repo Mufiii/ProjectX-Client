@@ -49,7 +49,7 @@ const Card = () => {
 
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/lists/',
+        'http://127.0.0.1:8000/workspace/lists/',
         {
           list_title: listName,
           board: boardDetails.id
@@ -82,6 +82,9 @@ const Card = () => {
     setListName(event.target.value);
   };
 
+  const handleAddListClick = () => {
+    setIsInputVisible(true);
+  };
 
   const handleBoxClick = () => {
     setIsBoxClicked(true);
@@ -100,40 +103,23 @@ const Card = () => {
     <div className='w-full' style={{ marginLeft: "20px" }}>
       <div className='flex gap-10'>
 
-        {boardDetails.lists.map((lit, index) => (
-          <Box
-            key={index}
-            className='mt-3'
-            sx={{
-              width: "300px",
-              maxWidth: 360,
-              borderRadius: "10px",
-              backgroundColor: "rgba(128, 128, 128, 0.3)",
-              display: 'flex',
-              flexShrink: 0 // Prevent shrinking
-            }}
-          >
-            <List>
+
+        {/* <List>
               <ListItem>
                 <div className='flex items-center'>
                   <div key={index} >
                     <div className='p-3'>{lit.list_title}</div>
+                    <div style={{ cursor: 'pointer' }} className='flex items-center gap-2' onClick={handleAddCardClick} >
+                      <AddIcon />
+                      <span>Add a Card</span>
+                    </div>
                   </div>
                 </div>
               </ListItem>
 
-              <ListItem>
-                {isBoxClicked && isInputVisible ? (
-                  <div className='flex justify-start items-center'>
-                    <ListItem style={{ cursor: 'pointer' }}>
-                      <Button type='submit' variant="contained" color="primary" onClick={handleAddList}>
-                        Add list
-                      </Button>
-                    </ListItem>
-                    <Button onClick={handleAddList} type='submit'>
-                      <CloseIcon style={{ color: "white", cursor: 'pointer' }} onClick={handleCloseIconClick} />
-                    </Button>
-                  </div>
+              <ListItem> */}
+        {/* {isBoxClicked && isInputVisible ? (
+                  
                 ) : (
                   <div>
                     {listName && isAddingCard ? (
@@ -145,22 +131,13 @@ const Card = () => {
                       </div>
                     )}
                   </div>
-                )}
-              </ListItem>
-            </List>
-          </Box>
-        ))}
-        {isInputVisible ? (
-          <input
-            type="text"
-            name='list_title'
-            placeholder="Enter list title"
-            className='w-full rounded-md h-10 px-3 border-2 border-gray-100'
-            onChange={handleChange}
-            style={{ backgroundColor: "#23262b", color: 'white' }}
-          />
-        ) : (
+            //     )} */}
+        {/* //   </ListItem>
+            // </List> */}
+
+        {boardDetails.lists.map((lit, index) => (
           <Box
+            key={index}
             className='mt-3 px-3'
             sx={{
               width: "300px",
@@ -169,16 +146,68 @@ const Card = () => {
               backgroundColor: isBoxClicked ? "#23262b" : "rgba(128, 128, 128, 0.3)",
               display: 'flex',
               cursor: 'pointer',
-              // height: "3.5em"
+              flexShrink: 0 // Prevent shrinking
             }}
           >
-            <ListItemIcon className='flex items-center gap-2' onClick={handleBoxClick}>
-              <AddIcon /> {boardDetails.lists.length === 0 ? 'Add a list' : 'Add another list'}
-            </ListItemIcon>
+        
+              <List>
+                <ListItem>
+                  <div className='flex items-center'>
+                    <div key={index}>
+                      <div className='p-3'>{lit.list_title}</div>
+                      <div style={{ cursor: 'pointer' }} className='flex items-center gap-2'>
+                        <AddIcon />
+                        <span>Add a Card</span>
+                      </div>
+                    </div>
+                  </div>
+                </ListItem>
+              </List>
           </Box>
-        )}
+        ))}
+        <Box
+          key={boardDetails.lists.length}
+          className='mt-3 px-3'
+          sx={{
+            width: "300px",
+            maxWidth: 300,
+            borderRadius: "10px",
+            backgroundColor: "rgba(128, 128, 128, 0.3)",
+            display: 'flex',
+            cursor: 'pointer',
+            flexShrink: 0 // Prevent shrinking
+          }}
+        >
+          {isInputVisible ? (
+            <div>
+              <input
+                type="text"
+                name='list_title'
+                placeholder="Enter list title"
+                className='w-full rounded-md h-10 mt-3 px-3 border-2 border-gray-100'
+                onChange={handleChange}
+                style={{ backgroundColor: "#23262b", color: 'white' }}
+              />
+              <div className='flex justify-start items-center'>
+                <ListItem style={{ cursor: 'pointer' }}>
+                  <Button type='submit' variant="contained" color="primary" onClick={handleAddList}>
+                    Add list
+                  </Button>
+                </ListItem>
+                <Button onClick={handleAddList} type='submit'>
+                  <CloseIcon style={{ color: "white", cursor: 'pointer' }} onClick={handleCloseIconClick} />
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <List>
+              <ListItemIcon className='flex items-center gap-2' onClick={handleAddListClick}>
+                <AddIcon /> {boardDetails.lists.length === 0 ? 'Add a list' : 'Add another list'}
+              </ListItemIcon> 
+            </List>
+          )}
 
-
+        </Box>
       </div>
     </div>
 

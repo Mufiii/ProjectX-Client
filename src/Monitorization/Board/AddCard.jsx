@@ -28,7 +28,7 @@ const AddCard = ({ onClose }) => {
 
     try {
       const response = await axios.post(
-        'http://127.0.0.1:8000/cards/',
+        'http://127.0.0.1:8000/workspace/cards/',
         {
           card_title: addCard,
           list_column_id: boardDetails.lists.id

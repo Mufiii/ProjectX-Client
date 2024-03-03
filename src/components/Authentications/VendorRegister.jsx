@@ -39,7 +39,7 @@ const VendorRegister = () => {
 <form className="center-card w-full max-w-screen-md mx-auto" onSubmit={VendorRegisterView}>
   <Card className="w-full">
     
-      <Typography className="mb-5" variant="h2" color="black">
+      <Typography className="mb-5 mt-5 flex justify-center" variant="h2" color="black">
         Sign up to hire talent
       </Typography>
     <CardBody className="grid grid-cols-2 gap-4">

@@ -43,8 +43,8 @@ const DevProfile = () => {
   useEffect(() => {
     console.log('Inside useEffect');
     dispatch(fetchDeveloperProfile())
-      .then((result) => console.log('Fetch success:', result))
-      .catch((err) => console.error('Fetch error:', err));
+      .then((result) => console.log('Fetch success developer profile:', result))
+      .catch((err) => console.error('Fetch error developer profile:', err));
   }, [dispatch]);
 
   // if (loading) {
@@ -79,7 +79,6 @@ const DevProfile = () => {
     <div >
       <BottomBar />
       <div className='flex justify-center'>
-
         <Grid container  >
           <Grid item xs={3} >
             <div className="flex justify-center">
@@ -94,7 +93,9 @@ const DevProfile = () => {
                   </Typography>
                   <Typography className='mb-5' variant="h6">{devProfile.username} </Typography>
                   <Typography className='mb-5' variant="h6">{devProfile.email} </Typography>
-                  <Button style={{ color: "white", backgroundColor: "gray" }} className='w-72 h-12 mb-5 bg-blue-gray-500' >Edit Profile</Button>
+                  <Button style={{ color: "white", backgroundColor: "gray" }} className='w-72 h-12 mb-5 bg-blue-gray-500' >
+                      Edit Profile
+                  </Button>
                   <div className='mt-3'>
                     <Typography variant="body1">
                       <LocationOnIcon />country

@@ -1,7 +1,7 @@
 import AuthProvider from "./context/AuthContext"
 import VendorRegister from "./components/Authentications/VendorRegister"
 import DevRegister from "./components/Authentications/DeveloperRegister.jsx"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import Home from "./components/HomePage/Home.jsx"
 import Login from './components/Authentications/Login.jsx';
 import OtpVerify from "./components/Authentications/OtpVerify.jsx";
@@ -32,17 +32,31 @@ import InviteFreelancersComponent from "./components/Vendor/Project/InviteFreela
 import ReviewProposalsComponent from "./components/Vendor/Project/ReviewProposalsComponent.jsx"
 // import DevelopersList from "./components/Vendor/Project/DevelopersList.jsx"
 // import Card from "./Monitorization/Board/Card.jsx"
-
+import VendorRouter from "./private/VendorRouter.jsx"
+import DeveloperRouter from "./private/DeveloperRouter.jsx"
+import HomeScreen from "./components/Chatroom/HomeScreen.jsx"
+// import ApplySuccessModal from './utils/ApplySuccessModal.jsx'
+import ApplySuccessModal from "./utils/ApplySuccessModal.jsx"
 
 
 function App() {
 
 
+  const location = useLocation(null)
+
+  const isLoginPageOrIsRegisterPage = location.pathname.includes('login')|| location.pathname.includes('register') ||
+                                      location.pathname.includes('desk') || location.pathname.includes('hiretalent') ||
+                                      location.pathname.includes('otpverify')
+
   return (
     <>
       <AuthProvider >
-        <HomeNavbar />
+        {!isLoginPageOrIsRegisterPage && <HomeNavbar />}
         <Routes>
+          <Route element={<VendorRegister />} path="/hiretalent" />
+          <Route element={<DevRegister />} path="/register" />
+          <Route element={<VerifyEmail />} path="/email_verify/:token" />
+          <Route element={<Login />} path="/login/" />
 
           <Route element={<Workspace />} path="/workspace" >
             <Route index element={<Secondbar />} />
@@ -50,21 +64,17 @@ function App() {
             {/* <Route element={<Card/>}/> */}
           </Route>
 
-          <Route element={<Dashboard/>} path="/dashboard" />
-          <Route element={<ProjectDetailPage/>} path="/dashboard/:projId" />
+          <Route element={<VendorRouter><Dashboard/></VendorRouter>} path="/dashboard" />
+          <Route element={<VendorRouter><ProjectDetailPage/></VendorRouter>} path="/dashboard/:projId" />
+          <Route element={<VendorRouter><VendorUpdateProfile /></VendorRouter>} path="/profile" />
           {/* <Route element={<DevelopersList />} path="/dashboard/developers" /> */}
 
 
-          <Route element={<VendorRegister />} path="/hiretalent" />
-          <Route element={<DevRegister />} path="/register" />
-          <Route element={<VerifyEmail />} path="/email_verify/:token" />
-          <Route element={<Login />} path="/login/" />
           <Route element={<OtpVerify />} path="/:otpverify/:email" />
           <Route element={<PrivateRouter><Home /></PrivateRouter>} path="/home" />
           <Route element={<RegisterDesk />} path="/desk" />
           <Route element={<Welcome1 />} path="/welcome" />
-          <Route element={<DeveloperProfile />} path="/profilesetup" />
-          <Route element={<VendorUpdateProfile />} path="/profile" />
+          <Route element={<DeveloperRouter><DeveloperProfile /></DeveloperRouter>} path="/profilesetup" />
           <Route element={<ProjectList />} path="/projects" />
           <Route element={<ProjectDetail />} path="/projects/:project_id" />
           <Route element={<ProjectCreate />} path="/addprojects/" />
@@ -74,9 +84,13 @@ function App() {
           {/* <Route element={<CreateWorkSpace />} path="/create" /> */}
           <Route element={<CreateBoard />} path="/boards/:id" />
           <Route element={<Footer />} path="/footer" />
-          <Route element={<DevProfile />} path="/devprofile" />
+          <Route element={<DeveloperRouter><DevProfile /></DeveloperRouter>} path="/devprofile" />
           <Route element={<CreateBoard />} path="/boards" />
           <Route element={<HeroSection />} path="/" />
+          <Route element={<ApplySuccessModal/>} path="appp"/>
+
+          <Route path="chat/" exact element={<HomeScreen/>} />
+          <Route path="chat/:chatId" exact element={<HomeScreen/>} />
 
         </Routes>
         {/* <Footer/> */}

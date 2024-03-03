@@ -7,6 +7,7 @@ import { Avatar, IconButton } from '@material-tailwind/react'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@mui/material'
 import { useState } from 'react'
 import './proposal.css'
+import ProjectApplicationsView from './ProjectAPplicationsView'
 
 const ReviewProposalsComponent = () => {
 
@@ -14,6 +15,15 @@ const ReviewProposalsComponent = () => {
   console.log(applicants);
   const { projId } = useParams()
   const [selectedCoverLetter, setSelectedCoverLetter] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedApplicant, setSelectedApplicant] = useState(null); 
+  console.log(selectedApplicant,'llllllll');
+
+  const handleOpenModal = (applicant) => {
+    setSelectedCoverLetter(null); 
+    setModalOpen(true);
+    setSelectedApplicant(applicant); 
+  };
 
   const handleMoreClick = (coverLetter) => {
     setSelectedCoverLetter(coverLetter);
@@ -75,7 +85,7 @@ const ReviewProposalsComponent = () => {
           ))} */}
         {applicants.length > 0 ? (
           applicants.map((applicant) => (
-            <Card key={applicant.id} className="position-relative">
+            <Card key={applicant.id} className="position-relative" onClick={() => handleOpenModal(applicant)}>
               <Grid container className='p-5'>
                 <Grid item xs={2}>
                   <Avatar
@@ -90,7 +100,11 @@ const ReviewProposalsComponent = () => {
                       <p>{applicant.developer.user.username}</p>
                     </div>
                     <div className='flex justify-end gap-2'>
-                      <Button style={{ borderRadius: "15px", textTransform: "none" }} variant="outlined" color="success" className="gap-1">
+                      <Button style={{ borderRadius: "15px", textTransform: "none" }} variant="outlined" color="success" className="gap-1"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent event propagation
+                        // Your modal opening logic here
+                      }}>
                         Hire
                       </Button>
                     </div>
@@ -113,7 +127,10 @@ const ReviewProposalsComponent = () => {
                           <div className="card-content">
                             <p>Cover Letter - {truncateCoverLetter(applicant.cover_letter, 70)}</p>
                             {applicant.cover_letter.length > 70 && (
-                              <p style={{ color: "green", cursor: "pointer" }} onClick={() => handleMoreClick(applicant)}>More</p>
+                               <p style={{ color: "green", cursor: "pointer" }} onClick={(e) => {
+                                e.stopPropagation(); // Prevent click event propagation
+                                handleMoreClick(applicant);
+                              }}>More</p>
                             )}
                           </div>
                         </div>
@@ -133,6 +150,8 @@ const ReviewProposalsComponent = () => {
           <Typography>No applicants yet</Typography>
         )}
       </div>
+      <ProjectApplicationsView isOpen={isModalOpen} handleClose={() => setModalOpen(false)} 
+        selectedApplicant={selectedApplicant} />
     </div>
   )
 }

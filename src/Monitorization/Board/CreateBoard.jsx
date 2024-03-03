@@ -29,7 +29,7 @@ const CreateBoard = () => {
 
       try {
         let response = await axios({
-          url: `http://127.0.0.1:8000/boards/?q=${workspace_id}`,
+          url: `http://127.0.0.1:8000/workspace/boards/?q=${workspace_id}`,
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${authToken.access}`,

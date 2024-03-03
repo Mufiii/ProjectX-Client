@@ -1,8 +1,7 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 
-const 
-MyComponent = () => {
+const Footer = () => {
   return (
     <div className='p-7'>
 
@@ -51,4 +50,4 @@ MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default Footer;

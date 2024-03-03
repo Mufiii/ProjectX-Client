@@ -21,6 +21,7 @@ const AuthProvider = ({ children }) => {
   const [ profile,setProfile] = useState([])
   const [workspaceData, setWorkspaceData] = useState(null);
   const [developers, setDevelopers] = useState([]);
+  const [hiredDevelopers, setHiredDevelopers] = useState([])
 
 
   const [authToken, setAuthToken] = useState(() => localStorage.getItem('authtokens')?
@@ -37,6 +38,9 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem('authtokens')
       navigate('/login')
   }
+
+
+
 
 
   const state = {
@@ -70,9 +74,10 @@ const AuthProvider = ({ children }) => {
     setWorkspaceData:setWorkspaceData,
     workspaceData:workspaceData,
     developers:developers,
-    setDevelopers:setDevelopers
+    setDevelopers:setDevelopers,
+    hiredDevelopers:hiredDevelopers,
+    setHiredDevelopers:setHiredDevelopers
   }
-
 
   return (
     <AuthContext.Provider value={state}>
